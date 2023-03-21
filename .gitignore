@@ -1,0 +1,4 @@
+knowledgebase/
+data/
+*.nix
+.DS_Store
