@@ -43,7 +43,7 @@ jobs:
         run: poetry install --no-interaction --no-root
 
       - name: Install project
-        run: poetry install --no-interaction && poetry shell
+        run: poetry install --no-interaction && source $VENV
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
