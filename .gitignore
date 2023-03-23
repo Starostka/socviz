@@ -1,4 +1,5 @@
 knowledgebase/
 data/
-*.nix
+.venv
 .DS_Store
+/.quarto/
