@@ -441,7 +441,7 @@ files = [
 name = "debugpy"
 version = "1.6.6"
 description = "An implementation of the Debug Adapter Protocol for Python"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -1833,4 +1833,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "bd06b1fe88b2902d4ac02f3df1b469d6af66f647ffe50305886fecdc46a0105a"
+content-hash = "49c8f7d5c7865c8f4a146e8c37e098242340ccf3f16c4b158aca84345834f3a9"
