@@ -7,9 +7,15 @@ Let's create a nice story
 
 # Introduction
 
-- TODO Explaining the dataset
+<!-- - TODO Explaining the dataset
 - TODO abstract for the story
-- TODO basic summary statistics/info for the dataset
+- TODO basic summary statistics/info for the dataset -->
+
+San Francisco is well known for its vibrant nightlife and abundance of bars and clubs. This also means that the city has a high rate of alcohol-related incidents, including criminal activity. However, Covid-19 pandemic has changed the way of how people socialized, therefore, we are interested in the impact that Covid has made on the crimes.
+
+In this story, we will explore the San Francisco Police Department's (SFPD) [Incient Report Dataset](https://data.sfgov.org/browse?category=Public+Safety) from __January 2018 to January 2022__, which includes the break-out period of Covid. This dataset is a collection of data on criminal incidents reported in SF, which provides the information of incident date, incident time, incident category, police district, latitude, logitude, etc. The dataset contains 35 columns and 547905 rows within the timeline of January 2018 to January 2022.
+
+**To be discuss: Drunkness is not included in the timeline described above**
 
 
 ## Timeseries : Progression of drunkiness 
