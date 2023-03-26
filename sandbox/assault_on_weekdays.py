@@ -20,8 +20,6 @@ q = (
     .agg(pl.count())
 ).collect()
 
-
-
 # tufte inspired plot
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker

@@ -4,5 +4,5 @@ data/
 .DS_Store
 /.quarto/
 docs/
-
+__pycache__/
 /.luarc.json
