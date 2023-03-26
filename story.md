@@ -11,16 +11,19 @@ Let's create a nice story
 - TODO abstract for the story
 - TODO basic summary statistics/info for the dataset -->
 
-San Francisco is well known for its vibrant nightlife and abundance of bars and clubs. This also means that the city has a high rate of alcohol-related incidents, including criminal activity. However, Covid-19 pandemic has changed the way of how people socialized, therefore, we are interested in the impact that Covid has made on the crimes.
+San Francisco is a well-know metropolis with a diverse population and vibrant city life. The wide range of socioeconomic challenges in San Francisco also contributes to the high crime rate. In this story, we will explore the San Francisco Police Department's (SFPD) [Incient Report Dataset](https://data.sfgov.org/browse?category=Public+Safety) with the time frame from __January 2003 to January 2022__ <span style="color:red">TBD</span>.
 
-In this story, we will explore the San Francisco Police Department's (SFPD) [Incient Report Dataset](https://data.sfgov.org/browse?category=Public+Safety) from __January 2018 to January 2022__, which includes the break-out period of Covid. This dataset is a collection of data on criminal incidents reported in SF, which provides the information of incident date, incident time, incident category, police district, latitude, logitude, etc. The dataset contains 35 columns and 547905 rows within the timeline of January 2018 to January 2022.
-
-**To be discuss: Drunkness is not included in the timeline described above**
+This dataset is a collection of data on criminal incidents reported in SF, which provides the information of incident date, incident time, incident category, police district, latitude, logitude, etc. The dataset contains 35 columns and 547905 <span style="color:red">TB varify</span> rows within the timeline. According to the data, there were 37 categories of crimes recorded across San Francisco city. 
 
 
-## Timeseries : Progression of drunkiness 
+## Timeseries: 
 <!--  One time-series / bar chart (it's OK to use the "fancy" plot-typs like calendar plots or polar bar-charts from Week 2, Part 4). -->
-> [reference]: https://data.sfgov.org/browse?category=Public+Safety  Dataset
+
+<!-- > [reference]: https://data.sfgov.org/browse?category=Public+Safety  Dataset -->
+
+TODO:
+- merge all plots into one multi-panel plot
+- add explanation texts
 
 First we investigate how drunkiness changes over time, especially into the period during COVID.
 ![Calendar plot](https://i.imgur.com/aN7iyQs.png)
