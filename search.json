@@ -7,11 +7,11 @@
     "text": "Let’s create a nice story"
   },
   {
-    "objectID": "story.html#timeseries-progression-of-drunkiness",
-    "href": "story.html#timeseries-progression-of-drunkiness",
+    "objectID": "story.html#timeseries",
+    "href": "story.html#timeseries",
     "title": "Storyline",
-    "section": "Timeseries : Progression of drunkiness",
-    "text": "Timeseries : Progression of drunkiness\n\n\n\n\nFirst we investigate how drunkiness changes over time, especially into the period during COVID. \nLet’s look into a few weeks \n\n\n\nDrunkness - hourly"
+    "section": "Timeseries:",
+    "text": "Timeseries:\n\n\nTODO: - merge all plots into one multi-panel plot - add explanation texts\nFirst we investigate how drunkiness changes over time, especially into the period during COVID. \nLet’s look into a few weeks \n\n\n\nDrunkness - hourly"
   },
   {
     "objectID": "story.html#comparing-areas-of-criminal-activity",
