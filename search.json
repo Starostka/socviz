@@ -25,6 +25,6 @@
     "href": "story.html#filtering-selecting-for-group-drunkiness",
     "title": "Storyline",
     "section": "Filtering, selecting for group (drunkiness)",
-    "text": "Filtering, selecting for group (drunkiness)\n\nFirst idea for interactive plot:\nFilter based on categories, on selection a little info box with a description tells the user about the category.\nSecond idea for interactive plot:\nTODO: investigate some specific event happening in san francisco during the date frame in our dataset(political, shootout, demonstration, party, car chase)\nAllow the user to interactive plot different events. And maybe how drunkiness (or some other criminal activity) was related.\nQuestions - Are we limited to the dataset/timeframe? (Is it possible to look into the data after 2020 during covid?) - Can we include multiple datasets? (as supplementery) -"
+    "text": "Filtering, selecting for group (drunkiness)\n\nFirst idea for interactive plot:\nFilter based on categories, on selection a little info box with a description tells the user about the category.\nSecond idea for interactive plot:\nTODO: investigate some specific event happening in san francisco during the date frame in our dataset(political, shootout, demonstration, party, car chase)\nAllow the user to interactive plot different events. And maybe how drunkiness (or some other criminal activity) was related.\nQuestions - Are we limited to the dataset/timeframe? (Is it possible to look into the data after 2020 during covid?) - Can we include multiple datasets? (as supplementery)"
   }
 ]
