@@ -62,3 +62,24 @@ Allow the user to interactive plot different events. And maybe how drunkiness (o
 __Questions__
 - Are we limited to the dataset/timeframe? (Is it possible to look into the data after 2020 during covid?)
 - Can we include multiple datasets? (as supplementery)
+
+```{python}
+from sandbox.preprocess import preprocess_dataset1
+dataset = get_lightweight_dataset()
+ojs_define(data = dataset)
+```
+
+```{ojs}
+viewof categories = Inputs.checkbox(
+  ["Assault", "Robbery", "Gambling"],
+  { value: ["ASSAULT"],
+    label: "Categories:"
+  }
+)
+
+filtered = transpose(data).filter(function(incident) {
+  return categories.includes(incident.category)
+})
+
+
+```

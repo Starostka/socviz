@@ -6,3 +6,6 @@ data/
 docs/
 __pycache__/
 /.luarc.json
+*.html
+story.ipynb
+story_files/
