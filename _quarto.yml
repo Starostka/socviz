@@ -6,8 +6,9 @@ project:
 
 website:
   title: "SocViz 2023"
-  sidebar:
-    search: true
+  search: 
+    location: navbar
+    type: overlay
   navbar:
     left:
       - href: story.qmd

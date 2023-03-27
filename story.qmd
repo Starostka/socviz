@@ -173,26 +173,32 @@ This observation also aligns with the result of the heatmap regarding robbery oc
 However, despite the fact that the Tenderloin district where Market Street located had the highest number of robbery incidents, the data implies that it was not the most active police district. This fact can be counted to the assumption that there was a lack of police power resources in Tenderloin district.
 
 
-## Interative Visualization: How does the police in districts performed?
+## Interactive Visualization: Police district performance
+> How does the police perform in the different districts?
 
-As the activities of police can be a key factor that effect on the crime rates, we therefore would like to see how the number of crimes has changed based on different districts. The [data](https://data.sfgov.org/browse?category=Public+Safety) are used and maintained by the Police Department, which indecats that the number of records reflects the activities of the police districts. The incidents that are not reported and recorded is excluded to the scope of our discussion. 
+As the activities of police can be a key factor that effect on the crime rates, we therefore would like to see how the number of crimes has changed based on different districts. The [data](https://data.sfgov.org/browse?category=Public+Safety) are used and maintained by the Police Department, which indicates that the number of records reflects the activities of the police districts. The incidents that are not reported and recorded is excluded to the scope of our discussion.
 
-After normalized the occurrences of crime incidents, we created an interative visualization to make it accessible to inspect on the normalized number of incidents in each police district.
+We normalized the occurrences of crime incidents and then created an interactive visualization to enable easy inspection of the normalized number of incidents in each police district.
 
 ```{python}
 dataset = pl.read_csv('data/before_2018.csv')
+
 data = (
-    dataset
-    .groupby(['Hour', 'PdDistrict']).agg(pl.count())
-    .with_columns((pl.col('Hour')/pl.col('count')).alias('normalized'))
-    .sort(pl.col('Hour'))
-)
-data = data.pivot(index = 'Hour', columns = ['PdDistrict'], values = ['normalized'])
+  dataset
+  .groupby(['Hour', 'PdDistrict'])
+  .agg(pl.count().alias('Occurence'))
+  # .with_columns(pl.col('count').alias('Occurence'))
+  .sort('Hour')
+).to_pandas()
+
+data['Sum'] = data.groupby('PdDistrict')['Occurence'].transform('sum')
+data['Norm'] = data['Occurence'] / data['Sum']
+data = data.pivot_table(index='Hour', columns='PdDistrict', values='Norm').reset_index()
 
 districts = set(['RICHMOND', 'TARAVAL', 'MISSION', 'INGLESIDE', 'SOUTHERN', 'NORTHERN', 'TENDERLOIN', 'CENTRAL', 'BAYVIEW', 'PARK'])
 
-source = ColumnDataSource(data.to_pandas())
-hours = data['Hour'].unique().to_list()
+source = ColumnDataSource(data)
+hours = data['Hour'].unique()
 hours = sorted(hours)
 p = figure(title="Police District", x_axis_label='Hour of the day', y_axis_label='Percentage Frequency', 
            x_range = FactorRange(factors=[str(hour) for hour in hours]))
@@ -209,4 +215,4 @@ show(p)
 ```
 
 # Conclusion
-As the analysis presented, we had investigated into the robbery incidents in San Francisco and put the focus on discussing the situation from 2008 to 2012 based on time series. Particularly, by looking into the calendar plots across 2003 to 2017, it briefly showed that the incidents of robbery usually peaks at summer time. By visualizing the incidents of robbery on the map, we could conclude that the busiest city center tend to be the place that crimes are more likely happen. However, the activities of police related to the districts does not show a positive correlation with the numbers of incidents. 
+In summary, we conducted an analysis of robbery incidents in San Francisco from 2008 to 2012 using time series analysis. Our investigation revealed that robbery incidents generally peak during the summer months, as indicated by the calendar plots spanning 2003 to 2017. We also found that the busiest city center is more prone to crime. However, we did not observe a positive correlation between police activities in each district and the number of robbery incidents.
