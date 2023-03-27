@@ -5,6 +5,7 @@ subtitle: 02806 Assignment 2
 
 ```{python}
 import folium
+import numpy as np
 import pandas as pd
 import polars as pl
 import pandas as pd
