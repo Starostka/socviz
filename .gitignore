@@ -9,3 +9,4 @@ __pycache__/
 *.html
 story.ipynb
 story_files/
+_freeze/
