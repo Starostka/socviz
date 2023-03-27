@@ -19,17 +19,89 @@ This dataset is a collection of data on criminal incidents reported in SF, which
 ## Abstract
 The aim of this report is utilizing the techniques of data visualization for the analytics of crime occured in San Francisco. The primary idea of this data analysis study is to obtain the insights from the observation, in order to evaluate the criminal situation for the past decades in San Francisco, as well as help prevent potential crimes in the future. The data analysis will be based on **Time-Series**, **Geographic** and **Interative Visualization** respectively.
 
-According to [SFNext Index](https://www.sfchronicle.com/projects/2022/fixing-san-francisco-problems/crime), with the exception of robberies, violent crime in San Francisco is below average for large cities. In 2019 and 2020, San Francisco ranked in the bottom half among major U.S. cities, with rates of 670 and 540 violent crime incidents per 100,000 residents, respectively. Hence, we are interested in how Robbery had increased the violent crime level in San Francisco. 
+According to [SFNext Index](https://www.sfchronicle.com/projects/2022/fixing-san-francisco-problems/crime), with the exception of robberies, violent crime in San Francisco is below average for large cities. In 2019 and 2020, San Francisco ranked in the bottom half among major U.S. cities, with rates of 670 and 540 violent crime incidents per 100,000 residents, respectively. Hence, we are interested in how `Robbery` had increased the violent crime level in San Francisco. 
 
 # Data Anlysis: Robberies in San Francisco
-From January 2003 to December 2012, there were 35817 incidents of robbery in San Francisco reported to the police, while there were 32786 incidents of robbery reported from 2013 to 2022 [(Data source)](https://data.sfgov.org/Public-Safety/Police-Department-Incident-Reports-2018-to-Present/wg3w-h783). As an overview, the robbery rate has decreased by 8.5% since the decade of 2003 to the last decade, however the number is not significantly decrease, which reflects the robbery is still a key factor that affect the level of crimes in San Francisco.
+From January 2003 to December 2012, there were 35817 incidents of robbery in San Francisco reported to the police, while there were 32786 incidents of robbery reported from 2013 to 2022 [(Data source)](https://data.sfgov.org/Public-Safety/Police-Department-Incident-Reports-2018-to-Present/wg3w-h783). As an overview, the robbery rate has decreased by 8.5% since the decade of 2003 to the last decade, however the number is not indicating a significantly decrease, which reflects the robbery is still a key factor that affect the level of crimes in San Francisco.
 
 ## Timeseries: How the occurrence of Robbery changed over the time?
 <!--  One time-series / bar chart (it's OK to use the "fancy" plot-typs like calendar plots or polar bar-charts from Week 2, Part 4). -->
 
 If we divide the time of the incidents into hourly timeslots, it becomes apparent that the number of robberies reaches its highest point between 2 and 3 pm and remains consistently high until 5 pm. After 5 pm, there is a sharp decline during the evening, but a secondary peak occurs between 1 and 2 am.Between 2 am and 2 pm, the number of incidents increases steadily. 
 
-From a 2003 to 2017, we can see the incidents fluctuated accross years. Specifically, in 2010 and 2011, it has a significant decreased from 2008 and 2009. The [Rand Corporation](https://www.rand.org/) studied this phenomenon on a national level in 2010, concluding that the crime prevention benefit of hiring more officers is well worth the cost. [Reference](https://countyda.sccgov.org/sites/g/files/exjcpb1121/files/10-Year%20Combined%20CA%20Crime%20Stat%20Report.pdf)
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+
+
+df_before_2018 = pd.read_csv('../Police_Department_Incident_Reports__Historical_2003_to_May_2018.csv')
+df_before_2018['Date'] = pd.to_datetime(df_before_2018['Date'])
+df_before_2018['Year'] = df_before_2018['Date'].dt.year
+df_before_2018['Month'] = df_before_2018['Date'].dt.month
+df_before_2018['Hour'] = pd.DatetimeIndex(df_before_2018['Time']).hour
+df_before_2018 = df_before_2018.loc[df_before_2018['Year'] != 2018]
+
+
+focuscrimes = ['ROBBERY']
+
+hour_of_day = [i for i in range(0,24)]
+hourly_slots = {}
+for i in range(len(hour_of_day)):
+    if i+1 == len(hour_of_day):
+        start = hour_of_day[i]
+        end = hour_of_day[0]
+        hourly_slots[start] = str(start) + "-" + str(end)
+    else:
+        start = hour_of_day[i]
+        end = hour_of_day[i+1]
+        hourly_slots[start] = str(start) + "-" + str(end)
+
+df_before_2018["time_period"] = [hourly_slots[int(str(i).split(":")[0])] for i in list(df_before_2018['Hour'])]
+
+yearly_pattern = df_before_2018.groupby(by=["Year", "Category"]).size().reset_index(name="Count")
+
+yearly_pattern = yearly_pattern.loc[yearly_pattern['Category'].isin(focuscrimes)].reset_index(drop=True)
+
+hourly_pattern = df_before_2018.groupby(by=["time_period", "Category"]).size().reset_index(name="Count")
+
+hourly_pattern = hourly_pattern.loc[hourly_pattern['Category'].isin(focuscrimes)].reset_index(drop=True)
+
+
+plt.figure(figsize=(20,10))
+plt.suptitle("Robbery Incidents in Time series" ,fontsize=25, y=1.0, fontweight='bold', color='black')
+
+# Yealy trend
+temp1 = yearly_pattern.loc[yearly_pattern['Category'] == 'ROBBERY'].reset_index(drop=True)
+x = temp1["Year"]
+y = temp1["Count"]
+plt.subplot(2,2,1)
+plt.title('ROBBERY', pad=-14, fontsize = 20, fontweight='bold', fontstyle="italic")
+plt.bar(x, y, width=0.6, edgecolor="black", color='lavender')
+plt.xticks(x, yearly_pattern['Year'].unique().tolist(), rotation=45)
+plt.tight_layout()
+plt.ylim(top=(np.max(y)+(np.max(y)*0.3)))
+
+# Hourly trend
+temp2 = hourly_pattern.loc[hourly_pattern['Category'] == 'ROBBERY'].reset_index(drop=True)
+x = temp2["time_period"]
+y = temp2["Count"]
+plt.subplot(2,2,2)
+plt.title('ROBBERY', pad=-14, fontsize = 20, fontweight='bold', fontstyle="italic")
+plt.bar(x, y, width=0.6, edgecolor="black", color='lavender')
+plt.xticks(x, hourly_slots.values(), rotation=45)
+plt.tight_layout()
+plt.ylim(top=(np.max(y)+(np.max(y)*0.3)))
+
+# Calplot
+img = mpimg.imread('Calplot_2012.png')
+plt.subplot(2,1,2)
+plt.imshow(img)
+plt.axis('off')
+```
+
+From 2003 to 2017, we can see the incidents fluctuated accross years. Specifically, in 2010 and 2011, it has a significant decreased from 2008 and 2009. The [Rand Corporation](https://www.rand.org/) studied this phenomenon on a national level in 2010, concluding that the crime prevention benefit of hiring more officers is well worth the cost. [Reference](https://countyda.sccgov.org/sites/g/files/exjcpb1121/files/10-Year%20Combined%20CA%20Crime%20Stat%20Report.pdf)
 
 However, there was a resurgence in incidents in 2012, with a noticeable gap from the previous year. After analyzing the robbery incidents data in 2012, we observed a marked increase in robberies on the final Sunday in June in San Francisco. Further investigation revealed that this date coincided with the San Francisco LGBT Pride Parade, which started at Beale Street and Market Street and continued down to 8th Street.
 
