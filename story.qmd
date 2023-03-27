@@ -58,7 +58,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
 
-df_before_2018 = pd.read_csv('data/Police_Department_Incident_Reports__Historical_2003_to_May_2018.csv')
+df_before_2018 = pd.read_csv('../Police_Department_Incident_Reports__Historical_2003_to_May_2018.csv')
 df_before_2018['Date'] = pd.to_datetime(df_before_2018['Date'])
 df_before_2018['Year'] = df_before_2018['Date'].dt.year
 df_before_2018['Month'] = df_before_2018['Date'].dt.month
@@ -189,8 +189,11 @@ This observation also aligns with the result of the heatmap regarding robbery oc
 However, despite the fact that the Tenderloin district where Market Street located had the highest number of robbery incidents, the data implies that it was not the most active police district. This fact can be counted to the assumption that there was a lack of police power resources in Tenderloin district.
 
 
-## Interative Visualization: How does the police 
+## Interative Visualization: How does the police in districts performed?
 
+As the activities of police can be a key factor that effect on the crime rates, we therefore would like to see how the number of crimes has changed based on different districts. The [data](https://data.sfgov.org/browse?category=Public+Safety) are used and maintained by the Police Department, which indecats that the number of records reflects the activities of the police districts. The incidents that are not reported and recorded is excluded to the scope of our discussion. 
+
+After normalized the occurrences of crime incidents, we created an interative visualization to make it accessible to inspect on the normalized number of incidents in each police district.
 
 ```{python}
 dataset = pl.read_csv('data/before_2018.csv')
@@ -203,7 +206,7 @@ data = (
 data = data.pivot(index = 'Hour', columns = ['PdDistrict'], values = ['normalized'])
 # data.schema
 
-focuscrimes = set(['BAYVIEW', 'INGLESIDE', 'TARAVAL', 'CENTRAL'])
+focuscrimes = set(['BAYVIEW', 'INGLESIDE', 'TARAVAL', 'CENTRAL', 'TENDERLOIN', 'SOUTHERN', 'MISSION', 'PARK'])
 
 source = ColumnDataSource(data.to_pandas())
 hours = data['Hour'].unique().to_list()
@@ -214,10 +217,10 @@ bar = {}
 for indx, i in enumerate(focuscrimes):
     bar[i] = p.vbar(x="Hour", top=i, width=0.3, 
                     source=source, legend_label=i, muted_alpha=0.2, muted=False, color=Category20[14][indx])
-p.legend.title = "Category"
+p.legend.title = "Police District"
 p.legend.location = "top_left"
 
-p.legend.click_policy = "hide"
+p.legend.click_policy = "mute"
 p.legend.label_text_color = "black"
 p.legend.title_text_color = "black"
 show(p)

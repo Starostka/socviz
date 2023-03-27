@@ -184,8 +184,11 @@ This observation also aligns with the result of the heatmap regarding robbery oc
 However, despite the fact that the Tenderloin district where Market Street located had the highest number of robbery incidents, the data implies that it was not the most active police district. This fact can be counted to the assumption that there was a lack of police power resources in Tenderloin district.
 
 
-## SOME HEADER ABOUT CATEGORIES
+## Interative Visualization: How does the police in districts performed?
 
+As the activities of police can be a key factor that effect on the crime rates, we therefore would like to see how the number of crimes has changed based on different districts. The [data](https://data.sfgov.org/browse?category=Public+Safety) are used and maintained by the Police Department, which indecats that the number of records reflects the activities of the police districts. The incidents that are not reported and recorded is excluded to the scope of our discussion. 
+
+After normalized the occurrences of crime incidents, we created an interative visualization to make it accessible to inspect on the normalized number of incidents in each police district.
 
 ```{python}
 # Configure for output in the notebook
@@ -225,6 +228,8 @@ tab2 = TabPanel(child=column(par2, p1), title="WARRANTS")
 
 show(Tabs(tabs=[tab1, tab2]))
 ```
+
+From the visualization, we can first get the insight that each police district has the similar pattern of activities: 
 
 # Conclusion
 As the analysis presented, we had investigated into the robbery incidents in San Francisco and put the focus on discussing the situation from 2008 to 2012 based on time series. Particularly, by looking into the calendar plots across 2003 to 2017, it briefly showed that the incidents of robbery usually peaks at summer time. By visualizing the incidents of robbery on the map, we could conclude that the busiest city center tend to be the place that crimes are more likely happen. However, the activities of police related to the districts does not show a positive correlation with the numbers of incidents. 
