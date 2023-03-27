@@ -184,7 +184,7 @@ This observation also aligns with the result of the heatmap regarding robbery oc
 However, despite the fact that the Tenderloin district where Market Street located had the highest number of robbery incidents, the data implies that it was not the most active police district. This fact can be counted to the assumption that there was a lack of police power resources in Tenderloin district.
 
 
-## Interative Visualization: How does the police 
+## SOME HEADER ABOUT CATEGORIES
 
 
 ```{python}
