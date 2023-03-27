@@ -111,6 +111,8 @@ However, there was a resurgence in incidents in 2012, with a noticeable gap from
 <!-- One map (use techniques from Week 3 and 4) -->
 Let's examine the robbery locations on June 24, 2012, during the Pride Parade in San Francisco which typically occurs on Market Street[(Reference: Wikipedia)](https://en.wikipedia.org/wiki/San_Francisco_Pride#:~:text=The%20San%20Francisco%20Pride%20parade,until%20almost%204%3A00%20pm.).
 
+In the visualization of the robbery incidents data on the day when the Pride Parade occured, the three location marks Market Street, 8th Street and Beala Street respectively. The red dots indicates the location of the robberies taking place. It shows an obvious fact that in the 33 incidents recorded on 24 June 2012, most of the crimes happened in the range of the routes that the parade covered. 
+
 <!-- put the map here -->
 ```{python}
 import folium
@@ -126,6 +128,15 @@ df_before_2018 = df_before_2018.loc[df_before_2018['Year'] != 2018]
 df_robbery = df_before_2018.loc[df_before_2018['Category']=="ROBBERY"]
 df_robbery = df_robbery[df_robbery["Year"] == 2012]
 df_robbery_pride = df_robbery[df_robbery['Date'] == '2012-6-24']
+
+SF_map = folium.plugins.DualMap(location=[37.77919, -122.41914],
+                    zoom_start = 12,
+                    tiles = "openstreetmap")
+
+constraint = (df_before_2018['Category'] == 'ROBBERY') & (df_before_2018['Year'] >= 2011) & (df_before_2018['Year'] <= 2012) & (df_before_2018['Resolution'] == "ARREST, BOOKED")
+df_robbery_heat = df_before_2018.loc[constraint].reset_index(drop=True)
+
+
 get_XY = list(zip(list(df_robbery_pride["Y"]), list(df_robbery_pride["X"])))
 
 SF_map = folium.Map([37.77919, -122.41914], zoom_start=13, tiles = "openstreetmap")
@@ -138,14 +149,20 @@ for x,y in get_XY:
                     radius=2,
                     color='red',
                     ).add_to(SF_map)
+
+
+x_y_robbery = list(zip(list(df_robbery_heat["Y"]), list(df_robbery_heat["X"])))
+
+HeatMap(x_y_robbery, min_opacity=0.35, overlay=True).add_to(SF_map)
+
 SF_map
 ```
 
-The incidence of robbery is relatively high in the vicinity of Market Street, indicating that criminals are more prone to commit robbery in crowded areas, thus increasing their chances of escape. Additionally, the buildings and blocks in the Market Street area are more densely packed, offering additional cover and refuge for criminals. 
+The incidence of robbery is relatively high in the near Market Street, indicating that criminals are more prone to commit robbery in crowded areas, thus increasing their chances of escape. Additionally, the buildings and blocks in the Market Street area are more densely packed, offering additional cover and refuge for criminals. 
 
-This observation also aligns with the result of the heatmap regarding robbery in San Francisco. It reveals the fact that areas with a high concentration of stores and a large population, along with a complex urban infrastructure, are more susceptible to robbery incidents.
+This observation also aligns with the result of the heatmap regarding robbery occurrence in 2011 and 2012, as the map above indicates. It reveals the fact that areas with a high concentration of stores and a large population, along with a complex urban infrastructure, are more susceptible to robbery incidents.
 
-
+However, despite the fact that the Tenderloin district where Market Street located had the highest number of robbery incidents, the data implies that it was not the most active police district. This fact can be counted to the assumption that there was a lack of police power resources in Tenderloin district.
 
 **Cluster Correlation idea:** Furthermore, we can select two clusters and a little info box pops up over the cursor printing the correlation between the two clusters.
 
