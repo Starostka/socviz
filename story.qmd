@@ -3,6 +3,27 @@ title: SF Crime Data Analysis and Visualization
 subtitle: 02806 Assignment 2 
 ---
 
+```{python}
+import folium
+import pandas as pd
+import polars as pl
+import pandas as pd
+from bokeh.io import output_notebook
+from bokeh.models import ColumnDataSource
+from bokeh.plotting import figure, show
+from bokeh.sampledata.commits import data
+from bokeh.transform import jitter
+from bokeh.palettes import HighContrast3
+from bokeh.plotting import figure, show
+from bokeh.io import show
+from bokeh.layouts import row, column
+from bokeh.models import CustomJS, RadioButtonGroup
+from bokeh.models import TabPanel, Tabs
+from bokeh.plotting import figure, show
+from bokeh.models import Paragraph
+from folium.plugins import HeatMap
+```
+
 # Introduction
 
 <!-- - TODO Explaining the dataset
@@ -29,8 +50,7 @@ From January 2003 to December 2012, there were 35817 incidents of robbery in San
 
 If we divide the time of the incidents into hourly timeslots, it becomes apparent that the number of robberies reaches its highest point between 2 and 3 pm and remains consistently high until 5 pm. After 5 pm, there is a sharp decline during the evening, but a secondary peak occurs between 1 and 2 am.Between 2 am and 2 pm, the number of incidents increases steadily. 
 
-```{python, width=2, height=1, dpi=100}
-
+```{python}
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -118,15 +138,15 @@ In the visualization of the robbery incidents data on the day when the Pride Par
 
 <!-- put the map here -->
 ```{python}
-import folium
-import pandas as pd
-from folium.plugins import HeatMap
-df_before_2018 = pd.read_csv('../Police_Department_Incident_Reports__Historical_2003_to_May_2018.csv')
-df_before_2018['Date'] = pd.to_datetime(df_before_2018['Date'])
-df_before_2018['Year'] = df_before_2018['Date'].dt.year
-df_before_2018['Month'] = df_before_2018['Date'].dt.month
-df_before_2018['Hour'] = pd.DatetimeIndex(df_before_2018['Time']).hour
-df_before_2018 = df_before_2018.loc[df_before_2018['Year'] != 2018]
+# df_before_2018 = pd.read_csv('data/Police_Department_Incident_Reports__Historical_2003_to_May_2018.csv')
+# df_before_2018['Date'] = pd.to_datetime(df_before_2018['Date'])
+# df_before_2018['Year'] = df_before_2018['Date'].dt.year
+# df_before_2018['Month'] = df_before_2018['Date'].dt.month
+# df_before_2018['Hour'] = pd.DatetimeIndex(df_before_2018['Time']).hour
+# df_before_2018 = df_before_2018.loc[df_before_2018['Year'] != 2018]
+
+# << uses pre-transformed instead of above
+df_before_2018 = pl.read_csv('data/before_2018.csv').to_pandas()
 
 df_robbery = df_before_2018.loc[df_before_2018['Category']=="ROBBERY"]
 df_robbery = df_robbery[df_robbery["Year"] == 2012]
@@ -169,18 +189,46 @@ However, despite the fact that the Tenderloin district where Market Street locat
 
 **Cluster Correlation idea:** Furthermore, we can select two clusters and a little info box pops up over the cursor printing the correlation between the two clusters.
 
-## Filtering, selecting for group (drunkiness)
-<!-- One interactive visualization in Bokeh (Week 6) -->
+## SOME HEADER ABOUT CATEGORIES
+> TODO: not sure exactly what to put here...
 
-**First idea for interactive plot:**
+```{python}
+# Configure for output in the notebook
+output_notebook()
 
-Filter based on categories, on selection a little info box with a description tells the user about the category.
+dataset = pl.read_csv('data/before_2018.csv')
 
-**Second idea for interactive plot:**
+data = (
+    dataset
+    .filter(pl.col('Category') == 'ROBBERY')
+    .groupby('Year').agg(pl.count())
+).to_pandas()
+p1 = figure(width=600, height=300, title="Robbery incidents")
+p1.xgrid.grid_line_color = None
+p1.xaxis.ticker = sorted(data['Year'].to_list())
+p1.vbar(x=data['Year'], top=data['count'], width=0.9, alpha=0.4)
+par1 = Paragraph(text=f"""
+    Mean incident count: {data['count'].mean():3.2f}
+    """,
+    width=600, height=50)
+tab1 = TabPanel(child=column(par1, p1), title="ROBBERY")
 
-TODO: investigate some specific event happening in san francisco during the date frame in our dataset(political, shootout, demonstration, party, car chase)
+data = (
+    dataset
+    .filter(pl.col('Category') == 'WARRANTS')
+    .groupby('Year').agg(pl.count())
+).to_pandas()
+p2 = figure(width=600, height=300, title="Warrant incidents")
+p2.xgrid.grid_line_color = None
+p2.xaxis.ticker = sorted(data['Year'].to_list())
+p2.vbar(x=data['Year'], top=data['count'], width=0.9, alpha=0.4)
+par2 = Paragraph(text=f"""
+    Mean incident count: {data['count'].mean():3.2f}
+    """,
+    width=600, height=50)
+tab2 = TabPanel(child=column(par2, p1), title="WARRANTS")
 
-Allow the user to interactive plot different events. And maybe how drunkiness (or some other criminal activity) was related.
-
+show(Tabs(tabs=[tab1, tab2]))
+```
 
 # Conclusion
