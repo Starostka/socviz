@@ -114,8 +114,9 @@ Let's examine the robbery locations on June 24, 2012, during the Pride Parade in
 <!-- put the map here -->
 ```{python}
 import folium
+import pandas as pd
 from folium.plugins import HeatMap
-df_before_2018 = pd.read_csv('../Police_Department_Incident_Reports__Historical_2003_to_May_2018.csv')
+df_before_2018 = pd.read_csv('data/Police_Department_Incident_Reports__Historical_2003_to_May_2018.csv')
 df_before_2018['Date'] = pd.to_datetime(df_before_2018['Date'])
 df_before_2018['Year'] = df_before_2018['Date'].dt.year
 df_before_2018['Month'] = df_before_2018['Date'].dt.month
