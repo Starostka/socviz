@@ -1,4 +1,5 @@
 import polars as pl
+from datetime import date, time
 from polars.dataframe import DataFrame
 from rich import print
 from pathlib import Path
@@ -7,18 +8,44 @@ from dataclasses import dataclass
 
 pl.toggle_string_cache(True)
 
-@dataclass
-class Dataset(Protocol):
-    ...
-
-
 DATASET1: Path = 'data/Police_Department_Incident_Reports__Historical_2003_to_May_2018.csv'
 DATASET2: Path = 'data/Police_Department_Incident_Reports__2018_to_Present.csv'
+
+
+# @dataclass
+# class Dataset(Protocol):
+#     PoliceDepartmentID: int
+#     IncidentNumber: int
+#     IncidentCode: int
+#     Category: str
+#     Description: str
+#     WeekDay: str
+#     Date: date
+#     Time: time
+#     PoliceDepartmentDestrict: str
+#     Address: str
+#     X: str
+#     Y: str
+#     Location: str
+
 
 # preprocessing steps:
 # - cast correct types
 # - remove null entries
 # - rename columns (matching datasets)
+
+# dataset = pl.read_csv(DATASET1, try_parse_dates=True, n_rows=10)
+# dataset.schema
+# dataset.with_columns([   
+#     pl.col('PdId').alias('PoliceDepartmentID'),
+#     pl.col('Incident Code').alias('IncidentCode'),
+#     pl.col('Time').str.strptime(
+#         datatype = pl.Time,
+#         fmt='%H:%M'
+#     ),
+#     pl.col('Category').cast(pl.Categorical())
+# ])
+# dataset.select([pl.col('PoliceDepartmentID'), pl.col('IncidentCode'), pl.col('Time'), pl.col('Date'), pl.col('Category'), ])
 
 def preprocess_dataset1(n_rows: int = None, print_schema = False, dataset_path: Path = DATASET1) -> DataFrame:
     dataset = pl.read_csv(dataset_path, try_parse_dates=True, n_rows=n_rows)
@@ -65,3 +92,4 @@ def combined_dataset():
 
 def get_lightweight_dataset():
     return preprocess_dataset1(n_rows=50).to_pandas()
+

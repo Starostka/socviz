@@ -2,7 +2,7 @@ project:
   type: website
   output-dir: docs
   render:
-    - story.md
+    - story.qmd
 
 website:
   title: "Project Draft"
@@ -10,7 +10,7 @@ website:
     search: true
   navbar:
     left:
-      - href: story.md
+      - href: story.qmd
         text: Homepage
     right:
       - icon: github
@@ -48,6 +48,7 @@ author:
 
 execute:
   freeze: auto
+  cache: true
 
 # metadata
 keywords: []

@@ -45,6 +45,34 @@ For now assume we do one map includes 2 streets and the clusters of incidents. A
 
 **Cluster Correlation idea:** Furthermore, we can select two clusters and a little info box pops up over the cursor printing the correlation between the two clusters.
 
+
+```{python}
+import folium
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from folium.plugins import HeatMap
+
+df_before_2018 = pd.read_csv('data/Police_Department_Incident_Reports__Historical_2003_to_May_2018.csv')
+df_before_2018['Date'] = pd.to_datetime(df_before_2018['Date'])
+df_before_2018['Year'] = df_before_2018['Date'].dt.year
+df_before_2018['Month'] = df_before_2018['Date'].dt.month
+df_before_2018['Hour'] = pd.DatetimeIndex(df_before_2018['Time']).hour
+df_before_2018 = df_before_2018.loc[df_before_2018['Year'] != 2018]
+
+constraint = (df_before_2018['Category'] == 'ROBBERY') & (df_before_2018['Year'] >= 2011) & (df_before_2018['Year'] <= 2012) & (df_before_2018['Resolution'] == "ARREST, BOOKED")
+df_robbery_heat = df_before_2018.loc[constraint].reset_index(drop=True)
+x_y_robbery = list(zip(list(df_robbery_heat["Y"]), list(df_robbery_heat["X"])))
+
+
+SF_map = folium.Map(location=[37.77919, -122.41914],
+                    zoom_start = 12,
+                    tiles = "openstreetmap")
+HeatMap(x_y_robbery, min_opacity=0.35, overlay=True).add_to(SF_map)
+
+SF_map
+```
+
 ## Filtering, selecting for group (drunkiness)
 <!-- One interactive visualization in Bokeh (Week 6) -->
 
@@ -63,13 +91,13 @@ __Questions__
 - Are we limited to the dataset/timeframe? (Is it possible to look into the data after 2020 during covid?)
 - Can we include multiple datasets? (as supplementery)
 
-```{python}
+```python
 from sandbox.preprocess import preprocess_dataset1
 dataset = get_lightweight_dataset()
 ojs_define(data = dataset)
 ```
 
-```{ojs}
+```ojs
 viewof categories = Inputs.checkbox(
   ["Assault", "Robbery", "Gambling"],
   { value: ["ASSAULT"],
