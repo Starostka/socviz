@@ -22,12 +22,13 @@ format:
     toc: true
     embed-resources: false
     html-math-method: katex
-    mainfont: "Inter V" # NotoSerif, Inter
-    monofont: "Cascadia Mono"
+    # mainfont: "Inter V" # NotoSerif, Inter
+    # monofont: "Cascadia Mono"
     theme: # journal, flatly, darkly, sandstone
       light: flatly
       dark: darkly
-    code-fold: false
+    code-fold: true
+    code-summary: "Show the code"
     code-line-numbers: false
     code-copy: true
     code-overflow: wrap
