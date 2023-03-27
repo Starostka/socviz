@@ -8,6 +8,7 @@ import folium
 import pandas as pd
 import polars as pl
 import pandas as pd
+from bokeh.models import ColumnDataSource, FactorRange
 from bokeh.io import output_notebook
 from bokeh.models import ColumnDataSource
 from bokeh.plotting import figure, show
@@ -21,7 +22,11 @@ from bokeh.models import CustomJS, RadioButtonGroup
 from bokeh.models import TabPanel, Tabs
 from bokeh.plotting import figure, show
 from bokeh.models import Paragraph
+from bokeh.transform import dodge
 from folium.plugins import HeatMap
+from bokeh.palettes import Category20
+
+output_notebook()
 ```
 
 # Introduction
@@ -53,7 +58,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
 
-df_before_2018 = pd.read_csv('../Police_Department_Incident_Reports__Historical_2003_to_May_2018.csv')
+df_before_2018 = pd.read_csv('data/Police_Department_Incident_Reports__Historical_2003_to_May_2018.csv')
 df_before_2018['Date'] = pd.to_datetime(df_before_2018['Date'])
 df_before_2018['Year'] = df_before_2018['Date'].dt.year
 df_before_2018['Month'] = df_before_2018['Date'].dt.month
@@ -188,42 +193,34 @@ However, despite the fact that the Tenderloin district where Market Street locat
 
 
 ```{python}
-# Configure for output in the notebook
-output_notebook()
-
 dataset = pl.read_csv('data/before_2018.csv')
-
 data = (
     dataset
-    .filter(pl.col('Category') == 'ROBBERY')
-    .groupby('Year').agg(pl.count())
-).to_pandas()
-p1 = figure(width=600, height=300, title="Robbery incidents")
-p1.xgrid.grid_line_color = None
-p1.xaxis.ticker = sorted(data['Year'].to_list())
-p1.vbar(x=data['Year'], top=data['count'], width=0.9, alpha=0.4)
-par1 = Paragraph(text=f"""
-    Mean incident count: {data['count'].mean():3.2f}
-    """,
-    width=600, height=50)
-tab1 = TabPanel(child=column(par1, p1), title="ROBBERY")
+    .groupby(['Hour', 'PdDistrict']).agg(pl.count())
+    .with_columns((pl.col('Hour')/pl.col('count')).alias('normalized'))
+    .sort(pl.col('Hour'))
+)
+data = data.pivot(index = 'Hour', columns = ['PdDistrict'], values = ['normalized'])
+# data.schema
 
-data = (
-    dataset
-    .filter(pl.col('Category') == 'WARRANTS')
-    .groupby('Year').agg(pl.count())
-).to_pandas()
-p2 = figure(width=600, height=300, title="Warrant incidents")
-p2.xgrid.grid_line_color = None
-p2.xaxis.ticker = sorted(data['Year'].to_list())
-p2.vbar(x=data['Year'], top=data['count'], width=0.9, alpha=0.4)
-par2 = Paragraph(text=f"""
-    Mean incident count: {data['count'].mean():3.2f}
-    """,
-    width=600, height=50)
-tab2 = TabPanel(child=column(par2, p1), title="WARRANTS")
+focuscrimes = set(['BAYVIEW', 'INGLESIDE', 'TARAVAL', 'CENTRAL'])
 
-show(Tabs(tabs=[tab1, tab2]))
+source = ColumnDataSource(data.to_pandas())
+hours = data['Hour'].unique().to_list()
+hours = sorted(hours)
+p = figure(title="Crimes per hour", x_axis_label='Hour of the day', y_axis_label='Percentage Frequency', 
+           x_range = FactorRange(factors=[str(hour) for hour in hours]))
+bar = {}
+for indx, i in enumerate(focuscrimes):
+    bar[i] = p.vbar(x="Hour", top=i, width=0.3, 
+                    source=source, legend_label=i, muted_alpha=0.2, muted=False, color=Category20[14][indx])
+p.legend.title = "Category"
+p.legend.location = "top_left"
+
+p.legend.click_policy = "hide"
+p.legend.label_text_color = "black"
+p.legend.title_text_color = "black"
+show(p)
 ```
 
 # Conclusion

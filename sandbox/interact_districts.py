@@ -16,6 +16,9 @@ from bokeh.models import Paragraph
 from sandbox.preprocess import preprocess_dataset1
 dataset = preprocess_dataset1(print_schema=True)
 
+
+
+
 code_count = codes.pivot(index = 'Incident Code', values = ['count'], columns = ['PdDistrict'])
 
 entry1 = code_count.filter(pl.col('Incident Code') == 63010)
@@ -37,6 +40,8 @@ p2.y_range.start = 0
 p2.x_range.range_padding = 0.2
 p2.xgrid.grid_line_color = None
 tab2 = TabPanel(child=p2, title="ROBBERY")
+
+show(Tabs(tabs=[tab1, tab2, tab3]))
 
 
 entry3 = code_count.filter(pl.col('Incident Code') == 4136)
