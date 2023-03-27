@@ -8,6 +8,8 @@ import folium
 import pandas as pd
 import polars as pl
 import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 from bokeh.models import ColumnDataSource, FactorRange
 from bokeh.io import output_notebook
 from bokeh.models import ColumnDataSource
@@ -52,19 +54,7 @@ From January 2003 to December 2012, there were 35817 incidents of robbery in San
 If we divide the time of the incidents into hourly timeslots, it becomes apparent that the number of robberies reaches its highest point between 2 and 3 pm and remains consistently high until 5 pm. After 5 pm, there is a sharp decline during the evening, but a secondary peak occurs between 1 and 2 am.Between 2 am and 2 pm, the number of incidents increases steadily. 
 
 ```{python}
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
-
-
-df_before_2018 = pd.read_csv('data/Police_Department_Incident_Reports__Historical_2003_to_May_2018.csv')
-df_before_2018['Date'] = pd.to_datetime(df_before_2018['Date'])
-df_before_2018['Year'] = df_before_2018['Date'].dt.year
-df_before_2018['Month'] = df_before_2018['Date'].dt.month
-df_before_2018['Hour'] = pd.DatetimeIndex(df_before_2018['Time']).hour
-df_before_2018 = df_before_2018.loc[df_before_2018['Year'] != 2018]
-
+df_before_2018 = pl.read_csv('data/before_2018.csv').to_pandas()
 
 focuscrimes = ['ROBBERY']
 
@@ -139,14 +129,7 @@ In the visualization of the robbery incidents data on the day when the Pride Par
 
 <!-- put the map here -->
 ```{python}
-# df_before_2018 = pd.read_csv('../Police_Department_Incident_Reports__Historical_2003_to_May_2018.csv')
-# df_before_2018['Date'] = pd.to_datetime(df_before_2018['Date'])
-# df_before_2018['Year'] = df_before_2018['Date'].dt.year
-# df_before_2018['Month'] = df_before_2018['Date'].dt.month
-# df_before_2018['Hour'] = pd.DatetimeIndex(df_before_2018['Time']).hour
-# df_before_2018 = df_before_2018.loc[df_before_2018['Year'] != 2018]
 
-# << uses pre-transformed instead of above
 df_before_2018 = pl.read_csv('data/before_2018.csv').to_pandas()
 
 df_robbery = df_before_2018.loc[df_before_2018['Category']=="ROBBERY"]
@@ -201,23 +184,21 @@ data = (
     .sort(pl.col('Hour'))
 )
 data = data.pivot(index = 'Hour', columns = ['PdDistrict'], values = ['normalized'])
-# data.schema
 
-focuscrimes = set(['BAYVIEW', 'INGLESIDE', 'TARAVAL', 'CENTRAL'])
+districts = set(['RICHMOND', 'TARAVAL', 'MISSION', 'INGLESIDE', 'SOUTHERN', 'NORTHERN', 'TENDERLOIN', 'CENTRAL', 'BAYVIEW', 'PARK'])
 
 source = ColumnDataSource(data.to_pandas())
 hours = data['Hour'].unique().to_list()
 hours = sorted(hours)
-p = figure(title="Crimes per hour", x_axis_label='Hour of the day', y_axis_label='Percentage Frequency', 
+p = figure(title="Police District", x_axis_label='Hour of the day', y_axis_label='Percentage Frequency', 
            x_range = FactorRange(factors=[str(hour) for hour in hours]))
 bar = {}
-for indx, i in enumerate(focuscrimes):
+for indx, i in enumerate(districts):
     bar[i] = p.vbar(x="Hour", top=i, width=0.3, 
                     source=source, legend_label=i, muted_alpha=0.2, muted=False, color=Category20[14][indx])
 p.legend.title = "Category"
 p.legend.location = "top_left"
-
-p.legend.click_policy = "hide"
+p.legend.click_policy = "mute"
 p.legend.label_text_color = "black"
 p.legend.title_text_color = "black"
 show(p)

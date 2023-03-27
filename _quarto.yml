@@ -5,13 +5,13 @@ project:
     - story.qmd
 
 website:
-  title: "Project Draft"
+  title: "SocViz 2023"
   sidebar:
     search: true
   navbar:
     left:
       - href: story.qmd
-        text: Homepage
+        text: "Warmup Story"
     right:
       - icon: github
         href: https://github.com/Starostka/socviz
