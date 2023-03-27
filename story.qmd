@@ -1,6 +1,6 @@
 ---
-title: Storyline
-subtitle: Second assignment socviz
+title: SF Crime Data Analysis and Visualization
+subtitle: 02806 Assignment 2 
 ---
 
 # Introduction
@@ -29,7 +29,8 @@ From January 2003 to December 2012, there were 35817 incidents of robbery in San
 
 If we divide the time of the incidents into hourly timeslots, it becomes apparent that the number of robberies reaches its highest point between 2 and 3 pm and remains consistently high until 5 pm. After 5 pm, there is a sharp decline during the evening, but a secondary peak occurs between 1 and 2 am.Between 2 am and 2 pm, the number of incidents increases steadily. 
 
-```{python}
+```{python, width=2, height=1, dpi=100}
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -69,17 +70,17 @@ hourly_pattern = df_before_2018.groupby(by=["time_period", "Category"]).size().r
 hourly_pattern = hourly_pattern.loc[hourly_pattern['Category'].isin(focuscrimes)].reset_index(drop=True)
 
 
-plt.figure(figsize=(20,10))
-plt.suptitle("Robbery Incidents in Time series" ,fontsize=25, y=1.0, fontweight='bold', color='black')
+plt.figure(figsize=(7.5,5))
+plt.suptitle("Robbery Incidents in Time-series" ,fontsize=14, y=1.0, fontweight='bold', color='black')
 
 # Yealy trend
 temp1 = yearly_pattern.loc[yearly_pattern['Category'] == 'ROBBERY'].reset_index(drop=True)
 x = temp1["Year"]
 y = temp1["Count"]
 plt.subplot(2,2,1)
-plt.title('ROBBERY', pad=-14, fontsize = 20, fontweight='bold', fontstyle="italic")
+plt.title('Robbery Incidents Yealy Pattern', pad=-14, fontsize = 9, fontweight='bold', fontstyle="italic")
 plt.bar(x, y, width=0.6, edgecolor="black", color='lavender')
-plt.xticks(x, yearly_pattern['Year'].unique().tolist(), rotation=45)
+plt.xticks(x, yearly_pattern['Year'].unique().tolist(), rotation=45, fontsize = 7)
 plt.tight_layout()
 plt.ylim(top=(np.max(y)+(np.max(y)*0.3)))
 
@@ -88,9 +89,9 @@ temp2 = hourly_pattern.loc[hourly_pattern['Category'] == 'ROBBERY'].reset_index(
 x = temp2["time_period"]
 y = temp2["Count"]
 plt.subplot(2,2,2)
-plt.title('ROBBERY', pad=-14, fontsize = 20, fontweight='bold', fontstyle="italic")
+plt.title('Robbery Incidents Hourly Pattern', pad=-14, fontsize = 9, fontweight='bold', fontstyle="italic")
 plt.bar(x, y, width=0.6, edgecolor="black", color='lavender')
-plt.xticks(x, hourly_slots.values(), rotation=45)
+plt.xticks(x, hourly_slots.values(), rotation=45, fontsize = 6)
 plt.tight_layout()
 plt.ylim(top=(np.max(y)+(np.max(y)*0.3)))
 
@@ -99,6 +100,8 @@ img = mpimg.imread('Calplot_2012.png')
 plt.subplot(2,1,2)
 plt.imshow(img)
 plt.axis('off')
+
+plt.tight_layout()
 ```
 
 From 2003 to 2017, we can see the incidents fluctuated accross years. Specifically, in 2010 and 2011, it has a significant decreased from 2008 and 2009. The [Rand Corporation](https://www.rand.org/) studied this phenomenon on a national level in 2010, concluding that the crime prevention benefit of hiring more officers is well worth the cost. [Reference](https://countyda.sccgov.org/sites/g/files/exjcpb1121/files/10-Year%20Combined%20CA%20Crime%20Stat%20Report.pdf)
@@ -118,7 +121,7 @@ In the visualization of the robbery incidents data on the day when the Pride Par
 import folium
 import pandas as pd
 from folium.plugins import HeatMap
-df_before_2018 = pd.read_csv('data/Police_Department_Incident_Reports__Historical_2003_to_May_2018.csv')
+df_before_2018 = pd.read_csv('../Police_Department_Incident_Reports__Historical_2003_to_May_2018.csv')
 df_before_2018['Date'] = pd.to_datetime(df_before_2018['Date'])
 df_before_2018['Year'] = df_before_2018['Date'].dt.year
 df_before_2018['Month'] = df_before_2018['Date'].dt.month
