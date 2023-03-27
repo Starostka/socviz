@@ -9,13 +9,19 @@ subtitle: Second assignment socviz
 - TODO abstract for the story
 - TODO basic summary statistics/info for the dataset -->
 
-San Francisco is a well-know metropolis with a diverse population and vibrant city life. The wide range of socioeconomic challenges in San Francisco also contributes to the high crime rate. In this story, we will explore the San Francisco Police Department's (SFPD) [Incient Report Dataset](https://data.sfgov.org/browse?category=Public+Safety) with the time frame from January 2003 to January 2022.
+San Francisco is a well-know metropolis, as the commercial, financial and cultural center of North California in the USA, it has attracted a massive amount of people migrated and lived in the city. With 815,201 residents [up to 2021](https://fred.stlouisfed.org/series/CASANF0POP), the diverse population has made impactful contribution to the economic of San Francisco. However, the wide range of socioeconomic challenges in San Francisco also contributes to the high crime rate. 
 
-This dataset is a collection of data on criminal incidents reported in SF, which provides the information of incident date, incident time, incident category, police district, latitude, logitude, etc. The dataset contains 35 columns and 547905 <span style="color:red">TB varify</span> rows within the timeline. According to the data, there were 37 categories of crimes recorded across San Francisco city. 
+## Dataset
+In this story, we will explore the San Francisco Police Department's (SFPD) [Incient Report Dataset](https://data.sfgov.org/browse?category=Public+Safety) with the time frame from January 2003 to May 2018.
+
+This dataset is a collection of data on criminal incidents reported in SF, which provides the information of `incident date`, `incident time`, `incident category`, `police district`, `latitude`, `logitude`, etc. The dataset contains 35 columns and more than 2 million records of crimes within the timeframe. According to the data, there were 37 categories of crimes recorded across San Francisco city. 
+
+## Abstract
+The aim of this report is utilizing the techniques of data visualization for the analytics of crime occured in San Francisco. The primary idea of this data analysis study is to obtain the insights from the observation, in order to evaluate the criminal situation for the past decades in San Francisco, as well as help prevent potential crimes in the future. The data analysis will be based on **Time-Series**, **Geographic** and **Interative Visualization** respectively.
 
 According to [SFNext Index](https://www.sfchronicle.com/projects/2022/fixing-san-francisco-problems/crime), with the exception of robberies, violent crime in San Francisco is below average for large cities. In 2019 and 2020, San Francisco ranked in the bottom half among major U.S. cities, with rates of 670 and 540 violent crime incidents per 100,000 residents, respectively. Hence, we are interested in how Robbery had increased the violent crime level in San Francisco. 
 
-# Robberies in San Francisco
+# Data Anlysis: Robberies in San Francisco
 From January 2003 to December 2012, there were 35817 incidents of robbery in San Francisco reported to the police, while there were 32786 incidents of robbery reported from 2013 to 2022 [(Data source)](https://data.sfgov.org/Public-Safety/Police-Department-Incident-Reports-2018-to-Present/wg3w-h783). As an overview, the robbery rate has decreased by 8.5% since the decade of 2003 to the last decade, however the number is not significantly decrease, which reflects the robbery is still a key factor that affect the level of crimes in San Francisco.
 
 ## Timeseries: How the occurrence of Robbery changed over the time?
@@ -34,6 +40,33 @@ However, there was a resurgence in incidents in 2012, with a noticeable gap from
 Let's examine the robbery locations on June 24, 2012, during the Pride Parade in San Francisco which typically occurs on Market Street[(Reference: Wikipedia)](https://en.wikipedia.org/wiki/San_Francisco_Pride#:~:text=The%20San%20Francisco%20Pride%20parade,until%20almost%204%3A00%20pm.).
 
 <!-- put the map here -->
+```{python}
+import folium
+from folium.plugins import HeatMap
+df_before_2018 = pd.read_csv('../Police_Department_Incident_Reports__Historical_2003_to_May_2018.csv')
+df_before_2018['Date'] = pd.to_datetime(df_before_2018['Date'])
+df_before_2018['Year'] = df_before_2018['Date'].dt.year
+df_before_2018['Month'] = df_before_2018['Date'].dt.month
+df_before_2018['Hour'] = pd.DatetimeIndex(df_before_2018['Time']).hour
+df_before_2018 = df_before_2018.loc[df_before_2018['Year'] != 2018]
+
+df_robbery = df_before_2018.loc[df_before_2018['Category']=="ROBBERY"]
+df_robbery = df_robbery[df_robbery["Year"] == 2012]
+df_robbery_pride = df_robbery[df_robbery['Date'] == '2012-6-24']
+get_XY = list(zip(list(df_robbery_pride["Y"]), list(df_robbery_pride["X"])))
+
+SF_map = folium.Map([37.77919, -122.41914], zoom_start=13, tiles = "openstreetmap")
+folium.Marker([37.77351584799628, -122.42148577465927], popup="Market Street").add_to(SF_map)
+folium.Marker([37.78907067508782, -122.3929690574588], popup="Beala Street").add_to(SF_map)
+folium.Marker([37.77295458293956, -122.40701151351163], popup='8th Street').add_to(SF_map)
+
+for x,y in get_XY:
+    folium.CircleMarker([x, y],
+                    radius=2,
+                    color='red',
+                    ).add_to(SF_map)
+SF_map
+```
 
 The incidence of robbery is relatively high in the vicinity of Market Street, indicating that criminals are more prone to commit robbery in crowded areas, thus increasing their chances of escape. Additionally, the buildings and blocks in the Market Street area are more densely packed, offering additional cover and refuge for criminals. 
 
@@ -56,3 +89,5 @@ TODO: investigate some specific event happening in san francisco during the date
 
 Allow the user to interactive plot different events. And maybe how drunkiness (or some other criminal activity) was related.
 
+
+# Conclusion
