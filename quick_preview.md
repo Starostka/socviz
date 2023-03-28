@@ -229,7 +229,11 @@ tab2 = TabPanel(child=column(par2, p1), title="WARRANTS")
 show(Tabs(tabs=[tab1, tab2]))
 ```
 
-From the visualization, we can first get the insight that each police district has the similar pattern of activities: 
+Through the interactive visualization, users are able to select the district they are interested in to observe the data. From the visualization, we can first get the information that each police district has the similar pattern of activities: almost all districts has the relatively high frequency of criminals during 7 am to 23 pm, with the peak at 11 am. It can be reflected that there are more active police resources working during day shift. 
+
+However the normalized occurrence of crimes has decreased by half during 0 am to 7 am, and the bottom occurs at the timeslot of 4 am to 5 am. In general, Park District, Taravel District and Southern District were likely to have the best performance due to the relatively larger amount of crime records. Police in Tenderloin District has better performance than Central District at the timeslots of 4-7 am and 12-16 pm, however, however it was less performed than Central District from 17 pm to 3 am.
+
+However, by inspecting in the data of the total occurrence of all categories of crimes, we were not able to catch an apparent correlation between the pattern of crimes and the activity of police districts.
 
 # Conclusion
 As the analysis presented, we had investigated into the robbery incidents in San Francisco and put the focus on discussing the situation from 2008 to 2012 based on time series. Particularly, by looking into the calendar plots across 2003 to 2017, it briefly showed that the incidents of robbery usually peaks at summer time. By visualizing the incidents of robbery on the map, we could conclude that the busiest city center tend to be the place that crimes are more likely happen. However, the activities of police related to the districts does not show a positive correlation with the numbers of incidents. 

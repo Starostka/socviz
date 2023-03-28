@@ -224,6 +224,12 @@ p.legend.title_text_color = "black"
 show(p)
 ```
 
+Through the interactive visualization, users are able to select the district they are interested in to observe the data. From the visualization, we can first get the information that each police district has the similar pattern of activities: almost all districts has the relatively high frequency of criminals during 7 am to 23 pm, with the peak at 11 am. It can be reflected that there are more active police resources working during day shift. 
+
+However the normalized occurrence of crimes has decreased by half during 0 am to 7 am, and the bottom occurs at the timeslot of 4 am to 5 am. In general, Park District, Taravel District and Southern District were likely to have the best performance due to the relatively larger amount of crime records. Police in Tenderloin District has better performance than Central District at the timeslots of 4-7 am and 12-16 pm, however, however it was less performed than Central District from 17 pm to 3 am.
+
+However, by inspecting in the data of the total occurrence of all categories of crimes, we were not able to catch an apparent correlation between the pattern of crimes and the activity of police districts.
+
 # Conclusion
 In summary, we conducted an analysis of robbery incidents in San Francisco from 2008 to 2012 using time series analysis.
 
