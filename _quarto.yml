@@ -2,7 +2,8 @@ project:
   type: website
   output-dir: docs
   render:
-    - story.qmd
+    - final_project.qmd
+    # - warmup_story.qmd
 
 website:
   title: "SocViz 2023"
@@ -11,8 +12,10 @@ website:
     type: overlay
   navbar:
     left:
-      - href: story.qmd
-        text: "Warmup Story"
+      - href: final_project.qmd
+        text: "Final Project"
+      # - href: warmup_story.qmd
+      #   text: "Warmup Story"
     right:
       - icon: github
         href: https://github.com/Starostka/socviz

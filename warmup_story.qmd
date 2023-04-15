@@ -1,6 +1,8 @@
 ---
 title: SF Crime Data Analysis and Visualization
-subtitle: 02806 Assignment 2 
+subtitle: 02806 Assignment 2
+execute:
+    freeze: true
 ---
 
 ```{python}
