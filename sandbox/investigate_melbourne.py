@@ -38,6 +38,9 @@ floor_space.columns
 floor_space.shape
 floor_space.describe()
 
+plt.hist(x=floor_space['Category'])
+plt.show()
+
 # 328 KB, 1430 rows, 42 cols, geodata: yes
 activity_monitor = pl.read_csv('data/activity_monitor.csv', ignore_errors=True, try_parse_dates=True)
 activity_monitor.columns
@@ -45,8 +48,19 @@ activity_monitor.schema
 activity_monitor.shape
 activity_monitor.describe()
 
+activity_monitor['street_address'].unique()
+
+plt.hist(activity)
+
+plt.hist(x=activity_monitor['student_apartments'])
+plt.show()
+
+
 # development activity completed, year, count, streets
 q = ( activity_monitor.filter(pl.col('year_completed') != None) )
 locations = q.groupby('year_completed').agg(pl.count(), pl.col('street_address'))
 plt.bar(x = locations['year_completed'], height = locations['count'])
+plt.title('Completed activities, temporal')
+plt.ylabel('Count')
+plt.xlabel('Years')
 plt.show()
