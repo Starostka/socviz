@@ -1,1 +1,2 @@
-# social-data-analysis-and-visualization
+# Social Data and Visualization
+

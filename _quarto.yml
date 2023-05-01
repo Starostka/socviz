@@ -28,7 +28,7 @@ format:
     html-math-method: katex
     # mainfont: "Inter V" # NotoSerif, Inter
     # monofont: "Cascadia Mono"
-    theme: # journal, flatly, darkly, sandstone
+    theme: #journal flatly, darkly, sandstone
       light: flatly
       dark: darkly
     code-fold: true
@@ -46,7 +46,7 @@ format:
         theme: clean
       giscus: 
         repo: starostka/socviz
-    # css: styles.css
+    css: resources/css/custom.css
   ipynb: default
 
 
