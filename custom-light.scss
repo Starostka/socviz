@@ -1,0 +1,31 @@
+/*-- scss:defaults --*/
+
+$neat-light: #fff;
+$neat-dark: #404040;
+
+// $font-family-sans-serif: sans-serif !default;
+// $font-family-monospace: "" !default;
+// $navbar-bg: "" !default;
+// $navbar-fg: "" !default;
+// $navbar-hl: "" !default;
+// $footer-bg: "" !default;
+// $footer-fg: "" !default;
+$code-block-border-left: $neat-light !default;
+$code-block-bg: "" !default;
+
+// $h2-font-size: 1.6rem !default;
+$headings-font-weight: bold !default;
+$body-color: $neat-dark !default;
+
+/*-- scss:functions --*/
+@function colorToRGB ($color) {
+    @return "rgb("+red($color)+", "+green($color)+", "+blue($color)+")";
+}
+
+/*-- scss:rules --*/
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6

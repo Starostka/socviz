@@ -2,24 +2,43 @@ project:
   type: website
   output-dir: docs
   render:
+    - index.qmd
     - final_project.qmd
     # - warmup_story.qmd
+    - about.qmd
+    - contact.qmd
 
 website:
-  title: "SocViz 2023"
+  reader-mode: true
+  title: "SocViz"
+  site-url: starostka.github.com/socviz
   search: 
     location: navbar
     type: overlay
   navbar:
     left:
+      - href: index.qmd
+        text: "Home"
       - href: final_project.qmd
-        text: "Final Project"
+        text: "Melbourne"
       # - href: warmup_story.qmd
-      #   text: "Warmup Story"
-    right:
+      #   text: "San Francisco"
+      - href: about.qmd
+        text: "about"
+      - href: contact.qmd
+        text: "contact"
+    tools:
       - icon: github
-        href: https://github.com/Starostka/socviz
-        aria-label: GitHub
+        menu:
+          - text: Source Code
+            url: https://github.com/Starostka/socviz
+          - text: Report a bug
+            url: https://github.com/Starostka/socviz/issues
+            # aria-label: GitHub
+  repo-url: https://github.com/Starostka/socviz
+  repo-actions: [edit, issue]
+  page-footer:
+    left: "Copyright 2023, Benjamin Starostka & Xinyi Liu"
 
 format:
   html:
@@ -28,29 +47,28 @@ format:
     html-math-method: katex
     # mainfont: "Inter V" # NotoSerif, Inter
     # monofont: "Cascadia Mono"
-    theme: #journal flatly, darkly, sandstone
-      light: flatly
-      dark: darkly
+    theme:
+      light: [cosmo, custom-light.scss]
+      dark: [cosmo, custom-dark.scss]
     code-fold: true
     code-summary: "Show the code"
     code-line-numbers: false
     code-copy: true
     code-overflow: wrap
     code-block-bg: true
-    code-block-border-left: "#31BAE9"
+    # code-block-border-left: "#31BAE9"
     highlight-style: github
     number-sections: true
-    smooth-scroll: true
+    # smooth-scroll: true
     comments:
       hypothesis: 
         theme: clean
       giscus: 
         repo: starostka/socviz
-    css: resources/css/custom.css
   ipynb: default
 
 
-title-block-banner: true
+title-block-banner: false
 subtitle: "A work in progress"
 date: today
 author:
