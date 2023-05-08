@@ -13,16 +13,49 @@ import matplotx
 plt.style.use(matplotx.styles.dracula)
 ```
 
+# About Melbourne
+> WIP
+
+- TODO: Give a nice concise introduction to the city of Melbourne
+- TODO: Briefly state what's the intention of our investigation
+- TODO: Include a nice picture of Melbourne
+
+# Investigation & analysis
+
+## Population
+> WIP
+
+## Residentials
+> WIP
+
+## Jobs and employments
+> WIP
+
+- TODO: Forecasted employment rates/job growth based on geographical location
+- TODO: Comparison of job categories
+- TODO: Simple correlation analysis between forecast types
+- TODO: Employment disparities across regions
+
+## Historic validation
+> WIP
+
+- TODO: Validate forecast analysis by comparing with historical data.
+- TODO: Validation by historic data is important to assess the accuracy and reliability of the forecasts. Else our claims are hard to trust.
+
+# Conclusion and takeaways
+> WIP
+
+# Additional resources
+> WIP
+
+# Contact and feedback
+> WIP
+
+<!--
 > 1. Motivation.
 > What is your dataset?
 > Why did you choose this/these particular dataset(s)?
 > What was your goal for the end user's experience?
-
-```{python}
-data = pl.read_csv("data/super-sunday-bike-count.csv")
-data.schema
-data.describe()
-```
 
 > 2. Basic stats. Let's understand the dataset better
 > Write about your choices in data cleaning and preprocessing
@@ -49,3 +82,4 @@ data.describe()
 > It is not OK simply to write "All group members contributed equally".
 
 > 8. Make sure that you use references when they're needed and follow academic standards.
+-->

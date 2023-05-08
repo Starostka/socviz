@@ -41,7 +41,7 @@ def geo_forecast(data: DataFrame, forecast_type: str):
 list(unique_forecasts(jobs_industry))
 
 # Geographical forecasts for various types
-geo_forecast(jobs_industry, 'Total jobs')
+geo_forecast(jobs_industry, 'Total jobs').explode(['Year', 'Value']).filter(pl.col('Geography') == 'City of Melbourne')
 geo_forecast(jobs_industry, 'Accommodation')
 geo_forecast(jobs_industry, 'Education and training')
 
@@ -53,3 +53,35 @@ list(unique_forecasts(jobs_space))
 geo_forecast(jobs_space, 'Total jobs')
 geo_forecast(jobs_space, 'Accommodation - Commercial')
 geo_forecast(jobs_space, 'Education')
+
+# == visualizations
+
+@dataclass
+class VizData:
+    title: str
+    ylabel: str
+    xlabel: str
+    df: DataFrame
+
+def plot(data:VizData, show=False, save_fig=False):
+    # plt.figure(figsize=(100,10), dpi=600)
+    plt.bar(data.df['Year'], data.df['Value'])
+
+    plt.title(data.title)
+    plt.ylabel(data.ylabel)
+    plt.xlabel(data.xlabel)
+    plt.xticks(data.df['Year'])
+    
+    if save_fig:
+        plt.savefig('output/nn_classification_accuracy.svg')
+    
+    if show:
+        plt.show()
+
+data = geo_forecast(jobs_industry, 'Total jobs').explode(['Year', 'Value']).filter(pl.col('Geography') == 'City of Melbourne')
+data = VizData(title="Total jobs forecast, City of Melbourne", ylabel="Total jobs", xlabel="Year", df=data)
+plot(data, True)
+
+data = geo_forecast(jobs_space, 'Total jobs').explode(['Year', 'Value']).filter(pl.col('Geography') == 'City of Melbourne')
+data = VizData(title="Total jobs forecast, City of Melbourne", ylabel="Total jobs", xlabel="Year", df=data)
+plot(data, True)
