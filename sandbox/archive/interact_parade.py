@@ -31,6 +31,7 @@ from folium.plugins import HeatMap
 # df_robbery_pride = df_robbery[df_robbery['Date'] == '2012-6-24']
 # get_XY = list(zip(list(df_robbery_pride["Y"]), list(df_robbery_pride["X"])))
 # dir(df_before_2018)
+# df_before_2018.to_csv('data/before_2018.csv')
 
 dataset = pl.read_csv('data/before_2018.csv')
 

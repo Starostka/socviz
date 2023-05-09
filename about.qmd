@@ -1,9 +1,33 @@
 ---
-title: About 
+title: "About this site"
+#   image: profile.jpg
+# about:
+#   template: solana
+format:
+  html:
+    toc: false
+    number-sections: false
+title-block-banner: false
+subtitle: ""
+date: ""
+author: ""
 ---
 
-Work presented on this side is done as part of the Social Data & Visualization course thaught at the Technical University of Denmark (DTU).
+Welcome to the site of SocViz, a project created as part of the Social Data & Visualization course taught at the Technical University of Denmark (DTU).
 
-Here we present our findings in the investigation of crime activities in various police districts in San Francisco.
+The site currently features two investigations:
+- An investigation into crime activities across various police districts in San Francisco.
+- An investigation into forecast data for Melbourne, Australia.
 
-Next we present our findings in our investigation into forecast data for Melbourne.
+Our aim is to present our findings in a concise and engaging manner through appealing visuals and interactive plots.
+
+The site's design is built on a custom implementation that takes inspiration from [Edward Tufte's principles](https://www.edwardtufte.com/tufte/) and incorporates elements from the [Neat CSS framework](https://neat.joeldare.com).
+
+We are delighted to have you here and hope that you not only enjoy your time on the site but also learn something new as you delve deeper into our content.
+
+# Static site generation and code execution
+This site is generated using [Quarto](https://quarto.org) due to its appealing features for scientific and technical publications.
+
+Quarto provides an extension to the Markdown formatting language through its `.qmd` file format, also known as Quarto documents. The Quarto engine can execute code blocks within these documents using the Python interpreter, preferably in a self-contained virtual environment.
+
+These documents are processed by Haskell [Pandoc](https://github.com/jgm/pandoc) to read and export them into various file formats, such as HTML. The resulting HTML is then presented as a static site, which we have published on [GitHub Pages](https://pages.github.com).

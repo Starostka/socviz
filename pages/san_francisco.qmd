@@ -1,8 +1,9 @@
 ---
-title: SF Crime Data Analysis and Visualization
-subtitle: 02806 Assignment 2
+title: "Analysis and Visualization"
+subtitle: "Warmup project | crime activities"
 execute:
     freeze: true
+title-block-banner: ../assets/maarten-van-den-heuvel-sanfrancisco-unsplash.jpg
 ---
 
 ```{python}
@@ -65,7 +66,7 @@ As an overview, the robbery rate has decreased by 8.5% since the decade of 2003 
 If we divide the time of the incidents into hourly timeslots, it becomes apparent that the number of robberies reaches its highest point between 2 and 3 pm and remains consistently high until 5 pm. After 5 pm, there is a sharp decline during the evening, but a secondary peak occurs between 1 and 2 am.Between 2 am and 2 pm, the number of incidents increases steadily. 
 
 ```{python}
-df_before_2018 = pl.read_csv('data/before_2018.csv').to_pandas()
+df_before_2018 = pl.read_csv('../data/before_2018.csv').to_pandas()
 
 focuscrimes = ['ROBBERY']
 
@@ -118,7 +119,7 @@ plt.tight_layout()
 plt.ylim(top=(np.max(y)+(np.max(y)*0.3)))
 
 # Calplot
-img = mpimg.imread('assets/Calplot_2012.png')
+img = mpimg.imread('../assets/Calplot_2012.png')
 plt.subplot(2,1,2)
 plt.imshow(img)
 plt.axis('off')
@@ -143,7 +144,7 @@ In the visualization of the robbery incidents data on the day when the Pride Par
 <!-- put the map here -->
 ```{python}
 
-df_before_2018 = pl.read_csv('data/before_2018.csv').to_pandas()
+df_before_2018 = pl.read_csv('../data/before_2018.csv').to_pandas()
 
 df_robbery = df_before_2018.loc[df_before_2018['Category']=="ROBBERY"]
 df_robbery = df_robbery[df_robbery["Year"] == 2012]
@@ -193,7 +194,7 @@ As the activities of police can be a key factor that effect on the crime rates, 
 We normalized the occurrences of crime incidents and then created an interactive visualization to enable easy inspection of the normalized number of incidents in each police district.
 
 ```{python}
-dataset = pl.read_csv('data/before_2018.csv')
+dataset = pl.read_csv('../data/before_2018.csv')
 
 data = (
   dataset

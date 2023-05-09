@@ -3,31 +3,31 @@ project:
   output-dir: docs
   render:
     - index.qmd
-    - final_project.qmd
-    # - warmup_story.qmd
+    - pages/melbourne_details.qmd
+    - pages/melbourne.qmd
+    - pages/san_francisco.qmd
     - about.qmd
     - contact.qmd
 
 website:
-  reader-mode: true
+  reader-mode: false
   title: "SocViz"
-  site-url: starostka.github.com/socviz
+  site-url: "https://starostka.github.io/socviz"
   search: 
     location: navbar
     type: overlay
+  page-navigation: true
   navbar:
     left:
       - href: index.qmd
         text: "Home"
-      - href: final_project.qmd
-        text: "Melbourne"
-      # - href: warmup_story.qmd
-      #   text: "San Francisco"
       - href: about.qmd
-        text: "about"
+        text: "About"
       - href: contact.qmd
-        text: "contact"
+        text: "Contact"
     tools:
+      - icon: twitter
+        href: https://twitter.com/StarostkaB
       - icon: github
         menu:
           - text: Source Code
@@ -35,6 +35,16 @@ website:
           - text: Report a bug
             url: https://github.com/Starostka/socviz/issues
             # aria-label: GitHub
+  sidebar:
+    style: "floating"
+    contents:
+      - section: "Future of Melbourne"
+        contents:
+          - pages/melbourne.qmd
+          - pages/melbourne_details.qmd
+      - section: "Crime in San Francisco"
+        contents:
+          - pages/san_francisco.qmd
   repo-url: https://github.com/Starostka/socviz
   repo-actions: [edit, issue]
   page-footer:
@@ -48,8 +58,8 @@ format:
     # mainfont: "Inter V" # NotoSerif, Inter
     # monofont: "Cascadia Mono"
     theme:
-      light: [cosmo, custom-light.scss]
-      dark: [cosmo, custom-dark.scss]
+      light: [lux, custom-light.scss]
+      dark: [lux, custom-dark.scss]
     code-fold: true
     code-summary: "Show the code"
     code-line-numbers: false
@@ -82,11 +92,11 @@ execute:
   # cache: true
 
 # metadata
-keywords: []
+keywords: [dataviz, visualization, analysis, python, forecast, crime]
 license: CC
 pagetitle: ""
 subject: ""
-title-meta: "Draft document"
+title-meta: "SocViz Project @ DTU"
 author-meta: "Benjamin Starostka Jakobsen"
 date-meta: ""
 description-meta: ""

@@ -1,0 +1,29 @@
+---
+title: "Data details"
+subtitle: "Data sources and summary statistics"
+execute:
+    freeze: true
+title-block-banner: ../assets/dmitry-osipenko-melbourne-unsplash.jpg
+format:
+  html:
+    toc: false
+    number-sections: false
+date: ""
+author: ""
+---
+
+# Details about the Melbourne forecast data
+> The data used is available at [City of Melbourne open data portal](https://data.melbourne.vic.gov.au/explore/?sort=modified&q=forecast)
+
+Here's a brief summary for each of the datasets used for this project.
+
+1. [City of Melbourne Jobs Forecasts by Small Area 2021-2041](https://data.melbourne.vic.gov.au/explore/dataset/city-of-melbourne-jobs-forecasts-by-small-area-2020-2040/information/)
+    * 585 KB, 9114 rows, 5 cols, geodata: area name, age and gender
+3. [City of Melbourne Population Forecasts by Small Area 2021-2041](https://data.melbourne.vic.gov.au/explore/dataset/city-of-melbourne-population-forecasts-by-small-area-2020-2040/information/)
+    * 710 KB, 17052 rows, 5 cols, geodata: area name
+5. [City of Melbourne Dwellings and Household Forecasts by Small Area 2021-2041](https://data.melbourne.vic.gov.au/explore/dataset/city-of-melbourne-dwellings-and-household-forecasts-by-small-area-2020-2040/information/)
+    * 161 KB, 2646 rows, 5 cols, geodata: area name
+7. [City of Melbourne Floor Space Forecasts by Small Area 2021-2041](https://data.melbourne.vic.gov.au/explore/dataset/city-of-melbourne-floor-space-forecasts-by-small-area-2020-2040/information/)
+    * 834 KB, 9996 rows, 5 cols, geodata: area name
+9. [Development Activity Monitor](https://data.melbourne.vic.gov.au/explore/dataset/development-activity-monitor/information/)
+    * 328 KB, 1430 rows, 42 cols, geodata: yes

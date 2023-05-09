@@ -1,3 +1,20 @@
 ---
-title: "Home"
+title: "Social Data and Visualization"
+subtitle: "A journey into crime and forecasting data."
+format:
+  html:
+    toc: false
+    number-sections: false
+# title-block-banner: true
+title-block-banner: assets/jean-philippe-delberghe-abstract-unsplash.jpg
+date: ""
+author: ""
 ---
+
+# Hi and welcome
+
+![Image of Melbourne by Dmitry Osipenko from Unsplash](assets/dmitry-osipenko-melbourne-unsplash.jpg)
+
+Blah blah
+
+Gonna write an introduction here.

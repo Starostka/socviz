@@ -1,8 +1,9 @@
 ---
-title: Melbourne Analysis and Visualization
-subtitle: 02806 Assignment 2
+title: "Analysis and Visualization"
+subtitle: "Final project | forecasting"
 execute:
     freeze: true
+title-block-banner: ../assets/dmitry-osipenko-melbourne-unsplash.jpg
 ---
 
 ```{python}

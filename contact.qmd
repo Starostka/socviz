@@ -1,5 +1,15 @@
 ---
-title: Contact 
+title: "Get in touch"
+format:
+  html:
+    toc: false
+    number-sections: false
+title-block-banner: false
+subtitle: ""
+date: ""
+author: ""
 ---
 
-Feel free to reach out.
+We are open to engagement if you are interested in the endeavor of visual storytelling and value the impact that data can have in understanding our world. You are also welcome to create issues on [GitHub](https://github.com/Starostka/socviz) if you have suggestions for improving the site or if you find any bugs.
+
+To get in touch, you can reach out to us through GitHub either in the Discussions section or by using the contact details found on our public profiles, which you can locate under the Contributors section.
