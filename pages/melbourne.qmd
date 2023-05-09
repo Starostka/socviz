@@ -2,7 +2,7 @@
 title: "Analysis and Visualization"
 subtitle: "Final project | forecasting"
 execute:
-    freeze: true
+    freeze: auto
 title-block-banner: ../assets/dmitry-osipenko-melbourne-unsplash.jpg
 ---
 
@@ -13,7 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotx
 
-plt.style.use(matplotx.styles.dracula)
+plt.style.use(matplotx.styles.dufte)
 ```
 
 # About Melbourne

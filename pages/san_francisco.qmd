@@ -2,7 +2,7 @@
 title: "Analysis and Visualization"
 subtitle: "Warmup project | crime activities"
 execute:
-    freeze: true
+    freeze: auto
 title-block-banner: ../assets/maarten-van-den-heuvel-sanfrancisco-unsplash.jpg
 ---
 
@@ -32,7 +32,9 @@ from bokeh.transform import dodge
 from folium.plugins import HeatMap
 from bokeh.palettes import Category20
 
-output_notebook()
+import matplotx
+
+plt.style.use(matplotx.styles.dufte)
 ```
 
 # Introduction
@@ -194,6 +196,7 @@ As the activities of police can be a key factor that effect on the crime rates, 
 We normalized the occurrences of crime incidents and then created an interactive visualization to enable easy inspection of the normalized number of incidents in each police district.
 
 ```{python}
+output_notebook()
 dataset = pl.read_csv('../data/before_2018.csv')
 
 data = (

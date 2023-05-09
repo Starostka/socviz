@@ -2,7 +2,7 @@
 title: "Data details"
 subtitle: "Data sources and summary statistics"
 execute:
-    freeze: true
+    freeze: auto
 title-block-banner: ../assets/dmitry-osipenko-melbourne-unsplash.jpg
 format:
   html:
