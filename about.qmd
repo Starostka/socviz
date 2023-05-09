@@ -1,0 +1,8 @@
+---
+title: About 
+---
+
+Work presented on this side is done as part of the Social Data & Visualization course thaught at the Technical University of Denmark (DTU).
+
+Here we present our findings in the investigation of crime activities in various police districts in San Francisco.
+

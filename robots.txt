@@ -1,1 +1,1 @@
-Sitemap: https://Starostka.github.io/socviz/sitemap.xml
+Sitemap: starostka.github.com/socviz/sitemap.xml
