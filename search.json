@@ -7,37 +7,44 @@
     "text": "Hi and welcome\n\n\n\nImage of Melbourne by Dmitry Osipenko from Unsplash\n\n\nBlah blah\nGonna write an introduction here.\n\n\n\n\nReuseCC"
   },
   {
+    "objectID": "pages/melbourne_details.html",
+    "href": "pages/melbourne_details.html",
+    "title": "Data details",
+    "section": "",
+    "text": "Details about the Melbourne forecast data\n\nThe data used is available at City of Melbourne open data portal\n\nHere’s a brief summary for each of the datasets used for this project.\n\nCity of Melbourne Jobs Forecasts by Small Area 2021-2041\n\n585 KB, 9114 rows, 5 cols, geodata: area name, age and gender\n\nCity of Melbourne Population Forecasts by Small Area 2021-2041\n\n710 KB, 17052 rows, 5 cols, geodata: area name\n\nCity of Melbourne Dwellings and Household Forecasts by Small Area 2021-2041\n\n161 KB, 2646 rows, 5 cols, geodata: area name\n\nCity of Melbourne Floor Space Forecasts by Small Area 2021-2041\n\n834 KB, 9996 rows, 5 cols, geodata: area name\n\nDevelopment Activity Monitor\n\n328 KB, 1430 rows, 42 cols, geodata: yes\n\n\n\n\n\n\nReuseCC"
+  },
+  {
     "objectID": "pages/melbourne.html",
     "href": "pages/melbourne.html",
-    "title": "Melbourne Forecast Analysis and Visualization",
+    "title": "Analysis and Visualization",
     "section": "",
     "text": "Show the code\nimport polars as pl\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport matplotx\n\nplt.style.use(matplotx.styles.dracula)"
   },
   {
     "objectID": "pages/melbourne.html#population",
     "href": "pages/melbourne.html#population",
-    "title": "Melbourne Forecast Analysis and Visualization",
+    "title": "Analysis and Visualization",
     "section": "2.1 Population",
     "text": "2.1 Population\n\nWIP"
   },
   {
     "objectID": "pages/melbourne.html#residentials",
     "href": "pages/melbourne.html#residentials",
-    "title": "Melbourne Forecast Analysis and Visualization",
+    "title": "Analysis and Visualization",
     "section": "2.2 Residentials",
     "text": "2.2 Residentials\n\nWIP"
   },
   {
     "objectID": "pages/melbourne.html#jobs-and-employments",
     "href": "pages/melbourne.html#jobs-and-employments",
-    "title": "Melbourne Forecast Analysis and Visualization",
+    "title": "Analysis and Visualization",
     "section": "2.3 Jobs and employments",
     "text": "2.3 Jobs and employments\n\nWIP\n\n\nTODO: Forecasted employment rates/job growth based on geographical location\nTODO: Comparison of job categories\nTODO: Simple correlation analysis between forecast types\nTODO: Employment disparities across regions"
   },
   {
     "objectID": "pages/melbourne.html#historic-validation",
     "href": "pages/melbourne.html#historic-validation",
-    "title": "Melbourne Forecast Analysis and Visualization",
+    "title": "Analysis and Visualization",
     "section": "2.4 Historic validation",
     "text": "2.4 Historic validation\n\nWIP\n\n\nTODO: Validate forecast analysis by comparing with historical data.\nTODO: Validation by historic data is important to assess the accuracy and reliability of the forecasts. Else our claims are hard to trust."
   },
