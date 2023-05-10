@@ -1,8 +1,8 @@
 ---
-title: "Analysis and Visualization"
-subtitle: "Warmup project | crime activities"
+title: "SF Crime Data Visualization"
+subtitle: "Warmup Project | SF Crime Activities | Narrative Data Visualization"
 execute:
-    freeze: auto
+    freeze: true
 title-block-banner: ../assets/maarten-van-den-heuvel-sanfrancisco-unsplash.jpg
 ---
 
@@ -69,6 +69,9 @@ If we divide the time of the incidents into hourly timeslots, it becomes apparen
 
 ```{python}
 df_before_2018 = pl.read_csv('../data/before_2018.csv').to_pandas()
+
+df_before_2018['Year'] = pd.DatetimeIndex(df_before_2018['Date']).year
+df_before_2018['Hour'] = pd.DatetimeIndex(df_before_2018['Time']).hour
 
 focuscrimes = ['ROBBERY']
 
@@ -148,6 +151,9 @@ In the visualization of the robbery incidents data on the day when the Pride Par
 
 df_before_2018 = pl.read_csv('../data/before_2018.csv').to_pandas()
 
+df_before_2018['Year'] = pd.DatetimeIndex(df_before_2018['Date']).year
+df_before_2018['Hour'] = pd.DatetimeIndex(df_before_2018['Time']).hour
+
 df_robbery = df_before_2018.loc[df_before_2018['Category']=="ROBBERY"]
 df_robbery = df_robbery[df_robbery["Year"] == 2012]
 df_robbery_pride = df_robbery[df_robbery['Date'] == '2012-6-24']
@@ -198,6 +204,9 @@ We normalized the occurrences of crime incidents and then created an interactive
 ```{python}
 output_notebook()
 dataset = pl.read_csv('../data/before_2018.csv')
+dataset = dataset.with_column(
+    pl.col("Time").apply(lambda time_str: int(time_str.split(":")[0]), return_dtype=pl.Int32).alias("Hour")
+)
 
 data = (
   dataset

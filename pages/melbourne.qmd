@@ -1,6 +1,6 @@
 ---
-title: "Analysis and Visualization"
-subtitle: "Final project | forecasting"
+title: "Introduction"
+subtitle: "Final project | Melbourne City Data | Forecasting"
 execute:
     freeze: auto
 title-block-banner: ../assets/dmitry-osipenko-melbourne-unsplash.jpg
@@ -17,11 +17,13 @@ plt.style.use(matplotx.styles.dufte)
 ```
 
 # About Melbourne
-> WIP
+Melbourne holds the distinction of being the second most populous city in both Australia and Oceania. As the center of south Australia, Melbourne is a sprawling urban area spanning 9,992 km2, which encompasses a metropolitan region comprising 31 municipalities. It has a population of 5 million, which takes up 19% of the population of Australia.
 
-- TODO: Give a nice concise introduction to the city of Melbourne
-- TODO: Briefly state what's the intention of our investigation
-- TODO: Include a nice picture of Melbourne
+The initiative of this narrative data story is to provide you with an opportunity to delve into Melbourne's city life through various data sets, including demographics, residential information, and employment data. By examining these aspects, you can see the potential opportunities in the city. Furthermore, we want to show the pictures of the future for Melbourne by applying the city's forecasts data, and provide you with the insights of the city's future development.
+
+Based on [CITY OF MELBOURNE](https://data.melbourne.vic.gov.au/) open data, 
+
+
 
 # Investigation & analysis
 
@@ -68,21 +70,15 @@ plt.style.use(matplotx.styles.dufte)
 > Describe your data analysis and explain what you've learned about the dataset.
 > If relevant, talk about your machine-learning.
 
-> 4. Genre. Which genre of data story did you use?
-> Which tools did you use from each of the 3 categories of Visual Narrative (Figure 7 in Segal and Heer). Why?
-> Which tools did you use from each of the 3 categories of Narrative Structure (Figure 7 in Segal and Heer). Why?
+
 
 > 5. Visualizations.
 > Explain the visualizations you've chosen.
 > Why are they right for the story you want to tell?
 
-> 6. Discussion. Think critically about your creation
-> What went well?,
-> What is still missing? What could be improved?, Why?
 
-> 7. Contributions. Who did what?
-> You should write (just briefly) which group member was the main responsible for which elements of the assignment. (I want you guys to understand every part of the assignment, but usually there is someone who took lead role on certain portions of the work. That's what you should explain).
-> It is not OK simply to write "All group members contributed equally".
+
+
 
 > 8. Make sure that you use references when they're needed and follow academic standards.
 -->

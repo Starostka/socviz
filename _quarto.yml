@@ -5,6 +5,10 @@ project:
     - index.qmd
     - pages/melbourne_details.qmd
     - pages/melbourne.qmd
+    - pages/melbourne_population.qmd
+    - pages/melbourne_residential.qmd
+    - pages/melbourne_job.qmd
+    - pages/conclusion.qmd
     - pages/san_francisco.qmd
     - about.qmd
     - contact.qmd
@@ -25,6 +29,8 @@ website:
         text: "About"
       - href: contact.qmd
         text: "Contact"
+      - href: pages/san_francisco.qmd
+        text: "SF Data Visualization"
     tools:
       - icon: twitter
         href: https://twitter.com/StarostkaB
@@ -38,13 +44,16 @@ website:
   sidebar:
     style: "floating"
     contents:
-      - section: "Future of Melbourne"
+      - section: "Melbourne Pulse"
         contents:
           - pages/melbourne.qmd
-          - pages/melbourne_details.qmd
-      - section: "Crime in San Francisco"
+          - pages/melbourne_population.qmd
+          - pages/melbourne_residential.qmd
+          - pages/melbourne_job.qmd
+          - pages/conclusion.qmd
+      - section: "Additional Resources"
         contents:
-          - pages/san_francisco.qmd
+          - pages/melbourne_details.qmd
   repo-url: https://github.com/Starostka/socviz
   repo-actions: [edit, issue]
   page-footer:

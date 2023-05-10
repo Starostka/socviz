@@ -1,0 +1,7 @@
+---
+title: "Employment and Jobs in Melbourne"
+subtitle: "Final project | Job Market forecasting"
+execute:
+    freeze: auto
+title-block-banner: ../assets/dmitry-osipenko-melbourne-unsplash.jpg
+---

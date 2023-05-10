@@ -1,0 +1,61 @@
+---
+title: "Demographics in Melbourne"
+subtitle: "Final project | Population forecasting"
+execute:
+    freeze: auto
+title-block-banner: ../assets/dmitry-osipenko-melbourne-unsplash.jpg
+---
+
+```{python}
+import polars as pl
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotx
+
+plt.style.use(matplotx.styles.dufte)
+```
+
+
+
+# Investigation & analysis
+
+## Population
+> WIP
+
+## Residentials
+> WIP
+
+## Jobs and employments
+> WIP
+
+- TODO: Forecasted employment rates/job growth based on geographical location
+- TODO: Comparison of job categories
+- TODO: Simple correlation analysis between forecast types
+- TODO: Employment disparities across regions
+
+## Historic validation
+> WIP
+
+- TODO: Validate forecast analysis by comparing with historical data.
+- TODO: Validation by historic data is important to assess the accuracy and reliability of the forecasts. Else our claims are hard to trust.
+
+# Conclusion and takeaways
+> WIP
+
+# Additional resources
+> WIP
+
+# Contact and feedback
+> WIP
+
+<!--
+> 1. Motivation.
+> What is your dataset?
+> Why did you choose this/these particular dataset(s)?
+> What was your goal for the end user's experience?
+
+> 2. Basic stats. Let's understand the dataset better
+> Write about your choices in data cleaning and preprocessing
+> Write a short section that discusses the dataset stats, containing key points/plots from your exploratory data analysis.
+
