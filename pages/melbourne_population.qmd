@@ -1,9 +1,9 @@
 ---
-title: "Demographics in Melbourne"
-subtitle: "Final project | Population forecasting"
+title: "Demographics"
+subtitle: "Final project | Population | Demographics forecasting"
 execute:
     freeze: auto
-title-block-banner: ../assets/dmitry-osipenko-melbourne-unsplash.jpg
+title-block-banner: ../assets/population.jpg
 ---
 
 ```{python}

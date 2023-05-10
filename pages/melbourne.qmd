@@ -17,68 +17,23 @@ plt.style.use(matplotx.styles.dufte)
 ```
 
 # About Melbourne
-Melbourne holds the distinction of being the second most populous city in both Australia and Oceania. As the center of south Australia, Melbourne is a sprawling urban area spanning 9,992 km2, which encompasses a metropolitan region comprising 31 municipalities. It has a population of 5 million, which takes up 19% of the population of Australia.
+Melbourne holds the distinction of being the second most populous city in both Australia and Oceania. As the center of south Australia, Melbourne is a sprawling urban area spanning 9,992 km2, which encompasses a metropolitan region comprising 31 municipalities ([Source: Wikipedia](https://www.wikipedia.org/)). It has a population of 5 million, which takes up 19% of the population of Australia.
 
 The initiative of this narrative data story is to provide you with an opportunity to delve into Melbourne's city life through various data sets, including demographics, residential information, and employment data. By examining these aspects, you can see the potential opportunities in the city. Furthermore, we want to show the pictures of the future for Melbourne by applying the city's forecasts data, and provide you with the insights of the city's future development.
 
-Based on [CITY OF MELBOURNE](https://data.melbourne.vic.gov.au/) open data, 
+> The data used is available at [City of Melbourne open data portal](https://data.melbourne.vic.gov.au/explore/?sort=modified&q=forecast)
+
+Here's a brief summary for each of the datasets used for this project.
+
+1. [City of Melbourne Jobs Forecasts by Small Area 2021-2041](https://data.melbourne.vic.gov.au/explore/dataset/city-of-melbourne-jobs-forecasts-by-small-area-2020-2040/information/)
+    * 585 KB, 9114 rows, 5 cols, geodata: area name, age and gender
+3. [City of Melbourne Population Forecasts by Small Area 2021-2041](https://data.melbourne.vic.gov.au/explore/dataset/city-of-melbourne-population-forecasts-by-small-area-2020-2040/information/)
+    * 710 KB, 17052 rows, 5 cols, geodata: area name
+5. [City of Melbourne Dwellings and Household Forecasts by Small Area 2021-2041](https://data.melbourne.vic.gov.au/explore/dataset/city-of-melbourne-dwellings-and-household-forecasts-by-small-area-2020-2040/information/)
+    * 161 KB, 2646 rows, 5 cols, geodata: area name
+7. [City of Melbourne Floor Space Forecasts by Small Area 2021-2041](https://data.melbourne.vic.gov.au/explore/dataset/city-of-melbourne-floor-space-forecasts-by-small-area-2020-2040/information/)
+    * 834 KB, 9996 rows, 5 cols, geodata: area name
+9. [Development Activity Monitor](https://data.melbourne.vic.gov.au/explore/dataset/development-activity-monitor/information/)
+    * 328 KB, 1430 rows, 42 cols, geodata: yes
 
 
-
-# Investigation & analysis
-
-## Population
-> WIP
-
-## Residentials
-> WIP
-
-## Jobs and employments
-> WIP
-
-- TODO: Forecasted employment rates/job growth based on geographical location
-- TODO: Comparison of job categories
-- TODO: Simple correlation analysis between forecast types
-- TODO: Employment disparities across regions
-
-## Historic validation
-> WIP
-
-- TODO: Validate forecast analysis by comparing with historical data.
-- TODO: Validation by historic data is important to assess the accuracy and reliability of the forecasts. Else our claims are hard to trust.
-
-# Conclusion and takeaways
-> WIP
-
-# Additional resources
-> WIP
-
-# Contact and feedback
-> WIP
-
-<!--
-> 1. Motivation.
-> What is your dataset?
-> Why did you choose this/these particular dataset(s)?
-> What was your goal for the end user's experience?
-
-> 2. Basic stats. Let's understand the dataset better
-> Write about your choices in data cleaning and preprocessing
-> Write a short section that discusses the dataset stats, containing key points/plots from your exploratory data analysis.
-
-> 3. Data Analysis
-> Describe your data analysis and explain what you've learned about the dataset.
-> If relevant, talk about your machine-learning.
-
-
-
-> 5. Visualizations.
-> Explain the visualizations you've chosen.
-> Why are they right for the story you want to tell?
-
-
-
-
-
-> 8. Make sure that you use references when they're needed and follow academic standards.
--->

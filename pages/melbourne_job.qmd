@@ -1,7 +1,21 @@
 ---
-title: "Employment and Jobs in Melbourne"
+title: "Employment and Jobs"
 subtitle: "Final project | Job Market forecasting"
 execute:
     freeze: auto
-title-block-banner: ../assets/dmitry-osipenko-melbourne-unsplash.jpg
+title-block-banner: ../assets/job.jpg
 ---
+
+## Jobs and employments
+> WIP
+
+- TODO: Forecasted employment rates/job growth based on geographical location
+- TODO: Comparison of job categories
+- TODO: Simple correlation analysis between forecast types
+- TODO: Employment disparities across regions
+
+## Historic validation
+> WIP
+
+- TODO: Validate forecast analysis by comparing with historical data.
+- TODO: Validation by historic data is important to assess the accuracy and reliability of the forecasts. Else our claims are hard to trust.

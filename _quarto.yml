@@ -51,9 +51,7 @@ website:
           - pages/melbourne_residential.qmd
           - pages/melbourne_job.qmd
           - pages/conclusion.qmd
-      - section: "Additional Resources"
-        contents:
-          - pages/melbourne_details.qmd
+          
   repo-url: https://github.com/Starostka/socviz
   repo-actions: [edit, issue]
   page-footer:
