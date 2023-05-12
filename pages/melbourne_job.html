@@ -300,6 +300,281 @@ background-size: cover;
 <li>Bigger financial firms and industries such as financial institutino, health and education happens closest to the CBD</li>
 </ul>
 <p>From the data we have available the suburbs considered are Carlton, Parkville, Kensington and Sout Yarra. They are all scattered around the Melbourne central business district (CBD).</p>
+<div class="cell" data-execution_count="2">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a map centered on Melbourne</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>melbourne_map <span class="op">=</span> folium.Map(location<span class="op">=</span>[<span class="op">-</span><span class="fl">37.8136</span>, <span class="fl">144.9631</span>], zoom_start<span class="op">=</span><span class="dv">13</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a marker for Melbourne</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># folium.Marker([-37.8136, 144.9631], popup='Melbourne').add_to(melbourne_map)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Melbourne CBD coordinates</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>cbd_latitude <span class="op">=</span> <span class="op">-</span><span class="fl">37.8136</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>cbd_longitude <span class="op">=</span> <span class="fl">144.9631</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Locations and their coordinates</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>locations <span class="op">=</span> [</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Parkville"</span>, <span class="op">-</span><span class="fl">37.7840</span>, <span class="fl">144.9472</span>),</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Kensington"</span>, <span class="op">-</span><span class="fl">37.7945</span>, <span class="fl">144.9303</span>),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Carlton"</span>, <span class="op">-</span><span class="fl">37.8002</span>, <span class="fl">144.9669</span>),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Backlands"</span>, <span class="op">-</span><span class="fl">37.8136</span>, <span class="fl">144.9631</span>),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"South Bank"</span>, <span class="op">-</span><span class="fl">37.8216</span>, <span class="fl">144.9646</span>),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Port Melbourne"</span>, <span class="op">-</span><span class="fl">37.8341</span>, <span class="fl">144.9381</span>),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"South Yarra"</span>, <span class="op">-</span><span class="fl">37.8375</span>, <span class="fl">144.9934</span>),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Torah"</span>, <span class="op">-</span><span class="fl">37.8149</span>, <span class="fl">144.9632</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a map centered around Melbourne CBD</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> folium.Map(location<span class="op">=</span>[cbd_latitude, cbd_longitude], zoom_start<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Add markers for each location</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> location <span class="kw">in</span> locations:</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    name, latitude, longitude <span class="op">=</span> location</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    folium.Marker(location<span class="op">=</span>[latitude, longitude], popup<span class="op">=</span>name).add_to(melbourne_map)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>melbourne_map</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">#melbourne_map.save("melbourne_map.html")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -&gt; Trust Notebook</span><iframe srcdoc="<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;></script>
+    <script src=&quot;https://code.jquery.com/jquery-1.12.4.min.js&quot;></script>
+    <script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;></script>
+    <script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;></script>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/>
+    
+            <meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; />
+            <style>
+                #map_247581dd7d91e7f309d4e77ca1cc9d45 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class=&quot;folium-map&quot; id=&quot;map_247581dd7d91e7f309d4e77ca1cc9d45&quot; ></div>
+        
+</body>
+<script>
+    
+    
+            var map_247581dd7d91e7f309d4e77ca1cc9d45 = L.map(
+                &quot;map_247581dd7d91e7f309d4e77ca1cc9d45&quot;,
+                {
+                    center: [-37.8136, 144.9631],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 13,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_e9a3f3a8935607d3bada09dcbe725b4b = L.tileLayer(
+                &quot;https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {&quot;attribution&quot;: &quot;Data by \u0026copy; \u003ca target=\&quot;_blank\&quot; href=\&quot;http://openstreetmap.org\&quot;\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\&quot;_blank\&quot; href=\&quot;http://www.openstreetmap.org/copyright\&quot;\u003eODbL\u003c/a\u003e.&quot;, &quot;detectRetina&quot;: false, &quot;maxNativeZoom&quot;: 18, &quot;maxZoom&quot;: 18, &quot;minZoom&quot;: 0, &quot;noWrap&quot;: false, &quot;opacity&quot;: 1, &quot;subdomains&quot;: &quot;abc&quot;, &quot;tms&quot;: false}
+            ).addTo(map_247581dd7d91e7f309d4e77ca1cc9d45);
+        
+    
+            var marker_23659eba495428516c1c623285329357 = L.marker(
+                [-37.784, 144.9472],
+                {}
+            ).addTo(map_247581dd7d91e7f309d4e77ca1cc9d45);
+        
+    
+        var popup_3e9f500458ede148419995e9150b3724 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_c050fe02b7b03c8847d9fe954c85d707 = $(`<div id=&quot;html_c050fe02b7b03c8847d9fe954c85d707&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Parkville</div>`)[0];
+                popup_3e9f500458ede148419995e9150b3724.setContent(html_c050fe02b7b03c8847d9fe954c85d707);
+            
+        
+
+        marker_23659eba495428516c1c623285329357.bindPopup(popup_3e9f500458ede148419995e9150b3724)
+        ;
+
+        
+    
+    
+            var marker_f1379b1279f56dbc9910722eda53c95a = L.marker(
+                [-37.7945, 144.9303],
+                {}
+            ).addTo(map_247581dd7d91e7f309d4e77ca1cc9d45);
+        
+    
+        var popup_a7ef4b522ea0b8b5151c51d5c854cc4a = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_b9928456ae8c194bdec7feaa0cfda370 = $(`<div id=&quot;html_b9928456ae8c194bdec7feaa0cfda370&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Kensington</div>`)[0];
+                popup_a7ef4b522ea0b8b5151c51d5c854cc4a.setContent(html_b9928456ae8c194bdec7feaa0cfda370);
+            
+        
+
+        marker_f1379b1279f56dbc9910722eda53c95a.bindPopup(popup_a7ef4b522ea0b8b5151c51d5c854cc4a)
+        ;
+
+        
+    
+    
+            var marker_5f5620f60fc83280f7214830238d2fbf = L.marker(
+                [-37.8002, 144.9669],
+                {}
+            ).addTo(map_247581dd7d91e7f309d4e77ca1cc9d45);
+        
+    
+        var popup_b75c0bd5a6e749c7952c45928b73b439 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_96c0a012160d9ab62273e08219d10d04 = $(`<div id=&quot;html_96c0a012160d9ab62273e08219d10d04&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Carlton</div>`)[0];
+                popup_b75c0bd5a6e749c7952c45928b73b439.setContent(html_96c0a012160d9ab62273e08219d10d04);
+            
+        
+
+        marker_5f5620f60fc83280f7214830238d2fbf.bindPopup(popup_b75c0bd5a6e749c7952c45928b73b439)
+        ;
+
+        
+    
+    
+            var marker_0029828af1b345bcbfcd2c29cde0f99b = L.marker(
+                [-37.8136, 144.9631],
+                {}
+            ).addTo(map_247581dd7d91e7f309d4e77ca1cc9d45);
+        
+    
+        var popup_4e7fba31223176e3d98d38c272d25c56 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_42641db6a3ecded3e7ce6b1ec7c078c1 = $(`<div id=&quot;html_42641db6a3ecded3e7ce6b1ec7c078c1&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Backlands</div>`)[0];
+                popup_4e7fba31223176e3d98d38c272d25c56.setContent(html_42641db6a3ecded3e7ce6b1ec7c078c1);
+            
+        
+
+        marker_0029828af1b345bcbfcd2c29cde0f99b.bindPopup(popup_4e7fba31223176e3d98d38c272d25c56)
+        ;
+
+        
+    
+    
+            var marker_174de0a30076f7e7a4bd7091dfd4e244 = L.marker(
+                [-37.8216, 144.9646],
+                {}
+            ).addTo(map_247581dd7d91e7f309d4e77ca1cc9d45);
+        
+    
+        var popup_946d93038ad90a44bd5c07ae33347a1e = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_5d5047660527733a14fa60c2e34e000f = $(`<div id=&quot;html_5d5047660527733a14fa60c2e34e000f&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>South Bank</div>`)[0];
+                popup_946d93038ad90a44bd5c07ae33347a1e.setContent(html_5d5047660527733a14fa60c2e34e000f);
+            
+        
+
+        marker_174de0a30076f7e7a4bd7091dfd4e244.bindPopup(popup_946d93038ad90a44bd5c07ae33347a1e)
+        ;
+
+        
+    
+    
+            var marker_16164e885eb8894833e94b54281f8d9c = L.marker(
+                [-37.8341, 144.9381],
+                {}
+            ).addTo(map_247581dd7d91e7f309d4e77ca1cc9d45);
+        
+    
+        var popup_f515e7758df45954f9e493738af691ff = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_6edf6e095631faac43da449cd34a8a92 = $(`<div id=&quot;html_6edf6e095631faac43da449cd34a8a92&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Port Melbourne</div>`)[0];
+                popup_f515e7758df45954f9e493738af691ff.setContent(html_6edf6e095631faac43da449cd34a8a92);
+            
+        
+
+        marker_16164e885eb8894833e94b54281f8d9c.bindPopup(popup_f515e7758df45954f9e493738af691ff)
+        ;
+
+        
+    
+    
+            var marker_4090c34a0c57ee221bf3512e9efa9105 = L.marker(
+                [-37.8375, 144.9934],
+                {}
+            ).addTo(map_247581dd7d91e7f309d4e77ca1cc9d45);
+        
+    
+        var popup_66344dd6251f8411fe78b7121cec2f2e = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_a8affcc9814b71386d0b21ad2937d9ce = $(`<div id=&quot;html_a8affcc9814b71386d0b21ad2937d9ce&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>South Yarra</div>`)[0];
+                popup_66344dd6251f8411fe78b7121cec2f2e.setContent(html_a8affcc9814b71386d0b21ad2937d9ce);
+            
+        
+
+        marker_4090c34a0c57ee221bf3512e9efa9105.bindPopup(popup_66344dd6251f8411fe78b7121cec2f2e)
+        ;
+
+        
+    
+    
+            var marker_3a58f56ab67c8ff3671716e61e179c9f = L.marker(
+                [-37.8149, 144.9632],
+                {}
+            ).addTo(map_247581dd7d91e7f309d4e77ca1cc9d45);
+        
+    
+        var popup_d6df35bbfac1e54d6b30795598b33ff0 = L.popup({&quot;maxWidth&quot;: &quot;100%&quot;});
+
+        
+            
+                var html_d92cbedd95efa8a2fa131d329bfb9d2b = $(`<div id=&quot;html_d92cbedd95efa8a2fa131d329bfb9d2b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;>Torah</div>`)[0];
+                popup_d6df35bbfac1e54d6b30795598b33ff0.setContent(html_d92cbedd95efa8a2fa131d329bfb9d2b);
+            
+        
+
+        marker_3a58f56ab67c8ff3671716e61e179c9f.bindPopup(popup_d6df35bbfac1e54d6b30795598b33ff0)
+        ;
+
+        
+    
+</script>
+</html>" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe></div></div>
+</div>
+</div>
 </section>
 <section id="jobs-and-employments" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Jobs and employments</h1>
@@ -317,11 +592,11 @@ plt.xlabel(viz.xlabel)
 plt.show()
 ``` --></p>
 <p>We can quickly inspect what areas and industries have the steadiest trend in the jobs forecast from the mean value.</p>
-<div class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="3">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> jobs_industry.groupby([<span class="st">'Geography'</span>, <span class="st">'Industry Space Use'</span>], maintain_order<span class="op">=</span><span class="va">True</span>).agg([pl.col(<span class="st">'Value'</span>).mean()]).sort(<span class="st">'Value'</span>, descending<span class="op">=</span><span class="va">True</span>).limit(<span class="dv">8</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>show(grouped)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> jobs_industry.groupby([<span class="st">'Geography'</span>, <span class="st">'Industry Space Use'</span>], maintain_order<span class="op">=</span><span class="va">True</span>).agg([pl.col(<span class="st">'Value'</span>).mean()]).sort(<span class="st">'Value'</span>, descending<span class="op">=</span><span class="va">True</span>).limit(<span class="dv">8</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>show(grouped)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 
@@ -348,7 +623,7 @@ plt.show()
 }
 </style>
 <div class="itables">
-<table id="c58f26c4-0d28-463d-855e-484d22e317c6" class="display nowrap" style="table-layout:auto;width:auto;margin:auto;caption-side:bottom"><thead>
+<table id="98b83ef9-ab55-4701-9954-58fca757b6bb" class="display nowrap" style="table-layout:auto;width:auto;margin:auto;caption-side:bottom"><thead>
     <tr style="text-align: right;">
       
       <th>Geography</th>
@@ -372,21 +647,21 @@ plt.show()
 
     $(document).ready(function () {
         
-        $('#c58f26c4-0d28-463d-855e-484d22e317c6').DataTable(dt_args);
+        $('#98b83ef9-ab55-4701-9954-58fca757b6bb').DataTable(dt_args);
     });
 </script>
 </div>
 </div>
 </div>
 <p>Historically considering data from 2016 and 2021 employment in the space of (Professional, Scientific and Technical Services) and (Financial and Insurance Services).</p>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="4">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># src: https://app.remplan.com.au/melbourne-lga/economy/trends/jobs?state=GLZrFN!az4VClkNKSYeGD6Uvqea6f0c4I6ZouPIWIKJhGI8hxx7AUwzL</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>jobs_historic <span class="op">=</span> pl.read_csv(<span class="st">'../data/melbourne-jobs-historically.csv'</span>, separator<span class="op">=</span><span class="st">';'</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>jobs_historic.schema</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>jobs_historic.sort(<span class="st">'2021'</span>, descending<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>show(jobs_historic) <span class="co"># lengthMenu=[2, 5, 10, 25, 50, 100, 250]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># src: https://app.remplan.com.au/melbourne-lga/economy/trends/jobs?state=GLZrFN!az4VClkNKSYeGD6Uvqea6f0c4I6ZouPIWIKJhGI8hxx7AUwzL</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>jobs_historic <span class="op">=</span> pl.read_csv(<span class="st">'../data/melbourne-jobs-historically.csv'</span>, separator<span class="op">=</span><span class="st">';'</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>jobs_historic.schema</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>jobs_historic.sort(<span class="st">'2021'</span>, descending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>show(jobs_historic) <span class="co"># lengthMenu=[2, 5, 10, 25, 50, 100, 250]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 
@@ -413,7 +688,7 @@ plt.show()
 }
 </style>
 <div class="itables">
-<table id="f4a9009e-76ed-4fca-92be-68cc7d0a71d1" class="display nowrap" style="table-layout:auto;width:auto;margin:auto;caption-side:bottom"><thead>
+<table id="7eb9b1da-c40a-4171-a5f4-1853a73bc1db" class="display nowrap" style="table-layout:auto;width:auto;margin:auto;caption-side:bottom"><thead>
     <tr style="text-align: right;">
       
       <th>Options</th>
@@ -437,7 +712,7 @@ plt.show()
 
     $(document).ready(function () {
         
-        $('#f4a9009e-76ed-4fca-92be-68cc7d0a71d1').DataTable(dt_args);
+        $('#7eb9b1da-c40a-4171-a5f4-1853a73bc1db').DataTable(dt_args);
     });
 </script>
 </div>
@@ -446,26 +721,26 @@ plt.show()
 <p>Have had the largest job capacity which again is reinforced by the forecast where we see an increase of jobs for these industries.</p>
 <p>Overall Melbourne is considered a modern society that has the resources and ability to priotise education and economical growth. This is also reflected in the Gross Regional Product for the region which historically has also seen a continous growth.</p>
 <p>If we aggrate the yearly job forecasts we see the following industries holds the lead for future jobs.</p>
-<div class="cell" data-execution_count="4">
-<details>
-<summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Business services                 ┆ 4343624 │</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Finance and insurance             ┆ 3086449 │</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Health care and social assistanc… ┆ 2601547 │</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Public administration and safety  ┆ 2202208 │</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Food and beverage services        ┆ 1898525 │</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Education and training            ┆ 1501266 │</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p>So we can rank the different areas with respect to health, finance and education respectively starting with a bounded forecast up until 2025.</p>
 <div class="cell" data-execution_count="5">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Finance and insurance'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2025</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank(<span class="st">'min'</span>).alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Health care and social assistance'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2025</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank().alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Education and training'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2025</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank().alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>).limit(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Business services                 ┆ 4343624 │</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Finance and insurance             ┆ 3086449 │</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Health care and social assistanc… ┆ 2601547 │</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Public administration and safety  ┆ 2202208 │</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Food and beverage services        ┆ 1898525 │</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Education and training            ┆ 1501266 │</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="47">
+</div>
+<p>So we can rank the different areas with respect to health, finance and education respectively starting with a bounded forecast up until 2025.</p>
+<div class="cell" data-execution_count="6">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Finance and insurance'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2025</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank(<span class="st">'min'</span>).alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Health care and social assistance'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2025</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank().alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Education and training'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2025</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank().alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>).limit(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="6">
 
 <div><style>
 .dataframe > thead > tr > th,
@@ -478,14 +753,14 @@ plt.show()
 </div>
 <p>The job forecast shows that the suburbs of South Yarra and Parkville have little traction for the before mentioned industries as they mainly consist of businesses such as restaurants and cafés. South Yarra has a <a href="https://en.wikipedia.org/wiki/South_Yarra">history</a> of being and attractive to live in with good proximity to CBD, schools, transportations and open lush parks and spaces.</p>
 <p>Next we will how they stand with a loose bound towards 2035, a change in 10 years.</p>
-<div class="cell" data-execution_count="6">
+<div class="cell" data-execution_count="7">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Finance and insurance'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2035</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank(<span class="st">'min'</span>).alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Health care and social assistance'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2035</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank().alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Education and training'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2035</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank().alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>).limit(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Finance and insurance'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2035</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank(<span class="st">'min'</span>).alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Health care and social assistance'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2035</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank().alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Education and training'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2035</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank().alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>).limit(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="48">
+<div class="cell-output cell-output-display" data-execution_count="7">
 
 <div><style>
 .dataframe > thead > tr > th,
