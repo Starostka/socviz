@@ -1,5 +1,5 @@
 ---
-title: "Demographics"
+title: "Population and Demographics"
 subtitle: "Final project | Population | Demographics forecasting"
 execute:
     freeze: auto
@@ -17,45 +17,28 @@ plt.style.use(matplotx.styles.dufte)
 ```
 
 
+# Why is this important?
+Population growth is impacting our planet in many ways. According to [Population Media Center](https://www.populationmedia.org/blog/does-population-growth-impact-global-climate-change?utm_term=&utm_campaign=Donation+/+Web+Traffic+Campaign&utm_source=adwords&utm_medium=ppc&hsa_tgt=dsa-1020761732591&hsa_grp=142853052400&hsa_src=g&hsa_net=adwords&hsa_mt=&hsa_ver=3&hsa_ad=617507170220&hsa_acc=7272581478&hsa_kw=&hsa_cam=83417258&gclid=Cj0KCQjwpPKiBhDvARIsACn-gzBuFGSSn3ExyFsGWUXpJfkNWtFx3x6DbWt23NM6-tFgm1qkeA5XwkIaAoadEALw_wcB), when looking back over the last several centuries, global population trends show continuous expansion, both in terms of volume and rapidity. Population is the key factor in the climate crisis, housing and infrastructure, economic growth of a country, and so on. Therefore, a proper forecast of population growth can guide the society to make better decisions in the future. 
 
-# Investigation & analysis
 
-## Population
-> WIP
 
-## Residentials
-> WIP
+# How does population relate to other factors?
+> interactive Co2 vs population plot
+> interactive population vs GDP
+> interactive population vs housing
 
-## Jobs and employments
-> WIP
+positive correlation with GDP, CO2, housing, etc.
 
-- TODO: Forecasted employment rates/job growth based on geographical location
-- TODO: Comparison of job categories
-- TODO: Simple correlation analysis between forecast types
-- TODO: Employment disparities across regions
+# What will the future look like?
+> forecast plot
+> map
 
-## Historic validation
+<!-- ## Historic validation
 > WIP
 
 - TODO: Validate forecast analysis by comparing with historical data.
-- TODO: Validation by historic data is important to assess the accuracy and reliability of the forecasts. Else our claims are hard to trust.
+- TODO: Validation by historic data is important to assess the accuracy and reliability of the forecasts. Else our claims are hard to trust. -->
 
-# Conclusion and takeaways
-> WIP
-
-# Additional resources
-> WIP
-
-# Contact and feedback
-> WIP
-
-<!--
-> 1. Motivation.
-> What is your dataset?
-> Why did you choose this/these particular dataset(s)?
-> What was your goal for the end user's experience?
-
-> 2. Basic stats. Let's understand the dataset better
-> Write about your choices in data cleaning and preprocessing
-> Write a short section that discusses the dataset stats, containing key points/plots from your exploratory data analysis.
-
+# Takeaways
+> conclusion
+> suggestions

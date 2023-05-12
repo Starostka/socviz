@@ -2,7 +2,7 @@
 title: "Introduction"
 subtitle: "Final project | Melbourne City Data | Forecasting"
 execute:
-    freeze: auto
+    freeze: true
 title-block-banner: ../assets/dmitry-osipenko-melbourne-unsplash.jpg
 ---
 
@@ -19,11 +19,12 @@ plt.style.use(matplotx.styles.dufte)
 # About Melbourne
 Melbourne holds the distinction of being the second most populous city in both Australia and Oceania. As the center of south Australia, Melbourne is a sprawling urban area spanning 9,992 km2, which encompasses a metropolitan region comprising 31 municipalities ([Source: Wikipedia](https://www.wikipedia.org/)). It has a population of 5 million, which takes up 19% of the population of Australia.
 
-The initiative of this narrative data story is to provide you with an opportunity to delve into Melbourne's city life through various data sets, including demographics, residential information, and employment data. By examining these aspects, you can see the potential opportunities in the city. Furthermore, we want to show the pictures of the future for Melbourne by applying the city's forecasts data, and provide you with the insights of the city's future development.
+
+# Data Sets Details
 
 > The data used is available at [City of Melbourne open data portal](https://data.melbourne.vic.gov.au/explore/?sort=modified&q=forecast)
 
-Here's a brief summary for each of the datasets used for this project.
+Here's a brief statistics for each of the datasets used for this project.
 
 1. [City of Melbourne Jobs Forecasts by Small Area 2021-2041](https://data.melbourne.vic.gov.au/explore/dataset/city-of-melbourne-jobs-forecasts-by-small-area-2020-2040/information/)
     * 585 KB, 9114 rows, 5 cols, geodata: area name, age and gender
@@ -36,4 +37,33 @@ Here's a brief summary for each of the datasets used for this project.
 9. [Development Activity Monitor](https://data.melbourne.vic.gov.au/explore/dataset/development-activity-monitor/information/)
     * 328 KB, 1430 rows, 42 cols, geodata: yes
 
+<!-- What is your dataset?
+Why did you choose this/these particular dataset(s)?
+What was your goal for the end user's experience? -->
 
+# The "Pitch" Visualization
+
+During our exploratory data analysis, we made a preliminary examination of the datasets. The sketchy visualization pointed out the central of the most developed area in Melbourne: 
+```{python}
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+
+image1 = mpimg.imread('../assets/pitch1.jpg')
+image2 = mpimg.imread('../assets/pitch2.png')
+
+fig, axes = plt.subplots(1, 2)
+plt.suptitle('The "Pitch" Visualization', y=0.71)
+
+axes[0].imshow(image1)
+axes[0].axis('off')
+
+axes[1].imshow(image2)
+axes[1].axis('off')
+
+
+plt.tight_layout()
+
+plt.show()
+
+```
+The exploratory data analysis enabled us to delve deeper into the data and uncover valuable insights. 
