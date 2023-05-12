@@ -95,7 +95,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../pages/melbourne_details.html" rel="next">
+<link href="../pages/melbourne_population.html" rel="next">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -170,6 +170,10 @@ background-size: cover;
     <a class="nav-link" href="../contact.html">
  <span class="menu-text">Contact</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/san_francisco.html">
+ <span class="menu-text">SF Data Visualization</span></a>
+  </li>  
 </ul>
               <div class="quarto-toggle-container">
                   <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
@@ -180,7 +184,7 @@ background-size: cover;
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Analysis and Visualization</h1>
+      <h1 class="quarto-secondary-nav-title">Introduction</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -191,8 +195,8 @@ background-size: cover;
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title d-none d-lg-block">Analysis and Visualization</h1>
-            <p class="subtitle lead">Final project | forecasting</p>
+      <h1 class="title d-none d-lg-block">Introduction</h1>
+            <p class="subtitle lead">Final project | Melbourne City Data | Forecasting</p>
                       </div>
   </div>
     
@@ -210,7 +214,7 @@ background-size: cover;
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">May 9, 2023</p>
+        <p class="date">May 12, 2023</p>
       </div>
     </div>
     
@@ -225,7 +229,7 @@ background-size: cover;
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Future of Melbourne</a>
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Melbourne Pulse</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -233,27 +237,27 @@ background-size: cover;
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pages/melbourne.html" class="sidebar-item-text sidebar-link active">Analysis and Visualization</a>
+  <a href="../pages/melbourne.html" class="sidebar-item-text sidebar-link active">Introduction</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pages/melbourne_details.html" class="sidebar-item-text sidebar-link">Data details</a>
+  <a href="../pages/melbourne_population.html" class="sidebar-item-text sidebar-link">Demographics</a>
   </div>
 </li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Crime in San Francisco</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pages/san_francisco.html" class="sidebar-item-text sidebar-link">Analysis and Visualization</a>
+  <a href="../pages/melbourne_residential.html" class="sidebar-item-text sidebar-link">Dwellings and Household</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/melbourne_job.html" class="sidebar-item-text sidebar-link">Employment and Jobs</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/conclusion.html" class="sidebar-item-text sidebar-link">Summary</a>
   </div>
 </li>
       </ul>
@@ -268,16 +272,6 @@ background-size: cover;
    
   <ul>
   <li><a href="#about-melbourne" id="toc-about-melbourne" class="nav-link active" data-scroll-target="#about-melbourne"><span class="toc-section-number">1</span>  About Melbourne</a></li>
-  <li><a href="#investigation-analysis" id="toc-investigation-analysis" class="nav-link" data-scroll-target="#investigation-analysis"><span class="toc-section-number">2</span>  Investigation &amp; analysis</a>
-  <ul class="collapse">
-  <li><a href="#population" id="toc-population" class="nav-link" data-scroll-target="#population"><span class="toc-section-number">2.1</span>  Population</a></li>
-  <li><a href="#residentials" id="toc-residentials" class="nav-link" data-scroll-target="#residentials"><span class="toc-section-number">2.2</span>  Residentials</a></li>
-  <li><a href="#jobs-and-employments" id="toc-jobs-and-employments" class="nav-link" data-scroll-target="#jobs-and-employments"><span class="toc-section-number">2.3</span>  Jobs and employments</a></li>
-  <li><a href="#historic-validation" id="toc-historic-validation" class="nav-link" data-scroll-target="#historic-validation"><span class="toc-section-number">2.4</span>  Historic validation</a></li>
-  </ul></li>
-  <li><a href="#conclusion-and-takeaways" id="toc-conclusion-and-takeaways" class="nav-link" data-scroll-target="#conclusion-and-takeaways"><span class="toc-section-number">3</span>  Conclusion and takeaways</a></li>
-  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources"><span class="toc-section-number">4</span>  Additional resources</a></li>
-  <li><a href="#contact-and-feedback" id="toc-contact-and-feedback" class="nav-link" data-scroll-target="#contact-and-feedback"><span class="toc-section-number">5</span>  Contact and feedback</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/Starostka/socviz/edit/main/pages/melbourne.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/Starostka/socviz/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -301,101 +295,34 @@ background-size: cover;
 </div>
 <section id="about-melbourne" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> About Melbourne</h1>
+<p>Melbourne holds the distinction of being the second most populous city in both Australia and Oceania. As the center of south Australia, Melbourne is a sprawling urban area spanning 9,992 km2, which encompasses a metropolitan region comprising 31 municipalities (<a href="https://www.wikipedia.org/">Source: Wikipedia</a>). It has a population of 5 million, which takes up 19% of the population of Australia.</p>
+<p>The initiative of this narrative data story is to provide you with an opportunity to delve into Melbourne’s city life through various data sets, including demographics, residential information, and employment data. By examining these aspects, you can see the potential opportunities in the city. Furthermore, we want to show the pictures of the future for Melbourne by applying the city’s forecasts data, and provide you with the insights of the city’s future development.</p>
 <blockquote class="blockquote">
-<p>WIP</p>
+<p>The data used is available at <a href="https://data.melbourne.vic.gov.au/explore/?sort=modified&amp;q=forecast">City of Melbourne open data portal</a></p>
 </blockquote>
+<p>Here’s a brief summary for each of the datasets used for this project.</p>
+<ol type="1">
+<li><a href="https://data.melbourne.vic.gov.au/explore/dataset/city-of-melbourne-jobs-forecasts-by-small-area-2020-2040/information/">City of Melbourne Jobs Forecasts by Small Area 2021-2041</a>
 <ul>
-<li>TODO: Give a nice concise introduction to the city of Melbourne</li>
-<li>TODO: Briefly state what’s the intention of our investigation</li>
-<li>TODO: Include a nice picture of Melbourne</li>
-</ul>
-</section>
-<section id="investigation-analysis" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Investigation &amp; analysis</h1>
-<section id="population" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="population"><span class="header-section-number">2.1</span> Population</h2>
-<blockquote class="blockquote">
-<p>WIP</p>
-</blockquote>
-</section>
-<section id="residentials" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="residentials"><span class="header-section-number">2.2</span> Residentials</h2>
-<blockquote class="blockquote">
-<p>WIP</p>
-</blockquote>
-</section>
-<section id="jobs-and-employments" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="jobs-and-employments"><span class="header-section-number">2.3</span> Jobs and employments</h2>
-<blockquote class="blockquote">
-<p>WIP</p>
-</blockquote>
+<li>585 KB, 9114 rows, 5 cols, geodata: area name, age and gender</li>
+</ul></li>
+<li><a href="https://data.melbourne.vic.gov.au/explore/dataset/city-of-melbourne-population-forecasts-by-small-area-2020-2040/information/">City of Melbourne Population Forecasts by Small Area 2021-2041</a>
 <ul>
-<li>TODO: Forecasted employment rates/job growth based on geographical location</li>
-<li>TODO: Comparison of job categories</li>
-<li>TODO: Simple correlation analysis between forecast types</li>
-<li>TODO: Employment disparities across regions</li>
-</ul>
-</section>
-<section id="historic-validation" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="historic-validation"><span class="header-section-number">2.4</span> Historic validation</h2>
-<blockquote class="blockquote">
-<p>WIP</p>
-</blockquote>
+<li>710 KB, 17052 rows, 5 cols, geodata: area name</li>
+</ul></li>
+<li><a href="https://data.melbourne.vic.gov.au/explore/dataset/city-of-melbourne-dwellings-and-household-forecasts-by-small-area-2020-2040/information/">City of Melbourne Dwellings and Household Forecasts by Small Area 2021-2041</a>
 <ul>
-<li>TODO: Validate forecast analysis by comparing with historical data.</li>
-<li>TODO: Validation by historic data is important to assess the accuracy and reliability of the forecasts. Else our claims are hard to trust.</li>
-</ul>
-</section>
-</section>
-<section id="conclusion-and-takeaways" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Conclusion and takeaways</h1>
-<blockquote class="blockquote">
-<p>WIP</p>
-</blockquote>
-</section>
-<section id="additional-resources" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Additional resources</h1>
-<blockquote class="blockquote">
-<p>WIP</p>
-</blockquote>
-</section>
-<section id="contact-and-feedback" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Contact and feedback</h1>
-<blockquote class="blockquote">
-<p>WIP</p>
-</blockquote>
-<!--
-> 1. Motivation.
-> What is your dataset?
-> Why did you choose this/these particular dataset(s)?
-> What was your goal for the end user's experience?
-
-> 2. Basic stats. Let's understand the dataset better
-> Write about your choices in data cleaning and preprocessing
-> Write a short section that discusses the dataset stats, containing key points/plots from your exploratory data analysis.
-
-> 3. Data Analysis
-> Describe your data analysis and explain what you've learned about the dataset.
-> If relevant, talk about your machine-learning.
-
-> 4. Genre. Which genre of data story did you use?
-> Which tools did you use from each of the 3 categories of Visual Narrative (Figure 7 in Segal and Heer). Why?
-> Which tools did you use from each of the 3 categories of Narrative Structure (Figure 7 in Segal and Heer). Why?
-
-> 5. Visualizations.
-> Explain the visualizations you've chosen.
-> Why are they right for the story you want to tell?
-
-> 6. Discussion. Think critically about your creation
-> What went well?,
-> What is still missing? What could be improved?, Why?
-
-> 7. Contributions. Who did what?
-> You should write (just briefly) which group member was the main responsible for which elements of the assignment. (I want you guys to understand every part of the assignment, but usually there is someone who took lead role on certain portions of the work. That's what you should explain).
-> It is not OK simply to write "All group members contributed equally".
-
-> 8. Make sure that you use references when they're needed and follow academic standards.
--->
+<li>161 KB, 2646 rows, 5 cols, geodata: area name</li>
+</ul></li>
+<li><a href="https://data.melbourne.vic.gov.au/explore/dataset/city-of-melbourne-floor-space-forecasts-by-small-area-2020-2040/information/">City of Melbourne Floor Space Forecasts by Small Area 2021-2041</a>
+<ul>
+<li>834 KB, 9996 rows, 5 cols, geodata: area name</li>
+</ul></li>
+<li><a href="https://data.melbourne.vic.gov.au/explore/dataset/development-activity-monitor/information/">Development Activity Monitor</a>
+<ul>
+<li>328 KB, 1430 rows, 42 cols, geodata: yes</li>
+</ul></li>
+</ol>
 
 
 </section>
@@ -655,8 +582,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../pages/melbourne_details.html" class="pagination-link">
-        <span class="nav-page-text">Data details</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../pages/melbourne_population.html" class="pagination-link">
+        <span class="nav-page-text">Demographics</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

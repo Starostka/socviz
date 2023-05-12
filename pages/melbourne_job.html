@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Benjamin Starostka Jakobsen">
+<meta name="keywords" content="dataviz, visualization, analysis, python, forecast, crime">
+
+<title></title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../pages/conclusion.html" rel="next">
+<link href="../pages/melbourne_residential.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script type="application/json" class="js-hypothesis-config">
+{
+  "theme": "clean"
+}
+</script>
+<script async="" src="https://hypothes.is/embed.js"></script>
+<style>
+    .quarto-title-block .quarto-title-banner {
+      background-image: url(../assets/job.jpg);
+background-size: cover;
+    }
+    </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">SocViz</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../contact.html">
+ <span class="menu-text">Contact</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/san_francisco.html">
+ <span class="menu-text">SF Data Visualization</span></a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Employment and Jobs</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title d-none d-lg-block">Employment and Jobs</h1>
+            <p class="subtitle lead">Final project | Job Market forecasting</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Authors</div>
+      <div class="quarto-title-meta-contents">
+               <p>Xinyi Liu </p>
+               <p>Benjamin Starostka </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 12, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Melbourne Pulse</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/melbourne.html" class="sidebar-item-text sidebar-link">Introduction</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/melbourne_population.html" class="sidebar-item-text sidebar-link">Demographics</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/melbourne_residential.html" class="sidebar-item-text sidebar-link">Dwellings and Household</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/melbourne_job.html" class="sidebar-item-text sidebar-link active">Employment and Jobs</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/conclusion.html" class="sidebar-item-text sidebar-link">Summary</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">1</span>  Introduction</a></li>
+  <li><a href="#jobs-and-employments" id="toc-jobs-and-employments" class="nav-link" data-scroll-target="#jobs-and-employments"><span class="toc-section-number">2</span>  Jobs and employments</a>
+  <ul class="collapse">
+  <li><a href="#floor-space-use" id="toc-floor-space-use" class="nav-link" data-scroll-target="#floor-space-use"><span class="toc-section-number">2.1</span>  Floor space use</a></li>
+  <li><a href="#historic-validation" id="toc-historic-validation" class="nav-link" data-scroll-target="#historic-validation"><span class="toc-section-number">2.2</span>  Historic validation</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/Starostka/socviz/edit/main/pages/melbourne_job.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/Starostka/socviz/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>We’ve investigated how jobs are distributed across industry types and their focasted rate of change in different areas of Melbourne. Melbourne at the time of writing supports 527,738 jobs and an annual economic output of $215.213 billion according to <a href="https://app.remplan.com.au/melbourne-lga/economy/industries/wages-salaries?state=5wPkHA!AgXqf4O0phWmZ56h254YDTmTaIDlbFG1615cqNXNys4Ie0uGINhPPdKf24x">remplan</a>.</p>
+<p>Key findings:</p>
+<ul>
+<li>Industries in finance, health and education are among the top ranking when it comes to future jobs</li>
+<li>Parkville and South Yarra suburbs is expected to have the most jobs in restaurants, entertainment, small jobs etc.</li>
+<li>Bigger financial firms and industries such as financial institutino, health and education happens closest to the CBD</li>
+</ul>
+<p>From the data we have available the suburbs considered are Carlton, Parkville, Kensington and Sout Yarra. They are all scattered around the Melbourne central business district (CBD).</p>
+</section>
+<section id="jobs-and-employments" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Jobs and employments</h1>
+<p>In the coming years the city of Melbourne is expected to see a steady and substantial increase in the jobs available across different industries. <!-- ```python
+data = (jobs_industry
+        .filter(pl.col('Industry Space Use') == 'Total jobs')
+        .sort('Year')
+        .groupby('Geography').agg([pl.col('Year'), pl.col('Value')]))
+viz = VizData(title="Total jobs forecast, City of Melbourne", ylabel="Total jobs", xlabel="Year", df=data)
+plt.bar(data['Year'], data['Value'])
+#plt.plot(data['Year'], data['Value'])
+plt.title(viz.title)
+plt.ylabel(viz.ylabel)
+plt.xlabel(viz.xlabel)
+plt.show()
+``` --></p>
+<p>We can quickly inspect what areas and industries have the steadiest trend in the jobs forecast from the mean value.</p>
+<div class="cell" data-execution_count="2">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> jobs_industry.groupby([<span class="st">'Geography'</span>, <span class="st">'Industry Space Use'</span>], maintain_order<span class="op">=</span><span class="va">True</span>).agg([pl.col(<span class="st">'Value'</span>).mean()]).sort(<span class="st">'Value'</span>, descending<span class="op">=</span><span class="va">True</span>).limit(<span class="dv">8</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>show(grouped)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+
+<style>.itables table td {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.itables table th {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.itables thead input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+.itables tfoot input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+</style>
+<div class="itables">
+<table id="c58f26c4-0d28-463d-855e-484d22e317c6" class="display nowrap" style="table-layout:auto;width:auto;margin:auto;caption-side:bottom"><thead>
+    <tr style="text-align: right;">
+      
+      <th>Geography</th>
+      <th>Industry Space Use</th>
+      <th>Value</th>
+    </tr>
+  </thead><tbody><tr><td>Loading... (need <a href="https://mwouts.github.io/itables/troubleshooting.html">help</a>?)</td></tr></tbody></table>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<script type="module">
+    // Import jquery and DataTable
+    import 'https://code.jquery.com/jquery-3.6.0.min.js';
+    import dt from 'https://cdn.datatables.net/1.12.1/js/jquery.dataTables.mjs';
+    dt($);
+
+    // Define the table data
+    const data = [["City of Melbourne", "Total jobs", 568257.8571428572], ["Melbourne (CBD)", "Total jobs", 260748.90476190476], ["City of Melbourne", "Business services", 103419.57142857143], ["Docklands", "Total jobs", 84301.14285714286], ["City of Melbourne", "Finance and insurance", 73486.90476190476], ["City of Melbourne", "Health care and social assistance", 61941.52380952381], ["Melbourne (CBD)", "Business services", 60077.619047619046], ["Southbank", "Total jobs", 52588.666666666664]];
+
+    // Define the dt_args
+    let dt_args = {"order": [], "dom": "t"};
+    dt_args["data"] = data;
+
+    $(document).ready(function () {
+        
+        $('#c58f26c4-0d28-463d-855e-484d22e317c6').DataTable(dt_args);
+    });
+</script>
+</div>
+</div>
+</div>
+<p>Historically considering data from 2016 and 2021 employment in the space of (Professional, Scientific and Technical Services) and (Financial and Insurance Services).</p>
+<div class="cell" data-execution_count="3">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># src: https://app.remplan.com.au/melbourne-lga/economy/trends/jobs?state=GLZrFN!az4VClkNKSYeGD6Uvqea6f0c4I6ZouPIWIKJhGI8hxx7AUwzL</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>jobs_historic <span class="op">=</span> pl.read_csv(<span class="st">'../data/melbourne-jobs-historically.csv'</span>, separator<span class="op">=</span><span class="st">';'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>jobs_historic.schema</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>jobs_historic.sort(<span class="st">'2021'</span>, descending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>show(jobs_historic) <span class="co"># lengthMenu=[2, 5, 10, 25, 50, 100, 250]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+
+<style>.itables table td {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.itables table th {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.itables thead input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+.itables tfoot input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+</style>
+<div class="itables">
+<table id="f4a9009e-76ed-4fca-92be-68cc7d0a71d1" class="display nowrap" style="table-layout:auto;width:auto;margin:auto;caption-side:bottom"><thead>
+    <tr style="text-align: right;">
+      
+      <th>Options</th>
+      <th>2016</th>
+      <th>2021</th>
+    </tr>
+  </thead><tbody><tr><td>Loading... (need <a href="https://mwouts.github.io/itables/troubleshooting.html">help</a>?)</td></tr></tbody></table>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<script type="module">
+    // Import jquery and DataTable
+    import 'https://code.jquery.com/jquery-3.6.0.min.js';
+    import dt from 'https://cdn.datatables.net/1.12.1/js/jquery.dataTables.mjs';
+    dt($);
+
+    // Define the table data
+    const data = [["Agriculture, Forestry and Fishing", 697.0, 678.0], ["Mining", 1.836, 1.095], ["Manufacturing", 11.76, 12.023], ["Electricity, Gas, Water and Waste Services", 9.25, 10.625], ["Construction", 17.588, 23.37], ["Wholesale Trade", 7.386, 7.122], ["Retail Trade", 20.434, 19.043], ["Accommodation and Food Services", 31.239, 25.607], ["Transport, Postal and Warehousing", 17.982, 20.0], ["Information Media and Telecommunications", 25.91, 21.586], ["Financial and Insurance Services", 63.483, 82.797], ["Rental, Hiring and Real Estate Services", 8.518, 8.8], ["Professional, Scientific and Technical Services", 83.503, 107.964], ["Administrative and Support Services", 20.389, 21.207], ["Public Administration and Safety", 44.532, 59.73], ["Education and Training", 29.854, 32.33], ["Health Care and Social Assistance", 35.852, 46.616], ["Arts and Recreation Services", 17.45, 16.463], ["Other Services", 9.802, 10.682]];
+
+    // Define the dt_args
+    let dt_args = {"order": []};
+    dt_args["data"] = data;
+
+    $(document).ready(function () {
+        
+        $('#f4a9009e-76ed-4fca-92be-68cc7d0a71d1').DataTable(dt_args);
+    });
+</script>
+</div>
+</div>
+</div>
+<p>Have had the largest job capacity which again is reinforced by the forecast where we see an increase of jobs for these industries.</p>
+<p>Overall Melbourne is considered a modern society that has the resources and ability to priotise education and economical growth. This is also reflected in the Gross Regional Product for the region which historically has also seen a continous growth.</p>
+<p>If we aggrate the yearly job forecasts we see the following industries holds the lead for future jobs.</p>
+<div class="cell" data-execution_count="4">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Business services                 ┆ 4343624 │</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Finance and insurance             ┆ 3086449 │</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Health care and social assistanc… ┆ 2601547 │</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Public administration and safety  ┆ 2202208 │</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Food and beverage services        ┆ 1898525 │</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Education and training            ┆ 1501266 │</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>So we can rank the different areas with respect to health, finance and education respectively starting with a bounded forecast up until 2025.</p>
+<div class="cell" data-execution_count="5">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Finance and insurance'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2025</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank(<span class="st">'min'</span>).alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Health care and social assistance'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2025</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank().alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Education and training'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2025</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank().alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>).limit(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="47">
+
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
+</style>
+<small>shape: (3, 6)</small><table class="dataframe table table-sm table-striped"><thead><tr><th>Geography</th><th>Year</th><th>Category</th><th>Industry Space Use</th><th>Value</th><th>Rank</th></tr><tr><td>str</td><td>i64</td><td>str</td><td>str</td><td>i64</td><td>f32</td></tr></thead><tbody><tr><td>"City of Melbou…</td><td>2025</td><td>"Jobs by indust…</td><td>"Education and …</td><td>28003</td><td>70.0</td></tr><tr><td>"City of Melbou…</td><td>2024</td><td>"Jobs by indust…</td><td>"Education and …</td><td>26928</td><td>69.0</td></tr><tr><td>"City of Melbou…</td><td>2023</td><td>"Jobs by indust…</td><td>"Education and …</td><td>26031</td><td>68.0</td></tr></tbody></table></div>
+</div>
+</div>
+<p>The job forecast shows that the suburbs of South Yarra and Parkville have little traction for the before mentioned industries as they mainly consist of businesses such as restaurants and cafés. South Yarra has a <a href="https://en.wikipedia.org/wiki/South_Yarra">history</a> of being and attractive to live in with good proximity to CBD, schools, transportations and open lush parks and spaces.</p>
+<p>Next we will how they stand with a loose bound towards 2035, a change in 10 years.</p>
+<div class="cell" data-execution_count="6">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Finance and insurance'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2035</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank(<span class="st">'min'</span>).alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Health care and social assistance'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2035</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank().alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>jobs_industry.<span class="bu">filter</span>(pl.col(<span class="st">'Industry Space Use'</span>) <span class="op">==</span> <span class="st">'Education and training'</span>).<span class="bu">filter</span>(pl.col(<span class="st">'Year'</span>) <span class="op">&lt;=</span> <span class="dv">2035</span>).with_columns(pl.col(<span class="st">'Value'</span>).rank().alias(<span class="st">'Rank'</span>)).sort(<span class="st">'Rank'</span>, descending<span class="op">=</span><span class="va">True</span>).limit(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="48">
+
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
+</style>
+<small>shape: (3, 6)</small><table class="dataframe table table-sm table-striped"><thead><tr><th>Geography</th><th>Year</th><th>Category</th><th>Industry Space Use</th><th>Value</th><th>Rank</th></tr><tr><td>str</td><td>i64</td><td>str</td><td>str</td><td>i64</td><td>f32</td></tr></thead><tbody><tr><td>"City of Melbou…</td><td>2035</td><td>"Jobs by indust…</td><td>"Education and …</td><td>41386</td><td>210.0</td></tr><tr><td>"City of Melbou…</td><td>2034</td><td>"Jobs by indust…</td><td>"Education and …</td><td>40147</td><td>209.0</td></tr><tr><td>"City of Melbou…</td><td>2033</td><td>"Jobs by indust…</td><td>"Education and …</td><td>38916</td><td>208.0</td></tr></tbody></table></div>
+</div>
+</div>
+<p>As we can see the CBD of Melbourne is expected to see a huge increase the coming years with in jobs more specifically for finance and insurance.</p>
+<p>In terms of jobs in health care and social assistance services the Parkville suburb will see a big incease.</p>
+<p>Parkville houses one of Australia’s top hospitals both in its specializations but also as a teaching hospital. And since the general trend seems to favour more education this is likely to be correlated.</p>
+<p>Finance and insurance industries suffer the most in terms of comign jobs. The last couple of years have seen an increase in automation and so called “smart banks” for finances. This has led to an increase in fintech institutions and more specific work force required often from people with a higher level of education.</p>
+<ul>
+<li>TODO: Are there any industries that faces negative job changes?</li>
+<li>TODO: Are there any employment disparities across regions?</li>
+</ul>
+<section id="floor-space-use" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="floor-space-use"><span class="header-section-number">2.1</span> Floor space use</h2>
+</section>
+<section id="historic-validation" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="historic-validation"><span class="header-section-number">2.2</span> Historic validation</h2>
+<blockquote class="blockquote">
+<p>WIP</p>
+</blockquote>
+<ul>
+<li>TODO: Validate forecast analysis by comparing with historical data.</li>
+<li>TODO: Validation by historic data is important to assess the accuracy and reliability of the forecasts. Else our claims are hard to trust.</li>
+</ul>
+<p>It is also located right next to Toorak which is famous for its luxury residence and entreprenurs living there (https://en.wikipedia.org/wiki/Toorak,_Victoria).</p>
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="starostka/socviz" data-repo-id="R_kgDOJMS27g" data-category="General" data-category-id="DIC_kwDOJMS27s4CVWTw" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../pages/melbourne_residential.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Dwellings and Household</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../pages/conclusion.html" class="pagination-link">
+        <span class="nav-page-text">Summary</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2023, Benjamin Starostka &amp; Xinyi Liu</div>   
+  </div>
+</footer>
+
+
+
+</body></html>

@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Social Data and Visualization",
     "section": "",
-    "text": "Hi and welcome\n\n\n\nImage of Melbourne by Dmitry Osipenko from Unsplash\n\n\nBlah blah\nGonna write an introduction here.\n\n\n\n\nReuseCC"
+    "text": "Melbourne Pulse\n\n\n\nImage of Melbourne by Dmitry Osipenko from Unsplash\n\n\nWelcome to Melbourne Pulse - Let’s unveile Melbourne’s Dynamic Story! We are glad to introduce Melbourne urban deveploment by drawing the picture of the city through the lens of data. This is not only a story about charts and numbers, but also the story that help you get to know this vibrant and dynamic metropolis.\nIn our story, we will bring you the narrative data story by applying the Magazine Style, as it contains both descriptive information and visualization, which could create a sense of comfort and familiarity to the readers. For Visual Narrative, we used Progress Bar/Timebar,Zooming and Feature Distinction to describe the story in an interactive sense. In a magazine style data narrative, it is common to use Annotations, Accompanying Article, Introductory Text and Summary as the narrative structure.\nWe hope you enjoy the journey with us!\n\n\n\n\nReuseCC"
   },
   {
     "objectID": "pages/melbourne_details.html",
@@ -16,37 +16,79 @@
   {
     "objectID": "pages/melbourne.html",
     "href": "pages/melbourne.html",
-    "title": "Analysis and Visualization",
+    "title": "Introduction",
+    "section": "",
+    "text": "Show the code\nimport polars as pl\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport matplotx\n\nplt.style.use(matplotx.styles.dufte)\n\n\n\n1 About Melbourne\nMelbourne holds the distinction of being the second most populous city in both Australia and Oceania. As the center of south Australia, Melbourne is a sprawling urban area spanning 9,992 km2, which encompasses a metropolitan region comprising 31 municipalities (Source: Wikipedia). It has a population of 5 million, which takes up 19% of the population of Australia.\nThe initiative of this narrative data story is to provide you with an opportunity to delve into Melbourne’s city life through various data sets, including demographics, residential information, and employment data. By examining these aspects, you can see the potential opportunities in the city. Furthermore, we want to show the pictures of the future for Melbourne by applying the city’s forecasts data, and provide you with the insights of the city’s future development.\n\nThe data used is available at City of Melbourne open data portal\n\nHere’s a brief summary for each of the datasets used for this project.\n\nCity of Melbourne Jobs Forecasts by Small Area 2021-2041\n\n585 KB, 9114 rows, 5 cols, geodata: area name, age and gender\n\nCity of Melbourne Population Forecasts by Small Area 2021-2041\n\n710 KB, 17052 rows, 5 cols, geodata: area name\n\nCity of Melbourne Dwellings and Household Forecasts by Small Area 2021-2041\n\n161 KB, 2646 rows, 5 cols, geodata: area name\n\nCity of Melbourne Floor Space Forecasts by Small Area 2021-2041\n\n834 KB, 9996 rows, 5 cols, geodata: area name\n\nDevelopment Activity Monitor\n\n328 KB, 1430 rows, 42 cols, geodata: yes\n\n\n\n\n\n\nReuseCC"
+  },
+  {
+    "objectID": "pages/melbourne_population.html",
+    "href": "pages/melbourne_population.html",
+    "title": "Demographics",
     "section": "",
     "text": "Show the code\nimport polars as pl\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport matplotx\n\nplt.style.use(matplotx.styles.dufte)"
   },
   {
-    "objectID": "pages/melbourne.html#population",
-    "href": "pages/melbourne.html#population",
-    "title": "Analysis and Visualization",
-    "section": "2.1 Population",
-    "text": "2.1 Population\n\nWIP"
+    "objectID": "pages/melbourne_population.html#population",
+    "href": "pages/melbourne_population.html#population",
+    "title": "Demographics",
+    "section": "1.1 Population",
+    "text": "1.1 Population\n\nWIP"
   },
   {
-    "objectID": "pages/melbourne.html#residentials",
-    "href": "pages/melbourne.html#residentials",
-    "title": "Analysis and Visualization",
-    "section": "2.2 Residentials",
-    "text": "2.2 Residentials\n\nWIP"
+    "objectID": "pages/melbourne_population.html#residentials",
+    "href": "pages/melbourne_population.html#residentials",
+    "title": "Demographics",
+    "section": "1.2 Residentials",
+    "text": "1.2 Residentials\n\nWIP"
   },
   {
-    "objectID": "pages/melbourne.html#jobs-and-employments",
-    "href": "pages/melbourne.html#jobs-and-employments",
-    "title": "Analysis and Visualization",
-    "section": "2.3 Jobs and employments",
-    "text": "2.3 Jobs and employments\n\nWIP\n\n\nTODO: Forecasted employment rates/job growth based on geographical location\nTODO: Comparison of job categories\nTODO: Simple correlation analysis between forecast types\nTODO: Employment disparities across regions"
+    "objectID": "pages/melbourne_population.html#jobs-and-employments",
+    "href": "pages/melbourne_population.html#jobs-and-employments",
+    "title": "Demographics",
+    "section": "1.3 Jobs and employments",
+    "text": "1.3 Jobs and employments\n\nWIP\n\n\nTODO: Forecasted employment rates/job growth based on geographical location\nTODO: Comparison of job categories\nTODO: Simple correlation analysis between forecast types\nTODO: Employment disparities across regions"
   },
   {
-    "objectID": "pages/melbourne.html#historic-validation",
-    "href": "pages/melbourne.html#historic-validation",
-    "title": "Analysis and Visualization",
-    "section": "2.4 Historic validation",
-    "text": "2.4 Historic validation\n\nWIP\n\n\nTODO: Validate forecast analysis by comparing with historical data.\nTODO: Validation by historic data is important to assess the accuracy and reliability of the forecasts. Else our claims are hard to trust."
+    "objectID": "pages/melbourne_population.html#historic-validation",
+    "href": "pages/melbourne_population.html#historic-validation",
+    "title": "Demographics",
+    "section": "1.4 Historic validation",
+    "text": "1.4 Historic validation\n\nWIP\n\n\nTODO: Validate forecast analysis by comparing with historical data.\nTODO: Validation by historic data is important to assess the accuracy and reliability of the forecasts. Else our claims are hard to trust."
+  },
+  {
+    "objectID": "pages/melbourne_residential.html",
+    "href": "pages/melbourne_residential.html",
+    "title": "Dwellings and Household",
+    "section": "",
+    "text": "ReuseCC"
+  },
+  {
+    "objectID": "pages/melbourne_job.html",
+    "href": "pages/melbourne_job.html",
+    "title": "Employment and Jobs",
+    "section": "",
+    "text": "We’ve investigated how jobs are distributed across industry types and their focasted rate of change in different areas of Melbourne. Melbourne at the time of writing supports 527,738 jobs and an annual economic output of $215.213 billion according to remplan.\nKey findings:\n\nIndustries in finance, health and education are among the top ranking when it comes to future jobs\nParkville and South Yarra suburbs is expected to have the most jobs in restaurants, entertainment, small jobs etc.\nBigger financial firms and industries such as financial institutino, health and education happens closest to the CBD\n\nFrom the data we have available the suburbs considered are Carlton, Parkville, Kensington and Sout Yarra. They are all scattered around the Melbourne central business district (CBD)."
+  },
+  {
+    "objectID": "pages/melbourne_job.html#floor-space-use",
+    "href": "pages/melbourne_job.html#floor-space-use",
+    "title": "Employment and Jobs",
+    "section": "2.1 Floor space use",
+    "text": "2.1 Floor space use"
+  },
+  {
+    "objectID": "pages/melbourne_job.html#historic-validation",
+    "href": "pages/melbourne_job.html#historic-validation",
+    "title": "Employment and Jobs",
+    "section": "2.2 Historic validation",
+    "text": "2.2 Historic validation\n\nWIP\n\n\nTODO: Validate forecast analysis by comparing with historical data.\nTODO: Validation by historic data is important to assess the accuracy and reliability of the forecasts. Else our claims are hard to trust.\n\nIt is also located right next to Toorak which is famous for its luxury residence and entreprenurs living there (https://en.wikipedia.org/wiki/Toorak,_Victoria)."
+  },
+  {
+    "objectID": "pages/conclusion.html",
+    "href": "pages/conclusion.html",
+    "title": "Summary",
+    "section": "",
+    "text": "ReuseCC"
   },
   {
     "objectID": "pages/san_francisco.html",

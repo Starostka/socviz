@@ -2,26 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://starostka.github.io/socviz/index.html</loc>
-    <lastmod>2023-05-09T21:33:50.237Z</lastmod>
+    <lastmod>2023-05-12T17:28:41.500Z</lastmod>
   </url>
   <url>
     <loc>https://starostka.github.io/socviz/pages/melbourne_details.html</loc>
-    <lastmod>2023-05-09T21:33:51.134Z</lastmod>
+    <lastmod>2023-05-12T17:28:42.379Z</lastmod>
   </url>
   <url>
     <loc>https://starostka.github.io/socviz/pages/melbourne.html</loc>
-    <lastmod>2023-05-09T21:33:52.691Z</lastmod>
+    <lastmod>2023-05-12T17:28:43.929Z</lastmod>
+  </url>
+  <url>
+    <loc>https://starostka.github.io/socviz/pages/melbourne_population.html</loc>
+    <lastmod>2023-05-12T17:28:48.041Z</lastmod>
+  </url>
+  <url>
+    <loc>https://starostka.github.io/socviz/pages/melbourne_residential.html</loc>
+    <lastmod>2023-05-12T17:28:51.388Z</lastmod>
+  </url>
+  <url>
+    <loc>https://starostka.github.io/socviz/pages/melbourne_job.html</loc>
+    <lastmod>2023-05-12T17:28:52.895Z</lastmod>
+  </url>
+  <url>
+    <loc>https://starostka.github.io/socviz/pages/conclusion.html</loc>
+    <lastmod>2023-05-12T17:28:56.530Z</lastmod>
   </url>
   <url>
     <loc>https://starostka.github.io/socviz/pages/san_francisco.html</loc>
-    <lastmod>2023-05-09T21:33:56.812Z</lastmod>
+    <lastmod>2023-05-12T17:28:57.914Z</lastmod>
   </url>
   <url>
     <loc>https://starostka.github.io/socviz/about.html</loc>
-    <lastmod>2023-05-09T21:34:08.885Z</lastmod>
+    <lastmod>2023-05-12T17:28:59.456Z</lastmod>
   </url>
   <url>
     <loc>https://starostka.github.io/socviz/contact.html</loc>
-    <lastmod>2023-05-09T21:34:09.855Z</lastmod>
+    <lastmod>2023-05-12T17:29:00.352Z</lastmod>
   </url>
 </urlset>
