@@ -6,16 +6,125 @@ execute:
 title-block-banner: ../assets/job.jpg
 ---
 
-## Jobs and employments
-> WIP
+```{python}
+#| echo: false
+import polars as pl
+import matplotlib.pyplot as plt
+import matplotx
+from datetime import date, time
+from polars.dataframe import DataFrame
+from rich import print
+from pathlib import Path
+from typing import Protocol
+from dataclasses import dataclass
+from scipy import stats
+from itables import show
 
-- TODO: Forecasted employment rates/job growth based on geographical location
-- TODO: Comparison of job categories
-- TODO: Simple correlation analysis between forecast types
-- TODO: Employment disparities across regions
+plt.style.use(matplotx.styles.dufte)
+
+@dataclass
+class VizData:
+    title: str
+    ylabel: str
+    xlabel: str
+    df: DataFrame = None
+
+jobs = pl.read_csv('../data/jobs_forecast.csv', ignore_errors=True, try_parse_dates=True)
+jobs_industry = jobs.filter(pl.col('Category') == 'Jobs by industry')
+jobs_space = jobs.filter(pl.col('Category') == 'Jobs by space use')
+```
+
+# Introduction
+
+We've investigated how jobs are distributed across industry types and their focasted rate of change in different areas of Melbourne. Melbourne at the time of writing supports 527,738 jobs and an annual economic output of $215.213 billion according to [remplan](https://app.remplan.com.au/melbourne-lga/economy/industries/wages-salaries?state=5wPkHA!AgXqf4O0phWmZ56h254YDTmTaIDlbFG1615cqNXNys4Ie0uGINhPPdKf24x).
+
+Key findings:
+
+- Industries in finance, health and education are among the top ranking when it comes to future jobs
+- Parkville and South Yarra suburbs is expected to have the most jobs in restaurants, entertainment, small jobs etc.
+- Bigger financial firms and industries such as financial institutino, health and education happens closest to the CBD
+
+From the data we have available the suburbs considered are Carlton, Parkville, Kensington and Sout Yarra.
+They are all scattered around the Melbourne central business district (CBD).
+
+# Jobs and employments
+
+In the coming years the city of Melbourne is expected to see a steady and substantial increase in the jobs available across different industries.
+<!-- ```python
+data = (jobs_industry
+        .filter(pl.col('Industry Space Use') == 'Total jobs')
+        .sort('Year')
+        .groupby('Geography').agg([pl.col('Year'), pl.col('Value')]))
+viz = VizData(title="Total jobs forecast, City of Melbourne", ylabel="Total jobs", xlabel="Year", df=data)
+plt.bar(data['Year'], data['Value'])
+#plt.plot(data['Year'], data['Value'])
+plt.title(viz.title)
+plt.ylabel(viz.ylabel)
+plt.xlabel(viz.xlabel)
+plt.show()
+``` -->
+
+We can quickly inspect what areas and industries have the steadiest trend in the jobs forecast from the mean value.
+```{python}
+grouped = jobs_industry.groupby(['Geography', 'Industry Space Use'], maintain_order=True).agg([pl.col('Value').mean()]).sort('Value', descending=True).limit(8)
+show(grouped)
+```
+
+Historically considering data from 2016 and 2021 employment in the space of (Professional, Scientific and Technical Services) and (Financial and Insurance Services).
+```{python}
+# src: https://app.remplan.com.au/melbourne-lga/economy/trends/jobs?state=GLZrFN!az4VClkNKSYeGD6Uvqea6f0c4I6ZouPIWIKJhGI8hxx7AUwzL
+jobs_historic = pl.read_csv('../data/melbourne-jobs-historically.csv', separator=';')
+jobs_historic.schema
+jobs_historic.sort('2021', descending=True)
+show(jobs_historic) # lengthMenu=[2, 5, 10, 25, 50, 100, 250]
+```
+Have had the largest job capacity which again is reinforced by the forecast where we see an increase of jobs for these industries.
+
+Overall Melbourne is considered a modern society that has the resources and ability to priotise  education and economical growth. This is also reflected in the Gross Regional Product for the region which historically has also seen a continous growth.
+
+If we aggrate the yearly job forecasts we see the following industries holds the lead for future jobs.
+```{python}
+# Business services                 ┆ 4343624 │
+# Finance and insurance             ┆ 3086449 │
+# Health care and social assistanc… ┆ 2601547 │
+# Public administration and safety  ┆ 2202208 │
+# Food and beverage services        ┆ 1898525 │
+# Education and training            ┆ 1501266 │
+```
+
+So we can rank the different areas with respect to health, finance and education respectively starting with a bounded forecast up until 2025.
+
+```{python}
+jobs_industry.filter(pl.col('Industry Space Use') == 'Finance and insurance').filter(pl.col('Year') <= 2025).with_columns(pl.col('Value').rank('min').alias('Rank')).sort('Rank', descending=True)
+jobs_industry.filter(pl.col('Industry Space Use') == 'Health care and social assistance').filter(pl.col('Year') <= 2025).with_columns(pl.col('Value').rank().alias('Rank')).sort('Rank', descending=True)
+jobs_industry.filter(pl.col('Industry Space Use') == 'Education and training').filter(pl.col('Year') <= 2025).with_columns(pl.col('Value').rank().alias('Rank')).sort('Rank', descending=True).limit(3)
+```
+The job forecast shows that the suburbs of South Yarra and Parkville have little traction for the before mentioned industries as they mainly consist of businesses such as restaurants and cafés. South Yarra has a [history](https://en.wikipedia.org/wiki/South_Yarra) of being and attractive to live in with good proximity to CBD, schools, transportations and open lush parks and spaces.
+
+Next we will how they stand with a loose bound towards 2035, a change in 10 years.
+```{python}
+jobs_industry.filter(pl.col('Industry Space Use') == 'Finance and insurance').filter(pl.col('Year') <= 2035).with_columns(pl.col('Value').rank('min').alias('Rank')).sort('Rank', descending=True)
+jobs_industry.filter(pl.col('Industry Space Use') == 'Health care and social assistance').filter(pl.col('Year') <= 2035).with_columns(pl.col('Value').rank().alias('Rank')).sort('Rank', descending=True)
+jobs_industry.filter(pl.col('Industry Space Use') == 'Education and training').filter(pl.col('Year') <= 2035).with_columns(pl.col('Value').rank().alias('Rank')).sort('Rank', descending=True).limit(3)
+```
+As we can see the CBD of Melbourne is expected to see a huge increase the coming years with in jobs more specifically for finance and insurance.
+
+In terms of jobs in health care and social assistance services the Parkville suburb will see a big incease.
+
+Parkville houses one of Australia's top hospitals both in its specializations but also as a teaching hospital. And since the general trend seems to favour more education this is likely to be correlated.  
+
+Finance and insurance industries suffer the most in terms of comign jobs. The last couple of years have seen an increase in automation
+and so called "smart banks" for finances. This has led to an increase in fintech institutions and more specific work force required often from people with a higher level of education. 
+
+- TODO: Are there any industries that faces negative job changes?
+- TODO: Are there any employment disparities across regions?
+
+## Floor space use
 
 ## Historic validation
 > WIP
 
 - TODO: Validate forecast analysis by comparing with historical data.
 - TODO: Validation by historic data is important to assess the accuracy and reliability of the forecasts. Else our claims are hard to trust.
+
+It is also located right next to Toorak which is famous for its luxury residence and entreprenurs living there (https://en.wikipedia.org/wiki/Toorak,_Victoria).
