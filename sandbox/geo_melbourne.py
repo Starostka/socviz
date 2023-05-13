@@ -31,7 +31,5 @@ for location in locations:
     name, latitude, longitude = location
     folium.Marker(location=[latitude, longitude], popup=name).add_to(melbourne_map)
 
-# melbourne_map
-
 melbourne_map.save("melbourne_map.html")
 #webbrowser.open("melbourne_map.html")

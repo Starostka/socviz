@@ -11,6 +11,15 @@ title-block-banner: ../assets/job.jpg
 import polars as pl
 import matplotlib.pyplot as plt
 import matplotx
+import itables.options as opt
+import folium
+import numpy as np
+import seaborn as sns
+from bokeh.io import output_file, show
+from bokeh.models import ColumnDataSource
+from bokeh.plotting import figure
+from bokeh.plotting import show as b_show
+from bokeh.models import DataTable, TableColumn, Tabs, TabPanel
 from datetime import date, time
 from polars.dataframe import DataFrame
 from rich import print
@@ -18,8 +27,12 @@ from pathlib import Path
 from typing import Protocol
 from dataclasses import dataclass
 from scipy import stats
-from itables import show
-import folium
+from itables import show as i_show
+from itables import init_notebook_mode
+
+import bokeh.io
+from bokeh.resources import INLINE
+from bokeh import *
 
 plt.style.use(matplotx.styles.dufte)
 
@@ -33,6 +46,17 @@ class VizData:
 jobs = pl.read_csv('../data/jobs_forecast.csv', ignore_errors=True, try_parse_dates=True)
 jobs_industry = jobs.filter(pl.col('Category') == 'Jobs by industry')
 jobs_space = jobs.filter(pl.col('Category') == 'Jobs by space use')
+
+opt.css = """
+.itables { margin-top: 15px; margin-bottom: 20px;}
+"""
+init_notebook_mode(all_interactive=False)
+
+```
+
+```{python}
+#| echo: false
+bokeh.io.output_notebook(INLINE)
 ```
 
 # Introduction
@@ -99,67 +123,230 @@ plt.xlabel(viz.xlabel)
 plt.show()
 ``` -->
 
-We can quickly inspect what areas and industries have the steadiest trend in the jobs forecast from the mean value.
+We can quickly inspect what areas and industries have the most positive growth overall from the aggregated mean.
 ```{python}
-grouped = jobs_industry.groupby(['Geography', 'Industry Space Use'], maintain_order=True).agg([pl.col('Value').mean()]).sort('Value', descending=True).limit(8)
-show(grouped)
+grouped = jobs_industry.filter(pl.col('Industry Space Use') != 'Total jobs').groupby(['Geography', 'Industry Space Use'], maintain_order=True).agg([pl.col('Value').mean()]).sort('Value', descending=True).limit(8)
+i_show(grouped)
 ```
 
-Historically considering data from 2016 and 2021 employment in the space of (Professional, Scientific and Technical Services) and (Financial and Insurance Services).
+Historically based on data from 2016 and 2021, the employment space of (Professional, Scientific and Technical Services) and (Financial and Insurance Services) has had the largest job capacity.
+
 ```{python}
 # src: https://app.remplan.com.au/melbourne-lga/economy/trends/jobs?state=GLZrFN!az4VClkNKSYeGD6Uvqea6f0c4I6ZouPIWIKJhGI8hxx7AUwzL
 jobs_historic = pl.read_csv('../data/melbourne-jobs-historically.csv', separator=';')
 jobs_historic.schema
-jobs_historic.sort('2021', descending=True)
-show(jobs_historic) # lengthMenu=[2, 5, 10, 25, 50, 100, 250]
+set(jobs_historic['Options'])
+q = (jobs_historic
+ .sort('2021', descending=True))
+
+q = q.filter(pl.col('Options').is_in(['Professional, Scientific and Technical Services',
+                                  'Financial and Insurance Services',
+                                  'Education and Training',
+                                  'Health Care and Social Assistance',
+                                  'Accomodation and Food Services']))
+q
+
+fig, ax = plt.subplots()
+cat = tuple(q['Options'].unique())
+y_pos = np.arange(len(cat))
+change = q['2021'] - q['2016']
+
+ax.barh(y_pos, q['2021'], xerr=change, align='center')
+ax.set_yticks(y_pos, labels=cat)
+ax.invert_yaxis()
+ax.set_xlabel('Employments')
+ax.set_title('Employments back in 2016 and 2021')
+
+plt.show()
+
 ```
-Have had the largest job capacity which again is reinforced by the forecast where we see an increase of jobs for these industries.
 
-Overall Melbourne is considered a modern society that has the resources and ability to priotise  education and economical growth. This is also reflected in the Gross Regional Product for the region which historically has also seen a continous growth.
+Overall Melbourne is considered a modern society that has the resources and ability to priotise education and economical growth. This is also reflected in the Gross Regional Product for the region which historically have also experiences a continous growth.
 
-If we aggrate the yearly job forecasts we see the following industries holds the lead for future jobs.
+This is reinforced in the forecast. And especially so for the CBD. If we aggrate the job forecasts in area groups we see the following rates of change.
 ```{python}
-# Business services                 ┆ 4343624 │
-# Finance and insurance             ┆ 3086449 │
-# Health care and social assistanc… ┆ 2601547 │
-# Public administration and safety  ┆ 2202208 │
-# Food and beverage services        ┆ 1898525 │
-# Education and training            ┆ 1501266 │
-```
+jobs = pl.read_csv('../data/jobs_forecast.csv', ignore_errors=True, try_parse_dates=True)
+jobs.columns
+jobs.shape
+jobs.describe()
 
-So we can rank the different areas with respect to health, finance and education respectively starting with a bounded forecast up until 2025.
+jobs['Category'].unique()
+list(jobs['Industry Space Use'].unique())
+
+jobs_industry = jobs.filter(pl.col('Category') == 'Jobs by industry')
+
+q = (jobs_industry
+     .filter(pl.col('Industry Space Use') == 'Total jobs')
+     .sort('Year')
+     .groupby(['Geography', 'Year'], maintain_order=True)
+     .agg(pl.sum('Value'))
+     .with_columns([
+         pl.col('Value').log().alias('Value_log'),
+         pl.col('Year').cast(pl.UInt32)
+     ]))
+set(q['Geography'].unique())
+q = q.filter(pl.col('Geography').is_in(['Melbourne (CBD)', 'Carlton', 'Kensington', 'Parkville', 'South Yarra', 'Southbank']))
+
+sns.relplot(q, x='Year', y='Value', hue="Geography", kind="line")
+plt.title("Job forecasts for areas")
+plt.ylabel('Jobs')
+plt.xlabel('Year')
+plt.show()
+```
+With Southbank and Parkville in close proximity to CBD being in the lead in regards to total jobs.
+
+Next we can rank the different areas with respect to health, finance and education respectively starting with a bounded forecast up until 2025.
 
 ```{python}
-jobs_industry.filter(pl.col('Industry Space Use') == 'Finance and insurance').filter(pl.col('Year') <= 2025).with_columns(pl.col('Value').rank('min').alias('Rank')).sort('Rank', descending=True)
-jobs_industry.filter(pl.col('Industry Space Use') == 'Health care and social assistance').filter(pl.col('Year') <= 2025).with_columns(pl.col('Value').rank().alias('Rank')).sort('Rank', descending=True)
-jobs_industry.filter(pl.col('Industry Space Use') == 'Education and training').filter(pl.col('Year') <= 2025).with_columns(pl.col('Value').rank().alias('Rank')).sort('Rank', descending=True).limit(3)
-```
-The job forecast shows that the suburbs of South Yarra and Parkville have little traction for the before mentioned industries as they mainly consist of businesses such as restaurants and cafés. South Yarra has a [history](https://en.wikipedia.org/wiki/South_Yarra) of being and attractive to live in with good proximity to CBD, schools, transportations and open lush parks and spaces.
+jobs = pl.read_csv('../data/jobs_forecast.csv', ignore_errors=True, try_parse_dates=True)
 
-Next we will how they stand with a loose bound towards 2035, a change in 10 years.
+jobs_industry = jobs.filter(pl.col('Category') == 'Jobs by industry')
+q = jobs_industry.filter(pl.col('Geography').is_in(['Melbourne (CBD)', 'Carlton', 'Kensington', 'Parkville', 'South Yarra', 'Southbank']))
+
+finance_ranks = q.filter(pl.col('Industry Space Use') == 'Finance and insurance').filter(pl.col('Year') <= 2025).with_columns(pl.col('Value').rank().alias('Rank')).sort('Rank', descending=True).filter(pl.col('Year') == 2025).limit(5)
+finance_ranks[['Geography', 'Year', 'Rank']].limit(5)
+
+healthcare_ranks = q.filter(pl.col('Industry Space Use') == 'Health care and social assistance').filter(pl.col('Year') <= 2025).with_columns(pl.col('Value').rank().alias('Rank')).sort('Rank', descending=True).filter(pl.col('Year') == 2025).limit(5)
+healthcare_ranks[['Geography', 'Year', 'Rank']].limit(5)
+
+education_ranks = q.filter(pl.col('Industry Space Use') == 'Education and training').filter(pl.col('Year') <= 2025).with_columns(pl.col('Value').rank().alias('Rank')).sort('Rank', descending=True).filter(pl.col('Year') == 2025).limit(5)
+
+# Create ColumnDataSource for each data frame
+finance_source = ColumnDataSource(finance_ranks[['Geography', 'Year', 'Rank']].to_pandas())
+healthcare_source = ColumnDataSource(healthcare_ranks[['Geography', 'Year', 'Rank']].to_pandas())
+education_source = ColumnDataSource(education_ranks[['Geography', 'Year', 'Rank']].to_pandas())
+
+# Create DataTables for each data frame
+finance_table = DataTable(
+    source=finance_source,
+    columns=[TableColumn(field='Geography', title='Geography'),
+             TableColumn(field='Year', title='Year'),
+             TableColumn(field='Rank', title='Rank')],
+    width=400, height=200,
+    index_position=-1  # Hide index column
+)
+
+healthcare_table = DataTable(
+    source=healthcare_source,
+    columns=[TableColumn(field='Geography', title='Geography'),
+             TableColumn(field='Year', title='Year'),
+             TableColumn(field='Rank', title='Rank')],
+    width=400, height=200,
+    index_position=-1  # Hide index column
+)
+
+education_table = DataTable(
+    source=education_source,
+    columns=[TableColumn(field='Geography', title='Geography'),
+             TableColumn(field='Year', title='Year'),
+             TableColumn(field='Rank', title='Rank')],
+    width=400, height=200,
+    index_position=-1  # Hide index column
+)
+
+# Create panels for each table
+finance_panel = TabPanel(child=finance_table, title='Finance')
+healthcare_panel = TabPanel(child=healthcare_table, title='Healthcare')
+education_panel = TabPanel(child=education_table, title='Education')
+
+# Create tabs layout
+tabs = Tabs(tabs=[finance_panel, healthcare_panel, education_panel])
+b_show(tabs)
+```
+The job forecast shows that the suburbs of South Yarra and Parkville have little traction for the before mentioned industries as they mainly consist of businesses such as restaurants and cafés. South Yarra has a [history](https://en.wikipedia.org/wiki/South_Yarra) of being and attractive to live in with good proximity to CBD, schools, transportations and open lush parks and spaces. 
+
+It is also located right next to [Toorak](https://en.wikipedia.org/wiki/Toorak,_Victoria) which is famous for its luxury residence and entreprenurs living there.
+
+Next we will how they stand with a looser bound towards 2035, a change in 10 years.
 ```{python}
-jobs_industry.filter(pl.col('Industry Space Use') == 'Finance and insurance').filter(pl.col('Year') <= 2035).with_columns(pl.col('Value').rank('min').alias('Rank')).sort('Rank', descending=True)
-jobs_industry.filter(pl.col('Industry Space Use') == 'Health care and social assistance').filter(pl.col('Year') <= 2035).with_columns(pl.col('Value').rank().alias('Rank')).sort('Rank', descending=True)
-jobs_industry.filter(pl.col('Industry Space Use') == 'Education and training').filter(pl.col('Year') <= 2035).with_columns(pl.col('Value').rank().alias('Rank')).sort('Rank', descending=True).limit(3)
+jobs = pl.read_csv('../data/jobs_forecast.csv', ignore_errors=True, try_parse_dates=True)
+
+jobs_industry = jobs.filter(pl.col('Category') == 'Jobs by industry')
+q = jobs_industry.filter(pl.col('Geography').is_in(['Melbourne (CBD)', 'Carlton', 'Kensington', 'Parkville', 'South Yarra', 'Southbank']))
+
+finance_ranks = q.filter(pl.col('Industry Space Use') == 'Finance and insurance').filter(pl.col('Year') <= 2035).with_columns(pl.col('Value').rank().alias('Rank')).sort('Rank', descending=True).filter(pl.col('Year') == 2035).limit(5)
+finance_ranks[['Geography', 'Year', 'Rank']].limit(5)
+
+healthcare_ranks = q.filter(pl.col('Industry Space Use') == 'Health care and social assistance').filter(pl.col('Year') <= 2035).with_columns(pl.col('Value').rank().alias('Rank')).sort('Rank', descending=True).filter(pl.col('Year') == 2035).limit(5)
+healthcare_ranks[['Geography', 'Year', 'Rank']].limit(5)
+
+education_ranks = q.filter(pl.col('Industry Space Use') == 'Education and training').filter(pl.col('Year') <= 2035).with_columns(pl.col('Value').rank().alias('Rank')).sort('Rank', descending=True).filter(pl.col('Year') == 2035).limit(5)
+
+# Create ColumnDataSource for each data frame
+finance_source = ColumnDataSource(finance_ranks[['Geography', 'Year', 'Rank']].to_pandas())
+healthcare_source = ColumnDataSource(healthcare_ranks[['Geography', 'Year', 'Rank']].to_pandas())
+education_source = ColumnDataSource(education_ranks[['Geography', 'Year', 'Rank']].to_pandas())
+
+# Create DataTables for each data frame
+finance_table = DataTable(
+    source=finance_source,
+    columns=[TableColumn(field='Geography', title='Geography'),
+             TableColumn(field='Year', title='Year'),
+             TableColumn(field='Rank', title='Rank')],
+    width=400, height=200,
+    index_position=-1  # Hide index column
+)
+
+healthcare_table = DataTable(
+    source=healthcare_source,
+    columns=[TableColumn(field='Geography', title='Geography'),
+             TableColumn(field='Year', title='Year'),
+             TableColumn(field='Rank', title='Rank')],
+    width=400, height=200,
+    index_position=-1  # Hide index column
+)
+
+education_table = DataTable(
+    source=education_source,
+    columns=[TableColumn(field='Geography', title='Geography'),
+             TableColumn(field='Year', title='Year'),
+             TableColumn(field='Rank', title='Rank')],
+    width=400, height=200,
+    index_position=-1  # Hide index column
+)
+
+# Create panels for each table
+finance_panel = TabPanel(child=finance_table, title='Finance')
+healthcare_panel = TabPanel(child=healthcare_table, title='Healthcare')
+education_panel = TabPanel(child=education_table, title='Education')
+
+# Create tabs layout
+tabs = Tabs(tabs=[finance_panel, healthcare_panel, education_panel])
+b_show(tabs)
 ```
-As we can see the CBD of Melbourne is expected to see a huge increase the coming years with in jobs more specifically for finance and insurance.
+As we can see the CBD of Melbourne is flourishing with more jobs in finance and insurance.
 
-In terms of jobs in health care and social assistance services the Parkville suburb will see a big incease.
+Parkville houses one of Australia's top hospitals both in its specializations but also as a teaching hospital. And since the general trend seems to favour more education this has a postive net effect on jobs om the parkville suburb.
 
-Parkville houses one of Australia's top hospitals both in its specializations but also as a teaching hospital. And since the general trend seems to favour more education this is likely to be correlated.  
+## Employment impact for the younger workforce
 
-Finance and insurance industries suffer the most in terms of comign jobs. The last couple of years have seen an increase in automation
-and so called "smart banks" for finances. This has led to an increase in fintech institutions and more specific work force required often from people with a higher level of education. 
+With the expected increase in population, especially for young adults. One might think that's partly a result of an increase in job opportunities. Here we consider the younger group of women and the industry space of finance and insurance.
+```{python}
+jobs = pl.read_csv('../data/jobs_forecast.csv', ignore_errors=True, try_parse_dates=True)
+jobs_industry = jobs.filter(pl.col('Category') == 'Jobs by industry').sort('Year')
+jobs_industry = jobs_industry.filter(pl.col('Geography') == 'City of Melbourne')
+jobs_industry = jobs_industry.filter(pl.col('Industry Space Use') == 'Finance and insurance')
+#jobs_industry['Year'].max()
 
-- TODO: Are there any industries that faces negative job changes?
-- TODO: Are there any employment disparities across regions?
+population = pl.read_csv('../data/population_forecast.csv', ignore_errors=True, try_parse_dates=True)
+population = population.filter(pl.col('Geography') == 'City of Melbourne')
+population = population.filter(pl.col('Gender') == 'Female')
+# population = population.filter(pl.col('Age') == 'Average age')
+population = population.filter(pl.col('Age') == 'Age 20-24')
 
-## Floor space use
+joined = jobs_industry.join(population, on='Year', suffix='_population')
+joined = joined.rename({"Value": "Jobs", "Value_population": "Population"})
 
-## Historic validation
-> WIP
+corr = joined[['Year', 'Jobs', 'Population']]
 
-- TODO: Validate forecast analysis by comparing with historical data.
-- TODO: Validation by historic data is important to assess the accuracy and reliability of the forecasts. Else our claims are hard to trust.
+f, ax = plt.subplots(figsize=(8, 5))
 
-It is also located right next to Toorak which is famous for its luxury residence and entreprenurs living there (https://en.wikipedia.org/wiki/Toorak,_Victoria).
+sns.heatmap(corr[['Year', 'Jobs', 'Population']].corr(), annot=True) 
+
+plt.title('Correlation matrix', size=12)
+ax.set_xticklabels(list(corr[['Year', 'Jobs', 'Population']].columns), size=12, rotation=90)
+ax.set_yticklabels(list(corr[['Year', 'Jobs', 'Population']].columns), size=12, rotation=0)
+plt.show()
+```
+
+The last couple of years have seen an increase in automation and so called "smart banks", also known as "fintech" institutions. They are keen on adopting the newest in technology and often houses employees with higher levels of education needed to sustain the digital demands. The positive correlation here is vague to assume alone on the population and jobs. But we still think it is fair to say that young adults recently graduated is attracted by these cooporate firms.

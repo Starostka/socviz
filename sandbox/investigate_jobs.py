@@ -34,18 +34,7 @@ list(jobs['Industry Space Use'].unique())
 jobs_industry = jobs.filter(pl.col('Category') == 'Jobs by industry')
 jobs_space = jobs.filter(pl.col('Category') == 'Jobs by space use')
 
-data = (jobs_industry
-        .filter(pl.col('Industry Space Use') == 'Total jobs')
-        .sort('Year')
-        .groupby('Geography').agg([pl.col('Year'), pl.col('Value')]))
-
-viz = VizData(title="Total jobs forecast, City of Melbourne", ylabel="Total jobs", xlabel="Year", df=data)
-plt.bar(data['Year'], data['Value'])
-#plt.plot(data['Year'], data['Value'])
-plt.title(viz.title)
-plt.ylabel(viz.ylabel)
-plt.xlabel(viz.xlabel)
-plt.show()
+set(jobs_industry['Industry Space Use'].unique())
 
 
 jobs_category = jobs.groupby('Category')
@@ -77,7 +66,6 @@ geo_forecast(jobs_industry, 'Health care and social assistance')
 geo_forecast(jobs_industry, 'Finance and insurance')
 
 jobs_industry
-
 
 
 # == Investigating jobs by space use
@@ -246,3 +234,33 @@ second = (jobs_industry
 res = stats.pearsonr(first['Value'], second['Value'])
 res.confidence_interval()
 res
+
+
+
+import numpy as np
+jobs_historic = pl.read_csv('data/melbourne-jobs-historically.csv', separator=';')
+jobs_historic.schema
+set(jobs_historic['Options'])
+q = (jobs_historic
+ .sort('2021', descending=True))
+
+q = q.filter(pl.col('Options').is_in(['Professional, Scientific and Technical Services',
+                                  'Financial and Insurance Services',
+                                  'Education and Training',
+                                  'Health Care and Social Assistance',
+                                  'Accomodation and Food Services']))
+q
+
+fig, ax = plt.subplots()
+# cat = ('Professional, Scientific and Technical Services', 'Financial and Insurance Services')
+cat = tuple(q['Options'].unique())
+y_pos = np.arange(len(cat))
+change = q['2021'] - q['2016']
+
+ax.barh(y_pos, q['2021'], xerr=change, align='center')
+ax.set_yticks(y_pos, labels=cat)
+ax.invert_yaxis()  # labels read top-to-bottom
+ax.set_xlabel('Employments')
+ax.set_title('Employments back in 2016 and 2021')
+
+plt.show()
