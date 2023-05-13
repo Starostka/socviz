@@ -63,25 +63,11 @@
     "text": "ReuseCC"
   },
   {
-    "objectID": "pages/melbourne_job.html",
-    "href": "pages/melbourne_job.html",
+    "objectID": "pages/melbourne_job.html#employment-impact-for-the-younger-workforce",
+    "href": "pages/melbourne_job.html#employment-impact-for-the-younger-workforce",
     "title": "Employment and Jobs",
-    "section": "",
-    "text": "We’ve investigated how jobs are distributed across industry types and their focasted rate of change in different areas of Melbourne. Melbourne at the time of writing supports 527,738 jobs and an annual economic output of $215.213 billion according to remplan.\nKey findings:\n\nIndustries in finance, health and education are among the top ranking when it comes to future jobs\nParkville and South Yarra suburbs is expected to have the most jobs in restaurants, entertainment, small jobs etc.\nBigger financial firms and industries such as financial institutino, health and education happens closest to the CBD\n\nFrom the data we have available the suburbs considered are Carlton, Parkville, Kensington and Sout Yarra. They are all scattered around the Melbourne central business district (CBD).\n\n\nShow the code\n# Create a map centered on Melbourne\nmelbourne_map = folium.Map(location=[-37.8136, 144.9631], zoom_start=13)\n\n# Add a marker for Melbourne\n# folium.Marker([-37.8136, 144.9631], popup='Melbourne').add_to(melbourne_map)\n\n# Melbourne CBD coordinates\ncbd_latitude = -37.8136\ncbd_longitude = 144.9631\n\n# Locations and their coordinates\nlocations = [\n    (\"Parkville\", -37.7840, 144.9472),\n    (\"Kensington\", -37.7945, 144.9303),\n    (\"Carlton\", -37.8002, 144.9669),\n    (\"Backlands\", -37.8136, 144.9631),\n    (\"South Bank\", -37.8216, 144.9646),\n    (\"Port Melbourne\", -37.8341, 144.9381),\n    (\"South Yarra\", -37.8375, 144.9934),\n    (\"Torah\", -37.8149, 144.9632)\n]\n\n# Create a map centered around Melbourne CBD\nm = folium.Map(location=[cbd_latitude, cbd_longitude], zoom_start=14)\n\n# Add markers for each location\nfor location in locations:\n    name, latitude, longitude = location\n    folium.Marker(location=[latitude, longitude], popup=name).add_to(melbourne_map)\nmelbourne_map\n#melbourne_map.save(\"melbourne_map.html\")\n\n\nMake this Notebook Trusted to load map: File -> Trust Notebook"
-  },
-  {
-    "objectID": "pages/melbourne_job.html#floor-space-use",
-    "href": "pages/melbourne_job.html#floor-space-use",
-    "title": "Employment and Jobs",
-    "section": "2.1 Floor space use",
-    "text": "2.1 Floor space use"
-  },
-  {
-    "objectID": "pages/melbourne_job.html#historic-validation",
-    "href": "pages/melbourne_job.html#historic-validation",
-    "title": "Employment and Jobs",
-    "section": "2.2 Historic validation",
-    "text": "2.2 Historic validation\n\nWIP\n\n\nTODO: Validate forecast analysis by comparing with historical data.\nTODO: Validation by historic data is important to assess the accuracy and reliability of the forecasts. Else our claims are hard to trust.\n\nIt is also located right next to Toorak which is famous for its luxury residence and entreprenurs living there (https://en.wikipedia.org/wiki/Toorak,_Victoria)."
+    "section": "2.1 Employment impact for the younger workforce",
+    "text": "2.1 Employment impact for the younger workforce\nWith the expected increase in population, especially for young adults. One might think that’s partly a result of an increase in job opportunities. Here we consider the younger group of women and the industry space of finance and insurance.\n\n\nShow the code\njobs = pl.read_csv('../data/jobs_forecast.csv', ignore_errors=True, try_parse_dates=True)\njobs_industry = jobs.filter(pl.col('Category') == 'Jobs by industry').sort('Year')\njobs_industry = jobs_industry.filter(pl.col('Geography') == 'City of Melbourne')\njobs_industry = jobs_industry.filter(pl.col('Industry Space Use') == 'Finance and insurance')\n#jobs_industry['Year'].max()\n\npopulation = pl.read_csv('../data/population_forecast.csv', ignore_errors=True, try_parse_dates=True)\npopulation = population.filter(pl.col('Geography') == 'City of Melbourne')\npopulation = population.filter(pl.col('Gender') == 'Female')\n# population = population.filter(pl.col('Age') == 'Average age')\npopulation = population.filter(pl.col('Age') == 'Age 20-24')\n\njoined = jobs_industry.join(population, on='Year', suffix='_population')\njoined = joined.rename({\"Value\": \"Jobs\", \"Value_population\": \"Population\"})\n\ncorr = joined[['Year', 'Jobs', 'Population']]\n\nf, ax = plt.subplots(figsize=(8, 5))\n\nsns.heatmap(corr[['Year', 'Jobs', 'Population']].corr(), annot=True) \n\nplt.title('Correlation matrix', size=12)\nax.set_xticklabels(list(corr[['Year', 'Jobs', 'Population']].columns), size=12, rotation=90)\nax.set_yticklabels(list(corr[['Year', 'Jobs', 'Population']].columns), size=12, rotation=0)\nplt.show()\n\n\n\n\n\nThe last couple of years have seen an increase in automation and so called “smart banks”, also known as “fintech” institutions. They are keen on adopting the newest in technology and often houses employees with higher levels of education needed to sustain the digital demands. The positive correlation here is vague to assume alone on the population and jobs. But we still think it is fair to say that young adults recently graduated is attracted by these cooporate firms."
   },
   {
     "objectID": "pages/conclusion.html",
