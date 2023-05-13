@@ -15,6 +15,8 @@ import itables.options as opt
 import folium
 import numpy as np
 import seaborn as sns
+import plotly.graph_objects as go
+import polars as pl
 from bokeh.io import output_file, show
 from bokeh.models import ColumnDataSource
 from bokeh.plotting import figure
@@ -85,14 +87,14 @@ cbd_longitude = 144.9631
 
 # Locations and their coordinates
 locations = [
-    ("Parkville", -37.7840, 144.9472),
-    ("Kensington", -37.7945, 144.9303),
-    ("Carlton", -37.8002, 144.9669),
-    ("Backlands", -37.8136, 144.9631),
-    ("South Bank", -37.8216, 144.9646),
-    ("Port Melbourne", -37.8341, 144.9381),
-    ("South Yarra", -37.8375, 144.9934),
-    ("Torah", -37.8149, 144.9632)
+    ("Parkville", -37.778790, 144.942517),
+    ("Kensington", -37.794152, 144.927635),
+    ("Carlton", -37.800744, 144.966970),
+    ("Docklands", -37.818903, 144.947014),
+    ("South Bank", -37.823791, 144.962586),
+    ("Port Melbourne", -37.836744, 144.928359),
+    ("South Yarra", -37.839483, 144.995654),
+    ("Torah", -37.841697, 145.013976)
 ]
 
 # Create a map centered around Melbourne CBD
@@ -134,31 +136,29 @@ Historically based on data from 2016 and 2021, the employment space of (Professi
 ```{python}
 # src: https://app.remplan.com.au/melbourne-lga/economy/trends/jobs?state=GLZrFN!az4VClkNKSYeGD6Uvqea6f0c4I6ZouPIWIKJhGI8hxx7AUwzL
 jobs_historic = pl.read_csv('../data/melbourne-jobs-historically.csv', separator=';')
-jobs_historic.schema
-set(jobs_historic['Options'])
-q = (jobs_historic
- .sort('2021', descending=True))
+q = jobs_historic.sort('2021', descending=False)
+q.filter(pl.col('Options').is_in(['Professional, Scientific and Technical Services',
+                         'Financial and Insurance Services',
+                         'Education and Training',
+                         'Health Care and Social Assistance',
+                         'Accommodation and Food Services']))
 
-q = q.filter(pl.col('Options').is_in(['Professional, Scientific and Technical Services',
-                                  'Financial and Insurance Services',
-                                  'Education and Training',
-                                  'Health Care and Social Assistance',
-                                  'Accomodation and Food Services']))
-q
+fig = go.Figure()
+fig.add_trace(go.Bar(
+    y=q['Options'],
+    x=q['2021'],
+    error_x=dict(type='data', array=q['2021'] - q['2016']),
+    orientation='h'
+))
 
-fig, ax = plt.subplots()
-cat = tuple(q['Options'].unique())
-y_pos = np.arange(len(cat))
-change = q['2021'] - q['2016']
+fig.update_layout(
+    title='Employments back in 2016 and 2021',
+    xaxis_title='Employments',
+    yaxis_title=None,
+    yaxis=dict(autorange='reversed')
+)
 
-ax.barh(y_pos, q['2021'], xerr=change, align='center')
-ax.set_yticks(y_pos, labels=cat)
-ax.invert_yaxis()
-ax.set_xlabel('Employments')
-ax.set_title('Employments back in 2016 and 2021')
-
-plt.show()
-
+fig.show()
 ```
 
 Overall Melbourne is considered a modern society that has the resources and ability to priotise education and economical growth. This is also reflected in the Gross Regional Product for the region which historically have also experiences a continous growth.
