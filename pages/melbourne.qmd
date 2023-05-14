@@ -19,7 +19,6 @@ plt.style.use(matplotx.styles.dufte)
 # About Melbourne
 Melbourne holds the distinction of being the second most populous city in both Australia and Oceania. As the center of south Australia, Melbourne is a sprawling urban area spanning 9,992 km2, which encompasses a metropolitan region comprising 31 municipalities ([Source: Wikipedia](https://www.wikipedia.org/)). It has a population of 5 million, which takes up 19% of the population of Australia.
 
-
 # Data Sets Details
 
 > The data used is available at [City of Melbourne open data portal](https://data.melbourne.vic.gov.au/explore/?sort=modified&q=forecast)

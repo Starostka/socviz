@@ -1,0 +1,17 @@
+---
+title: "Summary"
+subtitle: "Final project | Summary"
+execute:
+    freeze: auto
+title-block-banner: ../assets/dmitry-osipenko-melbourne-unsplash.jpg
+---
+
+# Short reflection on the project
+
+Overall we think the project went well and exciting to work on. It was also very interdisciplinary which we've liked considering that the site had to be set up but also the analytics and a meaningful story conveying it.
+
+With more time we would like to work more on the actual styling of the site, try out some other fonts and edit the colorscheme with some pastel colors perhaps. We would also like to dive deeper into the visualizations and ensure a more consistent style across the site.
+
+# Contributions
+
+Xinyi and Benjamin have helped eachother through most of the work but in particular Benjamin has been responsible for the site and the jobs section while Xinyi took the lead for the population and residential aspects of the project.

@@ -55,7 +55,7 @@ Population growth is impacting our planet in many ways. According to [Population
 Looking into the data globally, we can get the insight from the expanding of population across the world and it's correlations. To start with, we will bring the data from the [World Bank](https://www.worldbank.org/en/home?cid=ECR_GA_worldbank_EN_EXTP_search&gclid=CjwKCAjwjYKjBhB5EiwAiFdSfkKCtn2QOXDuCKOzwLHhWAxVCESgBG4JN4o_1obWZnwyk5qoF_iuthoCm54QAvD_BwE) and analyze the correlation from population to the other demographics features. 
 
 ```{python}
-world_data = pd.read_csv('../data/countries of the world.csv', decimal=',')
+world_data = pd.read_csv('../data/countries-of-the-world.csv', decimal=',')
 
 for col in world_data.columns.values:
     if world_data[col].isnull().sum() == 0:
@@ -105,6 +105,8 @@ As a young and developed city, Melbourne is also facing the aging issue. This is
 
 # Popular areas for elderly
 ```{python}
+#| warning: false
+
 geoinfo = pd.read_csv('../data/small_area_geo_info.csv')
 geoinfo.rename(columns={'featurenam': 'Geography'}, inplace=True)
 

@@ -18,4 +18,8 @@ author: ""
 Welcome to Melbourne Pulse - Let's unveile Melbourne's Dynamic Story!
 We are glad to introduce Melbourne urban deveploment by drawing the picture of the city through the lens of data. This is not only a story about charts and numbers, but also the story that help you get to know this vibrant and dynamic metropolis.
 
+A more elaborate notebook to meet the final project requirements can be downloaded using the following link.
+
+<a href="https://github.com/Starostka/socviz/blob/main/Final_Melbourne.ipynb" class="btn btn-primary" download="Final_Melbourne.ipynb">Download Notebook</a>
+
 We hope you enjoy the journey with us!

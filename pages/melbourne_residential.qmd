@@ -49,6 +49,7 @@ cf.go_offline()
 With the sharp increase in the number of population, households are also expected to grow in a similar pattern in order to accommodate the population. Based on the rapid growth of population, we are able to observe that in next 20 years, the number of households and floor space will increase accordingly. 
 
 ```{python}
+#| warning: false
 
 df_population = pd.read_csv('../data/city-of-melbourne-population-forecasts-by-small-area-2020-2040.csv')
 df_household = pd.read_csv('../data/city-of-melbourne-dwellings-and-household-forecasts-by-small-area-2020-2040.csv')
@@ -103,6 +104,8 @@ fig.show()
 The growth of households and floor space reflects the fact that Melbourne is a pleasant city for people to live in. The municipality of Melbourne has dedicated efforts to enhance the residents' quality of life. By investing in infrastructure and public amenities, the city aims to create a more livable environment. How about different small areas in Melbourne? Are they all growing at the same pace?
 
 ```{python}
+#| warning: false
+
 forecast_overview_viz = pd.merge(forecast_overview, df_normalized, on='Year')
 forecast_overview_viz.rename(columns={'Households_x': 'Households', 'Floor Space_x': 'Floor_Space', 'Population_x': 'Population', 'Households_y': 'Households (Normalized)', 'Floor Space_y': 'Floor_Space (Normalized)', 'Population_y': 'Population (Normalized)'}, inplace=True)
 
@@ -127,7 +130,7 @@ p1.title.align = 'center'
 
 df_household.rename(columns={'Value': 'Number of Households'}, inplace=True)
 df_household_area = df_household.groupby(['Year', 'Geography']).sum()
-df_household_area.drop(columns=['Households', 'Category'], inplace=True)
+# df_household_area.drop(columns=['Households', 'Category'], inplace=True)
 df_household_area.reset_index(inplace=True)
 df_household_area
 
@@ -156,7 +159,7 @@ p2.legend.click_policy = 'hide'
 
 df_floorspace.rename(columns={'Value': 'Area of Floor Space'}, inplace=True)
 df_floorspace_area = df_floorspace.groupby(['Year', 'Geography']).sum()
-df_floorspace_area.drop(columns=['Industry Space Use', 'Category'], inplace=True)
+# df_floorspace_area.drop(columns=['Industry Space Use', 'Category'], inplace=True)
 df_floorspace_area.reset_index(inplace=True)
 df_floorspace_area = df_floorspace_area.pivot(index='Year', columns='Geography', values='Area of Floor Space')
 

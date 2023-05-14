@@ -8,7 +8,7 @@ project:
     - pages/melbourne_population.qmd
     - pages/melbourne_residential.qmd
     - pages/melbourne_job.qmd
-    - pages/conclusion.qmd
+    - pages/summary.qmd
     - pages/san_francisco.qmd
     - about.qmd
     - contact.qmd
@@ -50,7 +50,7 @@ website:
           - pages/melbourne_population.qmd
           - pages/melbourne_residential.qmd
           - pages/melbourne_job.qmd
-          - pages/conclusion.qmd
+          - pages/summary.qmd
           
   repo-url: https://github.com/Starostka/socviz
   repo-actions: [edit, issue]
