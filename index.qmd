@@ -18,4 +18,11 @@ author: ""
 Welcome to Melbourne Pulse - Let's unveile Melbourne's Dynamic Story!
 We are glad to introduce Melbourne urban deveploment by drawing the picture of the city through the lens of data. This is not only a story about charts and numbers, but also the story that help you get to know this vibrant and dynamic metropolis.
 
+<<<<<<< HEAD
+=======
+In our story, we will bring you the narrative data story by applying the *Magazine Style*, as it contains both descriptive information and visualization, which could create a sense of comfort and familiarity to the readers. For Visual Narrative, we used *Progress Bar/Timebar, Zooming and Feature Distinction* to describe the story in an interactive sense.
+
+For a magazine style data narrative, it is common to use **Annotations, Accompanying Article, Introductory Text and Summary** as part of the narrative structure.
+
+>>>>>>> d00c9344b7b49dba22504cb050ba4cdf19241f18
 We hope you enjoy the journey with us!

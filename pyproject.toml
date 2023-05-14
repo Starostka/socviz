@@ -23,6 +23,10 @@ folium = "^0.14.0"
 rich = "^13.3.3"
 pyarrow = "^11.0.0"
 matplotx = {extras = ["all"], version = "^0.3.10"}
+xlsx2csv = "^0.8.1"
+itables = "^1.5.2"
+geopy = "^2.3.0"
+geopandas = "^0.13.0"
 
 
 [tool.poetry.group.dev.dependencies]

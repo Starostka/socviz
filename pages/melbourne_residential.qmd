@@ -1,5 +1,5 @@
 ---
-title: "Dwellings and Household"
+title: "Household and Floor Space"
 subtitle: "Final project | Household forecasting"
 execute:
     freeze: auto
@@ -7,13 +7,196 @@ title-block-banner: ../assets/residencial.jpg
 ---
 
 ```{python}
-import polars as pl
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotx
+import cufflinks as cf
+import plotly
+import plotly.express as px
+import plotly.graph_objects as go
+%matplotlib inline
+import math
+from matplotlib import pyplot as plt
+from sklearn import model_selection, tree, metrics, ensemble
+from sklearn.preprocessing import MinMaxScaler
+from bokeh import models, plotting
+from bokeh.palettes import Spectral8, Spectral11
+import seaborn as sns
+import pycountry as pc
+from bokeh.models import HoverTool
+from bokeh.plotting import figure, show
+from bokeh.models import  ColumnDataSource, Legend, LinearAxis, FactorRange
+from bokeh.io import output_notebook, show, curdoc
+from bokeh.palettes import Spectral6, Category20b
+from bokeh.transform import factor_cmap
+from bokeh.models import BoxAnnotation
+from bokeh.models import Title
+from bokeh.layouts import layout
+from bokeh.models import Tabs, TabPanel, Range1d
 
-plt.style.use(matplotx.styles.dufte)
+output_notebook()
+import bokeh.models as bkm
+from bokeh.resources import INLINE
+import bokeh.io
+from bokeh import *
+bokeh.io.output_notebook(INLINE)
+import regex as re
+
+from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot 
+init_notebook_mode(connected=True)
+cf.go_offline()
 ```
+
+# Growth Overview
+With the sharp increase in the number of population, households are also expected to grow in a similar pattern in order to accommodate the population. Based on the rapid growth of population, we are able to observe that in next 20 years, the number of households and floor space will increase accordingly. 
+
+```{python}
+
+df_population = pd.read_csv('../data/city-of-melbourne-population-forecasts-by-small-area-2020-2040.csv')
+df_household = pd.read_csv('../data/city-of-melbourne-dwellings-and-household-forecasts-by-small-area-2020-2040.csv')
+df_floorspace = pd.read_csv('../data/city-of-melbourne-floor-space-forecasts-by-small-area-2020-2040.csv')
+
+df_age = df_population.drop(df_population[df_population['Age'].isin(['Total population', 'Average age'])].index)
+df_age = df_age.drop(df_age[df_age['Geography'].isin(['City of Melbourne'])].index)
+
+df_household = df_household.drop(df_household[df_household['Geography'].isin(['City of Melbourne'])].index)
+df_household = df_household.drop(df_household[df_household['Households'].isin(['Not applicable', 'Total households'])].index)
+
+df_floorspace = df_floorspace.drop(df_floorspace[df_floorspace['Geography'].isin(['City of Melbourne'])].index)
+df_floorspace = df_floorspace.drop(df_floorspace[df_floorspace['Industry Space Use'].isin(['Total residential floorspace'])].index)
+df_floorspace = df_floorspace.drop(df_floorspace[df_floorspace['Industry Space Use'].isin(['Total employment floorspace'])].index)
+
+households_by_year = df_household.groupby(['Year']).sum()
+households_by_year = households_by_year['Value'].to_frame().reset_index()
+floor_by_year = df_floorspace.groupby(['Year']).sum()
+floor_by_year = floor_by_year['Value'].to_frame().reset_index()
+df_age = df_age.groupby(['Year']).sum()
+df_age = df_age['Value'].to_frame().reset_index()
+
+forecast_overview = pd.merge(households_by_year, floor_by_year, on='Year')
+forecast_overview = pd.merge(forecast_overview, df_age, on='Year')
+
+forecast_overview.rename(columns={'Value_x': 'Households', 'Value_y': 'Floor Space', 'Value': 'Population'}, inplace=True)
+
+columns_to_normalize = ['Households', 'Floor Space', 'Population']
+
+# Initialize the scaler
+scaler = MinMaxScaler()
+normalized_data = scaler.fit_transform(forecast_overview[columns_to_normalize])
+
+df_normalized = pd.DataFrame(normalized_data, columns=columns_to_normalize)
+df_normalized = pd.concat([forecast_overview['Year'], df_normalized], axis=1)
+
+# Viz the normalized data
+df_long = pd.melt(df_normalized, id_vars='Year', var_name='Category', value_name='Value')
+
+# Create the bar plot using Plotly Express
+fig = px.bar(df_long, x='Year', y='Value', color='Category',
+             title='Population, Dwelling and Floor Space Forecast Overview (Normalized)',
+             labels={'Year': 'Year', 'Value': 'Value'}, barmode='group')
+
+fig.update_layout(width=600, height=500, title_font_size=13)
+
+# Show the plot
+fig.show()
+
+```
+
+The growth of households and floor space reflects the fact that Melbourne is a pleasant city for people to live in. The municipality of Melbourne has dedicated efforts to enhance the residents' quality of life. By investing in infrastructure and public amenities, the city aims to create a more livable environment. How about different small areas in Melbourne? Are they all growing at the same pace?
+
+```{python}
+forecast_overview_viz = pd.merge(forecast_overview, df_normalized, on='Year')
+forecast_overview_viz.rename(columns={'Households_x': 'Households', 'Floor Space_x': 'Floor_Space', 'Population_x': 'Population', 'Households_y': 'Households (Normalized)', 'Floor Space_y': 'Floor_Space (Normalized)', 'Population_y': 'Population (Normalized)'}, inplace=True)
+
+source = models.ColumnDataSource(forecast_overview_viz)
+
+p1 = plotting.figure(title='Melbourne Forecast Overview (Normalized)', x_axis_label='Year', y_axis_label='Population', width=700, height=350)
+
+plot1 =p1.line(x='Year', y='Population (Normalized)', source=source, legend_label='Population', line_width=3, color=Spectral11[1])
+plot2 =p1.line(x='Year', y='Households (Normalized)', source=source, legend_label='Households', line_width=3, color=Spectral11[3])
+plot3 =p1.line(x='Year', y='Floor_Space (Normalized)', source=source, legend_label='Floor_Space', line_width=3, color=Spectral11[5])
+
+p1.add_tools(models.HoverTool(renderers=[plot1], tooltips=[('Year', '@Year'), ('Population', '@Population')]))
+p1.add_tools(models.HoverTool(renderers=[plot2], tooltips=[('Year', '@Year'), ('Households', '@Households')]))
+p1.add_tools(models.HoverTool(renderers=[plot3], tooltips=[('Year', '@Year'), ('Floor Space', '@Floor_Space sqm')]))
+
+p1.legend.location = 'top_left'
+p1.legend.background_fill_alpha = 0.25
+p1.legend.background_fill_color = 'darkgray'
+p1.legend.border_line_alpha = 0
+p1.title.align = 'center'
+
+
+df_household.rename(columns={'Value': 'Number of Households'}, inplace=True)
+df_household_area = df_household.groupby(['Year', 'Geography']).sum()
+df_household_area.drop(columns=['Households', 'Category'], inplace=True)
+df_household_area.reset_index(inplace=True)
+df_household_area
+
+df_household_area = df_household_area.pivot(index='Year', columns='Geography', values='Number of Households')
+
+source = models.ColumnDataSource(df_household_area)
+
+areas = df_household['Geography'].unique().tolist()
+years = df_household['Year'].unique().tolist()
+years = years.sort()
+
+p2 = figure(title='Melbourne Households Forecast by Small Area', x_axis_label='Year', y_axis_label='Number of Households', width=700, height=350)
+
+bar = {}
+for indx, i in enumerate(areas):
+    bar[i] = p2.vbar(x="Year", top=i, width=0.3, 
+                    source=source, muted_alpha=0.2, muted=False, color=Category20b[14][indx])
+
+legend = Legend(items=[(x, [bar[x]]) for x in areas], location=(0, -30))
+p2.add_layout(legend, 'right')
+
+p2.legend.background_fill_alpha = 0.25
+p2.legend.border_line_alpha = 0
+p2.title.align = 'center'
+p2.legend.click_policy = 'hide'
+
+df_floorspace.rename(columns={'Value': 'Area of Floor Space'}, inplace=True)
+df_floorspace_area = df_floorspace.groupby(['Year', 'Geography']).sum()
+df_floorspace_area.drop(columns=['Industry Space Use', 'Category'], inplace=True)
+df_floorspace_area.reset_index(inplace=True)
+df_floorspace_area = df_floorspace_area.pivot(index='Year', columns='Geography', values='Area of Floor Space')
+
+source = models.ColumnDataSource(df_floorspace_area)
+
+areas = df_floorspace['Geography'].unique().tolist()
+years = df_floorspace['Year'].unique().tolist()
+years = years.sort()
+
+p3 = figure(title='Melbourne Floor Space Forecast by Small Area', x_axis_label='Year', y_axis_label='Area of Floor Space', width=700, height=350)
+
+bar = {}
+for indx, i in enumerate(areas):
+    bar[i] = p3.vbar(x="Year", top=i, width=0.3, 
+                    source=source, muted_alpha=0.2, muted=False, color=Category20b[14][indx])
+
+legend = Legend(items=[(x, [bar[x]]) for x in areas], location=(0, -30))
+p3.add_layout(legend, 'right')
+
+p3.legend.background_fill_alpha = 0.25
+p3.legend.border_line_alpha = 0
+p3.title.align = 'center'
+p3.legend.click_policy = 'hide'
+
+
+tab1 = TabPanel(child=p1,title="Forecast Overview")
+tab2 = TabPanel(child=p2,title="Households by Small Area")
+tab3 = TabPanel(child=p3,title="Floor Space by Small Area")
+
+tabs = Tabs(tabs=[tab1, tab2, tab3])
+
+curdoc().add_root(tabs)
+
+show(tabs)
+```
+
+By 2041, the City of Melbourne is forecast to reach 136,000 households, accommodating an additional 50,000 households between 2021 and 2041. Floor space demand is expected to grow by over 6.3 million square metres between 2021 and 2041, of which 2.7 million square metres is residential. 
+
+Melbourne (CBD) dominates the floor space within the Melbourne municipality, showcasing the most significant projected growth over the next 20 years. North Melbourne, Southbank, Docklands and Carlton are the other suburbs that are expected to have a significant increase by the amount of floor space. The rest of areas remains relatively stable.
+
+Despite of Melbourne CBD, Carlton, North Melbourne and Southbank are predicted to have a notable increase in the number of households. The prediction may be due to the rapid development and resource allocation in these areas, rendering them more appealing as residential destinations. The reason of Mebelbourne dominating the floor space is that it is the central business district of Melbourne, which is the main commercial and administrative centre of the city, with the most convenient transportation and the most prosperous business. 
 
 # 
