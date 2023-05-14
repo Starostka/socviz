@@ -23,13 +23,3 @@ poetry shell
 # alternatively we can activate the virtualenv like so
 source .venv/bin/activate
 ```
-
-# Outline for the final project
-
-- About Melbourne
-- Melbourne population analysis
-- Melbourne residential analysis
-- Melbourne employment and jobs analysis
-- Conclusion and takeaways
-- Additional resources
-- Contact and feedback
