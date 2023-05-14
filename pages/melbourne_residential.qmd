@@ -199,4 +199,7 @@ Melbourne (CBD) dominates the floor space within the Melbourne municipality, sho
 
 Despite of Melbourne CBD, Carlton, North Melbourne and Southbank are predicted to have a notable increase in the number of households. The prediction may be due to the rapid development and resource allocation in these areas, rendering them more appealing as residential destinations. The reason of Mebelbourne dominating the floor space is that it is the central business district of Melbourne, which is the main commercial and administrative centre of the city, with the most convenient transportation and the most prosperous business. 
 
-# 
+# Takeaways
+By looking at the households and floor space forecast data in Merbourne, we are able to conclue that:
+- Over the next twenty years, Melbourne CBD is expected to retain its status as the city center with the highest population density and the largest number of households.
+- The expansion of households and floor space is failing to keep pace with the growth of the population, therefore more space in the suburb will be developed to accommadate more and more people in Melbourne.

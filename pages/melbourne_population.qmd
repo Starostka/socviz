@@ -7,38 +7,139 @@ title-block-banner: ../assets/population.jpg
 ---
 
 ```{python}
-import polars as pl
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotx
+import cufflinks as cf
+import plotly
+import plotly.express as px
+import plotly.graph_objects as go
+import plotly.subplots as sp
+%matplotlib inline
+import math
+from matplotlib import pyplot as plt
+from sklearn import model_selection, tree, metrics, ensemble
+from sklearn.preprocessing import MinMaxScaler
+from bokeh import models, plotting
+from bokeh.palettes import Spectral8, Spectral11
+import seaborn as sns
+import pycountry as pc
+from bokeh.models import HoverTool
+from bokeh.plotting import figure, show
+from bokeh.models import  ColumnDataSource, Legend, LinearAxis, FactorRange
+from bokeh.io import output_notebook, show, curdoc
+from bokeh.palettes import Spectral6, Category20b
+from bokeh.transform import factor_cmap
+from bokeh.models import BoxAnnotation
+from bokeh.models import Title
+from bokeh.layouts import layout
+from bokeh.models import Tabs, TabPanel, Range1d
 
-plt.style.use(matplotx.styles.dufte)
+from pandas_geojson import to_geojson
+
+output_notebook()
+import bokeh.models as bkm
+from bokeh.resources import INLINE
+import bokeh.io
+from bokeh import *
+bokeh.io.output_notebook(INLINE)
+import regex as re
+
+from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot 
+init_notebook_mode(connected=True)
+cf.go_offline()
 ```
 
 
-# Why is this important?
+# Global Population
 Population growth is impacting our planet in many ways. According to [Population Media Center](https://www.populationmedia.org/blog/does-population-growth-impact-global-climate-change?utm_term=&utm_campaign=Donation+/+Web+Traffic+Campaign&utm_source=adwords&utm_medium=ppc&hsa_tgt=dsa-1020761732591&hsa_grp=142853052400&hsa_src=g&hsa_net=adwords&hsa_mt=&hsa_ver=3&hsa_ad=617507170220&hsa_acc=7272581478&hsa_kw=&hsa_cam=83417258&gclid=Cj0KCQjwpPKiBhDvARIsACn-gzBuFGSSn3ExyFsGWUXpJfkNWtFx3x6DbWt23NM6-tFgm1qkeA5XwkIaAoadEALw_wcB), when looking back over the last several centuries, global population trends show continuous expansion, both in terms of volume and rapidity. Population is the key factor in the climate crisis, housing and infrastructure, economic growth of a country, and so on. Therefore, a proper forecast of population growth can guide the society to make better decisions in the future. 
 
+Looking into the data globally, we can get the insight from the expanding of population across the world and it's correlations. To start with, we will bring the data from the [World Bank](https://www.worldbank.org/en/home?cid=ECR_GA_worldbank_EN_EXTP_search&gclid=CjwKCAjwjYKjBhB5EiwAiFdSfkKCtn2QOXDuCKOzwLHhWAxVCESgBG4JN4o_1obWZnwyk5qoF_iuthoCm54QAvD_BwE) and analyze the correlation from population to the other demographics features. 
 
+```{python}
+world_data = pd.read_csv('../data/countries of the world.csv', decimal=',')
 
-# How does population relate to other factors?
-> interactive Co2 vs population plot
-> interactive population vs GDP
-> interactive population vs housing
+for col in world_data.columns.values:
+    if world_data[col].isnull().sum() == 0:
+        continue
+    if col == 'Climate':
+        guess_values = world_data.groupby('Region')['Climate'].apply(lambda x: x.mode().max())
+    else:
+        guess_values = world_data.groupby('Region')[col].median()
+    for region in world_data['Region'].unique():
+        world_data[col].loc[(world_data[col].isnull())&(world_data['Region']==region)] = guess_values[region]
 
-positive correlation with GDP, CO2, housing, etc.
+plt.figure(figsize=(10,10))
+sns.heatmap(data=world_data.iloc[:,2:].corr(),annot=True,fmt='.2f',cmap='coolwarm', 
+            annot_kws={
+                'fontsize': 7,
+                'fontweight': 'bold'
+            })
+plt.title('Demographics correlation between different features')
+plt.show()
 
-# What will the future look like?
-> forecast plot
-> map
+```
 
-<!-- ## Historic validation
-> WIP
+# Aging issue in Melbourne
+In a global scale, the birthrate and deadrate have negative correlation to the population. Inspired by the fact, we want to look into the aging issue in Melbourne. 
 
-- TODO: Validate forecast analysis by comparing with historical data.
-- TODO: Validation by historic data is important to assess the accuracy and reliability of the forecasts. Else our claims are hard to trust. -->
+```{python}
+df_population = pd.read_csv('../data/city-of-melbourne-population-forecasts-by-small-area-2020-2040.csv')
+
+df_age = df_population.drop(df_population[df_population['Age'].isin(['Total population', 'Average age'])].index)
+df_age = df_age.drop(df_age[df_age['Geography'].isin(['City of Melbourne'])].index)
+
+fig = px.bar(df_age, x='Year', y='Value', color='Age', barmode='group', title='Total population by Age from 2021 to 2041')
+fig.show()
+```
+
+The age group from 25-40 is dominating the growth of total population in Melbourne, which shows that Melbourne is a young city. However, the aging issue is still a concern. Defined the elderly age group as 65+, from the data we can see that the population of elderly age group is increasing by the a fast pace. 
+
+```{python}
+df_elderly = df_population[df_population['Age'].isin(['Age 65-69', 'Age 70-74', 'Age 75-79', 'Age 80-84', 'Age 85+'])]
+
+df_elderly = df_elderly.groupby(['Year', 'Age']).sum().reset_index()
+fig = px.line(df_elderly, x='Year', y='Value', color='Age', title='Population of Elderly from 2021 to 2041')
+fig.show()
+```
+
+As a young and developed city, Melbourne is also facing the aging issue. This is a challenge for the city to provide the service and proper resources such as healthcare, dwellings and social care for the elderly.
+
+# Popular areas for elderly
+```{python}
+geoinfo = pd.read_csv('../data/small_area_geo_info.csv')
+geoinfo.rename(columns={'featurenam': 'Geography'}, inplace=True)
+
+df_pop_area = pd.merge(df_age, geoinfo, on='Geography')
+df_pop_area = df_pop_area[df_pop_area['Age'].isin(['Age 65-69', 'Age 70-74', 'Age 75-79', 'Age 80-84', 'Age 85+'])]
+df_pop_area.drop(['shape_area', 'shape_len'], axis=1, inplace=True)
+
+df_pop_area = df_pop_area[df_pop_area['Year'].isin([2041])]
+df_pop_area['AreaTotal'] = df_pop_area.groupby('Geography')['Value'].transform('sum')
+
+df_pop_area['Lat'] = df_pop_area['Geo Point'].apply(lambda x: x.split(', ')[0])
+df_pop_area['Lon'] = df_pop_area['Geo Point'].apply(lambda x: x.split(', ')[1])
+df_pop_area['Lat'] = pd.to_numeric(df_pop_area['Lat'])
+df_pop_area['Lon'] = pd.to_numeric(df_pop_area['Lon'])
+
+fig = px.scatter_mapbox(df_pop_area, 
+                        lat='Lat', 
+                        lon='Lon', 
+                        hover_name='Geography', 
+                        hover_data=['AreaTotal'],
+                        color='AreaTotal', 
+                        opacity=0.8,
+                        color_continuous_scale='Jet', 
+                        size='AreaTotal',
+                        zoom=11, title='Elderly Population Distribution by Small Area by 2041')
+
+fig.update_layout(mapbox_style='open-street-map')
+fig.update_layout(margin={'r': 0, 't': 40, 'l': 0, 'b': 0})
+
+fig.show()
+```
+
+By 2041, the most popular area for the elderly remains as Melbourne CBD with its advantages of convenient city infrastructure and facilities. However, despite the city center, North Melbourne, Southbank and Docklands are also popular for the elderly people, with the quiet and peaceful environment.
 
 # Takeaways
-> conclusion
-> suggestions
+Based on the analysis, we can conclude that the population growth in the next 20 years:
+- The population of Melbourne is predominantly composed of young individuals, primarily between the ages of 25 and 40, driving the overall population growth.
+- Melbourne continues to face concerns regarding its aging population, as the number of elderly individuals is increasing at a rapid rate.

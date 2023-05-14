@@ -2,7 +2,7 @@
 title: "Employment and Jobs"
 subtitle: "Final project | Job Market forecasting"
 execute:
-    freeze: auto
+    freeze: true
 title-block-banner: ../assets/job.jpg
 ---
 
